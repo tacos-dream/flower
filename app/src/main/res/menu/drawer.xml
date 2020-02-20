@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_design"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/naviItemSkinDesign"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/skin_design" />
+        <item
+            android:id="@+id/naviItemIconDesign"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/icon_design" />
+        <item
+            android:id="@+id/naviItemSplashDesign"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/splash_design" />
+    </group>
+
+    <group
+        android:id="@+id/data"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/naviItemImportData"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/import_data" />
+        <item
+            android:id="@+id/naviItemExportData"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/export_data" />
+    </group>
+
+    <group
+        android:id="@+id/menu_manual"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/naviItemHowToVideo"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/howto_video" />
+        <item
+            android:id="@+id/naviItemHowToWeb"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/howto_web" />
+    </group>
+
+    <group
+        android:id="@+id/menu_other"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/naviItemInfo"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/info" />
+        <item
+            android:id="@+id/naviItemQuestionUs"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/question_us" />
+        <item
+            android:id="@+id/naviItemTerms"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/terms" />
+        <item
+            android:id="@+id/naviItemReviewUs"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/review_us" />
+        <item
+            android:id="@+id/naviItemShareUs"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/share_us" />
+        <item
+            android:id="@+id/naviItemAboutUs"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/about_us" />
+    </group>
+
+</menu>
