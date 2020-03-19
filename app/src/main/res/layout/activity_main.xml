@@ -31,13 +31,11 @@
             android:layout_height="match_parent"
             android:background="#fbdbdc">
 
-            <ListView
-                android:id="@+id/folders_list_view"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:divider="@null"
-                />
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"

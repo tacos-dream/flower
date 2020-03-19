@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Bundle;
+import android.view.View;
 
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
@@ -48,6 +49,15 @@ public class SplashActivity extends Activity {
         LogUtility.d("Showing splash for a while...");
         mTimeoutHandler.postDelayed(mRunnable, Constants.SPLASH_DISPLAY_TIME);
 
+        findViewById(R.id.buttonGoToTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(SplashActivity.this, TestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
         return;
 
     }

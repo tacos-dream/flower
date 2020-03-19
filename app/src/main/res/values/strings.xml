@@ -41,15 +41,41 @@
     <string name="cancel">キャンセル</string>
     <string name="apply">適用</string>
 
+    <!-- FolderSettingsDialog タブメニュー -->
+    <string name="icon">アイコン</string>
+    <string name="surface">おもて</string>
+    <string name="back">うら</string>
+    <string name="fusen">付箋</string>
+    <string name="others">その他</string>
+
     <!-- ダイアログタイトル -->
-    <string name="dlg_title_001">タイトル</string>
-    <string name="dlg_title_002">タイトル</string>
+    <string name="dlg_title_new">新規登録</string>
+    <string name="dlg_title_edit">編集</string>
+    <string name="dlg_title_confirm">確認</string>
+    <string name="dlg_title_save">保存</string>
+
+    <!-- ダイアログメッセージ -->
+    <string name="dlg_msg_go_back_to_list">設定を保存せずに一覧に戻ります。\nいいですか？</string>
+    <string name="dlg_msg_learned_on">この単語帳を\n[習得済み]に変更します。\nいいですか？</string>
+    <string name="dlg_msg_learned_off">[習得済み]を解除します。\nいいですか？</string>
+    <string name="dlg_msg_delete_folder">この単語帳を削除します。\n復元できなくなります。\n削除してもいいですか？</string>
+    <string name="dlg_msg_save">設定を保存して一覧に戻ります。\nいいですか？</string>
+
+    <!-- ダイアログボタン -->
+    <string name="go_back_list">一覧に戻る</string>
+    <string name="delete">削除</string>
+    <string name="save">保存</string>
+
+    <string name="folder_title_new">新しい単語帳</string>
 
     <!-- 警告系汎用メッセージ -->
     <string name="warn_001">警告メッセージ</string>
 
     <!-- エラー系汎用メッセージ -->
     <string name="error_001">エラーメッセージ</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -7,6 +7,15 @@
     android:background="#FC9DB8"
     tools:context=".SplashActivity">
 
+    <Button
+        android:id="@+id/buttonGoToTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="GoTo TestPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgLogo"

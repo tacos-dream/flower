@@ -20,6 +20,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".FolderActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".TestActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
