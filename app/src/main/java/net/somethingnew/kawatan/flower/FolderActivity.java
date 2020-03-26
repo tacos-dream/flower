@@ -20,14 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.somethingnew.kawatan.flower.model.CardModel;
-import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * 特定Folderの詳細画面（つまり、当該Folderが保持するCard一覧画面）

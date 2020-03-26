@@ -13,19 +13,18 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
 //public class FolderSettingsDialogPagerAdapter extends FragmentStatePagerAdapter {
 
-    private CharSequence[] tabTitles = {"あいこん", "ひょうし", "おもて", "うら", "ふせん", "そのた" };
+    //private CharSequence[] tabTitles = {"あいこん", "ひょうし", "おもて", "うら", "ふせん", "そのた" };
+    private CharSequence[] tabTitles = {"あいこん", "ひょうし", "おもて", "うら", "ふせん" };
 
     // 設定でひらがな⇔漢字の切り替えができるようにする
     //private CharSequence[] tabTitles = {"アイコン", "表紙", "表面", "裏面", "付箋", "その他" };
 
-    //SparseArray<Fragment> registeredFragments = new SparseArray<>();
+    SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
     public FolderSettingsDialogPagerAdapter(FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
-
-    /*
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
@@ -45,7 +44,7 @@ public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
     public Fragment getRegisteredFragment(int position) {
         return registeredFragments.get(position);
     }
-     */
+
 
     /**
      * position番号は、tabTitlesのリストのインデックス
@@ -64,7 +63,7 @@ public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
             case 4:
                 return new FolderFusenFragment();
             case 5:
-                return new FolderOthersFragment();
+                //return new FolderOthersFragment();
             default:
                 return null;
         }

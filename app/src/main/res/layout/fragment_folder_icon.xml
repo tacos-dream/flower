@@ -4,14 +4,24 @@
     android:id="@+id/main_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#AAA"
     tools:context=".FolderIconFragment">
 
-    <TextView
-        android:id="@+id/textViewIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:text="Icon"
-        android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/gridViewIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:numColumns="6"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

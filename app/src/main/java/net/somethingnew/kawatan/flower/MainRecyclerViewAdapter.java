@@ -91,7 +91,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         textViewTitleName.setText(globalMgr.mFolderLinkedList.get(listPosition).getTitleName());
         //textViewCreatedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(globalMgr.mFolderLinkedList.get(listPosition).getCreatedDate()));
         textViewNumOfAllCards.setText(String.valueOf(globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards()));
-        imageViewIcon.setImageResource(globalMgr.mFolderLinkedList.get(listPosition).getImageResId());
+        imageViewIcon.setImageResource(globalMgr.mFolderLinkedList.get(listPosition).getImageIconResId());
         cardViewFolder.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
 
         // アイコンのクリック時にはFolderSettingを開くが、どのFolderかを特定するためにFolderのidをTag付けしておく

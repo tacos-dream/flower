@@ -67,6 +67,8 @@
     <string name="save">保存</string>
 
     <string name="folder_title_new">新しい単語帳</string>
+    <string name="card_surface">カードのおもて</string>
+    <string name="card_back">カードのうら</string>
 
     <!-- 警告系汎用メッセージ -->
     <string name="warn_001">警告メッセージ</string>

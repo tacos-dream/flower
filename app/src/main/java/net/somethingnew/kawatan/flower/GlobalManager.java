@@ -5,6 +5,7 @@ import android.text.Layout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -12,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.somethingnew.kawatan.flower.db.dto.CardDto;
 import net.somethingnew.kawatan.flower.db.dto.FolderDto;
@@ -52,9 +54,8 @@ public class GlobalManager {
      * ViewPagerの各Fragmentの文字色GridView
      * のIDを保持しておき、パステルカラーGridや色パレットでの色選択時にに動的に背景色や文字色を変更するために利用
      */
-    CardView                                    mCardViewInFolderSettings;
-    View                                        mIncludeCardLayoutInFolderSettings;
-    EditText                                    mEditTextTitleNameInFolderSettings;
+    FolderSettings                              mFolderSettings = new FolderSettings();
+
 
     /**
      * FolderSettingsDialog操作中の色の変更内容を一時的に保持し、ユーザーの明示的な保存行為を受けて
@@ -75,11 +76,22 @@ public class GlobalManager {
      */
     public int                                  mCurrentCardIndex;
 
+    List<Integer>                               mIconResourceIdList     = null;
+    List<Integer>                               mFusenResourceIdList    = null;
+
     /**
      * ダイアログからActivityに値を返すためのDTO定義
      */
     public FolderDto                            mFolderDto;
     public CardDto                              mCardDto;
+
+    class FolderSettings {
+        CardView                                cardView;
+        View                                    cardLayout; // 動的なLayoutの変更はやめたので未使用
+        EditText                                editTextTitle;
+        ImageView                               imageViewIcon;
+        ImageView                               imageViewFusen;
+    }
 
     /**
      * コンストラクタ.

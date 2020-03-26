@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < MyData.folderNameArray.length; i++) {
             globalMgr.mFolderLinkedList.add(new FolderModel(
                     MyData.folderNameArray[i],
-                    MyData.folderDrawableArray[i]
+                    MyData.folderDrawableArray[i],
+                    R.drawable.fusen_01
             ));
         }
 

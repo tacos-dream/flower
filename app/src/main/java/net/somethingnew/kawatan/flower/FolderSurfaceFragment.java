@@ -45,7 +45,8 @@ public class FolderSurfaceFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のおもて表紙の文字とを変える
                 int color = Color.parseColor(textColorArrayList.get(position));
-                globalMgr.mEditTextTitleNameInFolderSettings.setTextColor(color);
+                globalMgr.mFolderSettings.editTextTitle.setTextColor(color);
+                globalMgr.mTempFolder.setSurfaceTextColor(color);
                 globalMgr.mChangedFolderSettings = true;
             }
         });
@@ -59,7 +60,7 @@ public class FolderSurfaceFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のおもて表紙の色を変える
                 int color = Color.parseColor(pastelColorArrayList.get(position));
-                globalMgr.mCardViewInFolderSettings.setCardBackgroundColor(color);
+                globalMgr.mFolderSettings.cardView.setCardBackgroundColor(color);
                 globalMgr.mTempFolder.setSurfaceBackgroundColor(color);
                 globalMgr.mChangedFolderSettings = true;
 
@@ -72,17 +73,13 @@ public class FolderSurfaceFragment extends Fragment {
         colorPicker.setOnColorChangedListener(new ColorPickerView.OnColorChangedListener() {
             @Override
             public void onColorChanged(int color) {
-                globalMgr.mCardViewInFolderSettings.setCardBackgroundColor(color);
+                globalMgr.mFolderSettings.cardView.setCardBackgroundColor(color);
                 globalMgr.mTempFolder.setSurfaceBackgroundColor(color);
                 globalMgr.mChangedFolderSettings = true;
 
                 gridViewText.setBackgroundColor(color);
             }
         });
-
-
-        // 初期表示
-        globalMgr.mCardViewInFolderSettings.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getSurfaceBackgroundColor());
 
         return mView;
     }

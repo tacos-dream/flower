@@ -4,27 +4,24 @@
     android:id="@+id/main_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FolderActivity">
+    android:background="#AAA"
+    tools:context=".FolderIconFragment">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewSurface"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="Color Picker"
-            android:textSize="30sp" />
+        <GridView
+            android:id="@+id/gridViewFusen"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
 
-        <com.jaredrummler.android.colorpicker.ColorPickerView
-            android:id="@+id/color_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
     </LinearLayout>
 
 </RelativeLayout>

@@ -68,7 +68,9 @@ public final class Constants {
     public static final String FOLDER_SETTINGS_DIALOG_ARG_KEY_FOLDER_ID = "folder_id";
     public static final int FOLDER_SETTINGS_FOR_NEW                     = 1;
     public static final int FOLDER_SETTINGS_FOR_EDIT                    = 2;
-    public static final int FOLDER_SETTINGS_NUM_OF_TABS                 = 6;
+
+    public static final int FOLDER_SETTINGS_NUM_OF_TABS                 = 5;
+
     public static final int FOLDER_SETTINGS_TAB_ICON                    = 0;
     public static final int FOLDER_SETTINGS_TAB_COVER                   = 1;
     public static final int FOLDER_SETTINGS_TAB_SURFACE                 = 2;

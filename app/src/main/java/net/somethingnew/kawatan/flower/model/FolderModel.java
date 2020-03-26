@@ -30,18 +30,18 @@ public class FolderModel implements Cloneable {
 	boolean					learned;				// 習得済みフラグ
 	int             		numOfAllCards;          // 含まれるカード数
 	int             		numOfLearnedCards;      // 習得済みカード数
-	int             		imageResId;             // アイコンキャラ
+	int             		imageIconResId;         // アイコンのResourceId
 	int						coverBackgroundColor;	// 表紙の背景色
 	int						surfaceBackgroundColor;	// おもての背景色
 	int						backBackgroundColor;	// うらの背景色
 	int						coverTextColor;			// 表紙の文字色
 	int						surfaceTextColor;		// おもての文字色
 	int						backTextColor;			// うらの文字色
-	int						fusenColor;				// ふせんの色
+	int						imageFusenResId;		// ふせんのResourceId
 
 	//LinkedList<CardModel>	cardLinkedList;			// HashMapに変更して独立化
 
-	public FolderModel(String titleName, int imageResId) {
+	public FolderModel(String titleName, int imageIconResId, int imageFusenResId) {
 		this.id                     = UUID.randomUUID().toString();
 		this.titleName              = titleName;
 		this.createdDate            = new Date();
@@ -49,7 +49,8 @@ public class FolderModel implements Cloneable {
 		this.lastUsedDate           = new Date();
 		this.numOfAllCards          = 0;
 		this.numOfLearnedCards      = 0;
-		this.imageResId             = imageResId;
+		this.imageIconResId         = imageIconResId;
+		this.imageFusenResId        = imageFusenResId;
 		this.learned				= false;
 		this.coverBackgroundColor	= Color.WHITE;
 		this.surfaceBackgroundColor	= Color.WHITE;
@@ -120,10 +121,10 @@ public class FolderModel implements Cloneable {
 	}
 	public void     setNumOfLearnedCards(int numOfLearnedCards) { this.numOfLearnedCards = numOfLearnedCards;}
 
-	public int      getImageResId() {
-		return imageResId;
+	public int      getImageIconResId() {
+		return imageIconResId;
 	}
-	public void     setImageResId(int imageResId) { this.imageResId = imageResId;}
+	public void     setImageIconResId(int imageIconResId) { this.imageIconResId = imageIconResId;}
 
 	public int getCoverBackgroundColor() {
 		return coverBackgroundColor;
@@ -173,12 +174,11 @@ public class FolderModel implements Cloneable {
 		this.backTextColor = backTextColor;
 	}
 
-	public int getFusenColor() {
-		return fusenColor;
+	public int getImageFusenResId() {
+		return imageFusenResId;
 	}
 
-	public void setFusenColor(int fusenColor) {
-		this.fusenColor = fusenColor;
+	public void setImageFusenResId(int imageFusenResId) {
+		this.imageFusenResId = imageFusenResId;
 	}
-
 }

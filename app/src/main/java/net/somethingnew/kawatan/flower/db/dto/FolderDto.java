@@ -11,7 +11,7 @@ public class FolderDto {
 	Date            lastUsedDate;           // 最終利用日
 	int             numOfAllCards;          // 含まれるカード数
 	int             numOfLearnedCards;      // 習得済みカード数
-	int             imageResId;             // アイコンキャラ
+	int             imageIconResId;             // アイコンキャラ
 
 	public FolderDto() {
 		/*
@@ -22,7 +22,7 @@ public class FolderDto {
 		this.lastUsedDate           = new Date();
 		this.numOfAllCards          = 0;
 		this.numOfLearnedCards      = 0;
-		this.imageResId             = imageResId;
+		this.imageIconResId         = imageIconResId;
 
 		 */
 	}
@@ -65,9 +65,9 @@ public class FolderDto {
 	}
 	public void     setNumOfLearnedCards(int numOfLearnedCards) { this.numOfLearnedCards = numOfLearnedCards;}
 
-	public int      getImageResId() {
-		return imageResId;
+	public int      getImageIconResId() {
+		return imageIconResId;
 	}
-	public void     setImageResId(int imageResId) { this.imageResId = imageResId;}
+	public void     setImageResId(int imageIconResId) { this.imageIconResId = imageIconResId;}
 
 }
