@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class FusenGridAdapter extends BaseAdapter {
 
-    GlobalManager globalMgr         = GlobalManager.getInstance();
+    GlobalManager       globalMgr         = GlobalManager.getInstance();
+    ArrayList<Integer>  mFusenResourceIdList;
 
     class ViewHolder {
         ImageView                   imageView;
@@ -18,11 +21,12 @@ public class FusenGridAdapter extends BaseAdapter {
     private LayoutInflater          inflater;
     private int                     layoutId;
 
-    FusenGridAdapter(Context context, int layoutId) {
+    FusenGridAdapter(Context context, int layoutId, ArrayList mFusenResourceIdList) {
 
         super();
         this.inflater               = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layoutId               = layoutId;
+        this.mFusenResourceIdList    = mFusenResourceIdList;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class FusenGridAdapter extends BaseAdapter {
             holder              = (ViewHolder) convertView.getTag();
         }
 
-        holder.imageView.setImageResource(globalMgr.mFusenResourceIdList.get(position));
+        holder.imageView.setImageResource(mFusenResourceIdList.get(position));
         // 以下を実行すると、透過PNG画像の背景に色を付けることができるが、
         // border.xmlで定義してあるstate_pressedが効かない（押したときに色を付ける）
         // どうせ効かないので、border.xmlは一旦使わない
@@ -60,7 +64,7 @@ public class FusenGridAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         // List<String> textColorArray の全要素数を返す
-        return globalMgr.mFusenResourceIdList.size();
+        return mFusenResourceIdList.size();
     }
 
     @Override

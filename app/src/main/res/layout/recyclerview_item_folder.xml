@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         card_view:cardBackgroundColor="#DEBDD8"
         card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
+        card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:scaleType="fitCenter"
                 android:tag="image_tag"
                 app:srcCompat="@mipmap/ic_launcher" />
@@ -35,7 +35,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="9"
                 android:orientation="vertical">
 
                 <TextView
@@ -69,10 +69,32 @@
                     android:layout_weight="1"
                     android:text="100"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/imageViewExercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/exercise" />
+
+                <ImageView
+                    android:id="@+id/imageViewShuffleExercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/shuffle" />
             </LinearLayout>
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

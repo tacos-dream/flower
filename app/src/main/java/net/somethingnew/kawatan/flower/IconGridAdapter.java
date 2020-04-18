@@ -11,11 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IconGridAdapter extends BaseAdapter {
 
-    GlobalManager globalMgr         = GlobalManager.getInstance();
+    GlobalManager       globalMgr               = GlobalManager.getInstance();
+    ArrayList<Integer>  mIconResourceIdList;
 
     class ViewHolder {
         ImageView                   imageView;
@@ -24,11 +26,12 @@ public class IconGridAdapter extends BaseAdapter {
     private LayoutInflater          inflater;
     private int                     layoutId;
 
-    IconGridAdapter(Context context, int layoutId) {
+    IconGridAdapter(Context context, int layoutId, ArrayList mIconResourceIdList) {
 
         super();
         this.inflater               = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layoutId               = layoutId;
+        this.mIconResourceIdList    = mIconResourceIdList;
     }
 
     @Override
@@ -48,7 +51,8 @@ public class IconGridAdapter extends BaseAdapter {
             holder              = (ViewHolder) convertView.getTag();
         }
 
-        holder.imageView.setImageResource(globalMgr.mIconResourceIdList.get(position));
+        holder.imageView.setImageResource(mIconResourceIdList.get(position));
+
         // 以下を実行すると、透過PNG画像の背景に色を付けることができるが、
         // border.xmlで定義してあるstate_pressedが効かない（押したときに色を付ける）
         // どうせ効かないので、border.xmlは一旦使わない
@@ -65,8 +69,7 @@ public class IconGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // List<String> textColorArray の全要素数を返す
-        return globalMgr.mIconResourceIdList.size();
+        return mIconResourceIdList.size();
     }
 
     @Override

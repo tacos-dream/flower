@@ -22,42 +22,45 @@ public class FolderIconFragment extends Fragment {
 
     GlobalManager                   globalMgr = GlobalManager.getInstance();
     View                            mView;
-    GridView                        gridViewIcon;
-    IconGridAdapter                 iconGridAdapter;
+    GridView                        mGridViewIcon;
+    IconGridAdapter                 mIconGridAdapter;
+    ArrayList<Integer>              mIconResourceIdList;
 
     public FolderIconFragment() {
-        //LogUtility.d("FolderSurfaceFragment: ");
+        //LogUtility.d("FolderFrontFragment: ");
         // Required empty public constructor
+        mIconResourceIdList     = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtility.d("onCreateView: ");
-        mView = inflater.inflate(R.layout.fragment_folder_icon, container, false);
+        mView = inflater.inflate(R.layout.fragment_folder_icon_container, container, false);
+
+        /*
 
         // for-each Resource名をR.drawable.名前としてintに変換してarrayに登録
-        if (globalMgr.mIconResourceIdList == null) {
-            globalMgr.mIconResourceIdList = new ArrayList<>();
-            for (String iconName: MyData.iconNameArray){
-                int imageId = getResources().getIdentifier(iconName,"drawable", getActivity().getPackageName());
-                globalMgr.mIconResourceIdList.add(imageId);
-            }
+        for (String iconName: MyData.iconNameArray){
+            int imageId = getResources().getIdentifier(iconName,"drawable", getActivity().getPackageName());
+            mIconResourceIdList.add(imageId);
         }
 
         // アイコンのGridView
-        iconGridAdapter = new IconGridAdapter(
-                getActivity().getApplicationContext(), R.layout.gridview_item_icon);
-        gridViewIcon = mView.findViewById(R.id.gridViewIcon);
-        gridViewIcon.setAdapter(iconGridAdapter);
-        gridViewIcon.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getCoverBackgroundColor());
-        gridViewIcon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mIconGridAdapter = new IconGridAdapter(
+                getActivity().getApplicationContext(), R.layout.gridview_item_icon, mIconResourceIdList);
+        mGridViewIcon = mView.findViewById(R.id.gridViewIcon);
+        mGridViewIcon.setAdapter(mIconGridAdapter);
+        mGridViewIcon.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getCoverBackgroundColor());
+        mGridViewIcon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のアイコンを入れ替える
-                globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mIconResourceIdList.get(position));
-                globalMgr.mTempFolder.setImageIconResId(globalMgr.mIconResourceIdList.get(position));
+                globalMgr.mFolderSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
+                globalMgr.mTempFolder.setImageIconResId(mIconResourceIdList.get(position));
                 globalMgr.mChangedFolderSettings = true;
             }
         });
+
+         */
 
         // CardViewの初期表示
         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getCoverBackgroundColor());

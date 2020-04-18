@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CardDto {
 	String          id;                     // ユニークなKeyId (UUIDから生成）
-	String          surfaceText;            // 表面テキスト
+	String          frontText;            // 表面テキスト
 	String          backText;              	// 裏面テキスト
 	Date            createdDate;            // 作成日
 	Date            updatedDate;            // 最終更新日
@@ -25,11 +25,11 @@ public class CardDto {
 	}
 
 	public String getSurfaceText() {
-		return surfaceText;
+		return frontText;
 	}
 
-	public void setSurfaceText(String surfaceText) {
-		this.surfaceText = surfaceText;
+	public void setSurfaceText(String frontText) {
+		this.frontText = frontText;
 	}
 
 	public String getBackText() {

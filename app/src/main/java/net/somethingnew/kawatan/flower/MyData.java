@@ -6,7 +6,7 @@ public class MyData {
             R.drawable.froyo, R.drawable.gingerbread, R.drawable.honeycomb, R.drawable.ics,
             R.drawable.jellybean, R.drawable.kitkat, R.drawable.lollipop,R.drawable.marsh};
 
-    static String[] cardSurfaceArray    = {"新垣", "広瀬", "有村", "吉岡", "土屋", "本田", "川口", "小松","清野", "川栄", "新木", "高畑"};
+    static String[] cardFrontArray    = {"新垣", "広瀬", "有村", "吉岡", "土屋", "本田", "川口", "小松","清野", "川栄", "新木", "高畑"};
     static String[] cardBackArray       = {"結衣", "すず", "架純", "里帆", "太鳳", "翼",   "春奈", "菜奈","奈名", "李奈", "優子", "充希"};
     static Integer[] cardDrawableArray = {R.drawable.cupcake,R.drawable.cupcake,R.drawable.donut, R.drawable.eclair,
             R.drawable.froyo, R.drawable.gingerbread, R.drawable.honeycomb, R.drawable.ics,

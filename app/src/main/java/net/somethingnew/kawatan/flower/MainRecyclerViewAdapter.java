@@ -6,24 +6,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 /**
  * MainActivityのリスト表示用RecyclerViewer（リスト内に表示するのはFolder群）
  */
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
 
-    GlobalManager                               globalMgr = GlobalManager.getInstance();
-    View.OnClickListener                        folderOnClickListener;
-    View.OnClickListener                        iconOnClickListener;
+    private GlobalManager                       globalMgr = GlobalManager.getInstance();
+    private OnItemClickListener                 mListener;
+
+    /**
+     * Interfaceを定義し、Activity側にoverrideでonItemClick()を実装させ、Adapter側からそれをCallback的に呼び出せるようにする
+     */
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onIconClick(int position);
+        void onExerciseClick(int position);
+        void onShuffleExerciseClick(int position);
+    }
+
+    // 上記interfaceを実装したActivity側のListenerインスタンスを受け取っておき、このリスナのonItemClickやonIconClickを
+    // Adapter側から呼び出すことで、Activity側に変化を通知する
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -31,26 +42,83 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView    textViewTitleName;
-        TextView    textViewCreatedDate;
         TextView    textViewNumOfAllCards;
         ImageView   imageViewIcon;
+        ImageView   imageViewExercise;
+        ImageView   imageViewShuffleExercise;
         CardView    cardViewFolder;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            this.textViewTitleName      = itemView.findViewById(R.id.textViewTitleName);
-            this.textViewNumOfAllCards  = itemView.findViewById(R.id.textViewNumOfAllCards);
-            //this.textViewCreatedDate    = itemView.findViewById(R.id.textViewCreatedDate);
-            this.imageViewIcon          = itemView.findViewById(R.id.imageViewIcon);
-            this.cardViewFolder         = itemView.findViewById(R.id.card_view);
+            this.textViewTitleName          = itemView.findViewById(R.id.textViewTitleName);
+            this.textViewNumOfAllCards      = itemView.findViewById(R.id.textViewNumOfAllCards);
+            this.imageViewIcon              = itemView.findViewById(R.id.imageViewIcon);
+            this.imageViewExercise          = itemView.findViewById(R.id.imageViewExercise);
+            this.imageViewShuffleExercise   = itemView.findViewById(R.id.imageViewShuffleExercise);
+            this.cardViewFolder             = itemView.findViewById(R.id.card_view);
+
+            // Item全体のOnClickリスナ
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position    = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            // アイコンのOnClickリスナ
+            this.imageViewIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onIconClick(position);
+                        }
+                    }
+                }
+            });
+
+            // ExerciseボタンのOnClickリスナ
+            this.imageViewExercise.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onExerciseClick(position);
+                        }
+                    }
+                }
+            });
+
+            // ExerciseShuffleボタンのOnClickリスナ
+            this.imageViewShuffleExercise.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onShuffleExerciseClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
-    public MainRecyclerViewAdapter(View.OnClickListener folderOnClickListener, View.OnClickListener iconOnClickListener) {
-        // OnClickListenerの処理UIなのでAdapterよりはMain側で行いたいためMain側のハンドラを受け取っておき
-        // Adapter側でOnClickを検知したときに呼び出す
-        this.folderOnClickListener      = folderOnClickListener;
-        this.iconOnClickListener        = iconOnClickListener;
+    public MainRecyclerViewAdapter() {
+        // きれいな実装としては、ここの引数でArrayListを受け取るのがよいが、今回は
+        // globalMgr.mFolderLinkedListで参照するので、
+        // とりあえず、コンストラクターでは何もなし
     }
 
     /**
@@ -65,11 +133,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item_folder, parent, false);
 
-        // OnClickを検知してイベント処理できるようにリスナを登録（Card全体とImageViewのそれぞれ）
-        view.setOnClickListener(folderOnClickListener);
-        view.findViewById(R.id.imageViewIcon).setOnClickListener(iconOnClickListener);
-
-        MyViewHolder myViewHolder = new MyViewHolder(view);
+        // Listenerも渡してViewHolder内で使えるようにしておく
+        MyViewHolder myViewHolder = new MyViewHolder(view, mListener);
         return myViewHolder;
     }
 

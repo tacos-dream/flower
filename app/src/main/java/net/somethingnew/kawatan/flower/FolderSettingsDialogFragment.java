@@ -44,100 +44,6 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         this.recyclerViewAdapter = recyclerViewAdapter;
     }
 
-    /* 以下のonCreateDialog()でAlertDialogで処理すると、以下のExceptionが発生するので、onCreateView()で処理するようにする
-     * java.lang.IllegalStateException: Fragment androidx.fragment.app.Fragment$4@6df3970 does not have a view
-     */
-    /*
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        LayoutInflater inflater     = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view                   = inflater.inflate(R.layout.dialog_folder_settings, null);
-
-        // 色を選択したときにCardの色を動的に変更できるよう、CardのView情報を保持しておく
-        globalMgr.mFolderSettings.cardView             = view.findViewById(R.id.card_view);
-
-        // 表紙、おもて、うらの選択に応じてCardの表示を変更できるよう、CardのLinerLayoutの情報を保持しておく
-        // デフォルトはXMLに記載の表紙の情報だが、これを動的におもてやうらに変更する。
-        globalMgr.mIncludeCardLayoutInFolderSettings    = view.findViewById(R.id.cardLayout);
-
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(view);
-
-        Dialog dialog = builder.create();
-
-        TabLayout tabLayout     = view.findViewById(R.id.tabLayout);
-        ViewPager viewPager     = view.findViewById(R.id.viewPager);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        FolderSettingsDialogPagerAdapter folderSettingsDialogPagerAdapter
-                = new FolderSettingsDialogPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(folderSettingsDialogPagerAdapter);
-        viewPager.setOffscreenPageLimit(Constants.FOLDER_SETTINGS_NUM_OF_TABS);
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        CharSequence[] tabTitles = {"アイコン", "表紙", "おもて", "うら", "付箋", "その他" };
-        for (int i = 0; i < Constants.FOLDER_SETTINGS_NUM_OF_TABS; i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setTag(tabTitles[i]);
-        }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                LogUtility.d("OnTabSelectedListener onTabSelected: " + tab.getTag());
-                LogUtility.d("OnTabSelectedListener onTabSelected position: " + tab.getPosition());
-                // カードのLayoutを該当のものに切り替える
-                int position = tab.getPosition();
-                switch (position) {
-                    case Constants.FOLDER_SETTINGS_TAB_ICON:
-                    case Constants.FOLDER_SETTINGS_TAB_COVER:
-                    case Constants.FOLDER_SETTINGS_TAB_FUSEN:
-                    case Constants.FOLDER_SETTINGS_TAB_OTHERS:
-                        // レイアウトを変更
-                        drawCardView(R.layout.card_cover, globalMgr.mTempFolder.getCoverBackgroundColor());
-                        break;
-                    case Constants.FOLDER_SETTINGS_TAB_SURFACE:
-                        drawCardView(R.layout.card_surface, globalMgr.mTempFolder.getSurfaceBackgroundColor());
-                        break;
-                    case Constants.FOLDER_SETTINGS_TAB_BACK:
-                        drawCardView(R.layout.card_back, globalMgr.mTempFolder.getBackBackgroundColor());
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                LogUtility.d("OnTabSelectedListener onTabUnselected: " + tab.getTag());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                LogUtility.d("OnTabSelectedListener onTabReselected position: " + tab.getPosition());
-                int position = tab.getPosition();
-            }
-        });
-
-        // 選択されたFolderの内容を表示
-        FolderModel folderModel         = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
-        TextView    textViewTitle       = view.findViewById(R.id.textViewTitleName);
-        ImageView   imageViewIcon       = view.findViewById(R.id.imageViewIcon);
-        textViewTitle.setText(folderModel.getTitleName());
-        imageViewIcon.setImageResource(folderModel.getImageResId());
-
-        // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにClone作成
-        globalMgr.mTempFolder                           = folderModel.clone();
-
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(true);
-
-        // Create the AlertDialog object and return it
-        return dialog;
-    }
-     */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_folder_settings, container, false);
@@ -213,13 +119,13 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                 //LogUtility.d("OnTabSelectedListener onTabSelected position: " + tab.getPosition());
                 // カードのLayoutを該当のものに切り替える
                 currentTabPosition = tab.getPosition();
-                FolderSurfaceFragment folderSurfaceFragment;
+                FolderFrontFragment folderFrontFragment;
                 switch (currentTabPosition) {
                     case Constants.FOLDER_SETTINGS_TAB_ICON:
                         // ICONのGridViewの背景色とCardViewの背景色をCoverの背景色で表示する。CardViewに該当アイコンを表示する
                         FolderIconFragment folderIconFragment = (FolderIconFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
-                        folderIconFragment.gridViewIcon.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
-                        folderIconFragment.iconGridAdapter.notifyDataSetChanged();
+                        folderIconFragment.mGridViewIcon.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
+                        folderIconFragment.mIconGridAdapter.notifyDataSetChanged();
                         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
                         globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.VISIBLE);
@@ -241,29 +147,20 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         globalMgr.mFolderSettings.editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
                         globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.INVISIBLE);
                         break;
-                    case Constants.FOLDER_SETTINGS_TAB_FUSEN:
-                        // CardViewの背景色をSurfaceの背景色で表示する
-                        FolderFusenFragment folderFusenFragment = (FolderFusenFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
-                        folderFusenFragment.gridViewFusen.setBackgroundColor(globalMgr.mTempFolder.getSurfaceBackgroundColor());
-                        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getSurfaceBackgroundColor());
-                        globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.INVISIBLE);
-                        globalMgr.mFolderSettings.imageViewFusen.setImageResource(globalMgr.mTempFolder.getImageFusenResId());
-                        globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.VISIBLE);
-                        break;
                     case Constants.FOLDER_SETTINGS_TAB_SURFACE:
-                        // TextのGridViewの背景色とCardViewの背景色をSurfaceの背景色で表示する。
-                        folderSurfaceFragment = (FolderSurfaceFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
-                        folderSurfaceFragment.gridViewText.setBackgroundColor(globalMgr.mTempFolder.getSurfaceBackgroundColor());
-                        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getSurfaceBackgroundColor());
+                        // TextのGridViewの背景色とCardViewの背景色をFrontの背景色で表示する。
+                        folderFrontFragment = (FolderFrontFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
+                        folderFrontFragment.gridViewText.setBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
+                        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.INVISIBLE);
-                        globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getSurfaceTextColor());
-                        globalMgr.mFolderSettings.editTextTitle.setText(R.string.card_surface);
+                        globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getFrontTextColor());
+                        globalMgr.mFolderSettings.editTextTitle.setText(R.string.card_front);
                         globalMgr.mFolderSettings.editTextTitle.setEnabled(false);
                         globalMgr.mFolderSettings.imageViewFusen.setImageResource(globalMgr.mTempFolder.getImageFusenResId());
                         globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.VISIBLE);
                         break;
                     case Constants.FOLDER_SETTINGS_TAB_BACK:
-                        //changeCardViewLayout(R.layout.card_surface, globalMgr.mTempFolder.getSurfaceBackgroundColor());
+                        //changeCardViewLayout(R.layout.card_front, globalMgr.mTempFolder.getFrontBackgroundColor());
                         // TextのGridViewの背景色とCardViewの背景色をBackの背景色で表示する。
                         FolderBackFragment folderBackFragment = (FolderBackFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
                         folderBackFragment.gridViewText.setBackgroundColor(globalMgr.mTempFolder.getBackBackgroundColor());
@@ -273,6 +170,18 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         globalMgr.mFolderSettings.editTextTitle.setText(R.string.card_back);
                         globalMgr.mFolderSettings.editTextTitle.setEnabled(false);
                         globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.INVISIBLE);
+                        break;
+                    case Constants.FOLDER_SETTINGS_TAB_FUSEN:
+                        // CardViewの背景色をFrontの背景色で表示する
+                        FolderFusenFragment folderFusenFragment = (FolderFusenFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
+                        folderFusenFragment.gridViewFusen.setBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
+                        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
+                        globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.INVISIBLE);
+                        globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getFrontTextColor());
+                        globalMgr.mFolderSettings.editTextTitle.setText(R.string.card_front);
+                        globalMgr.mFolderSettings.editTextTitle.setEnabled(false);
+                        globalMgr.mFolderSettings.imageViewFusen.setImageResource(globalMgr.mTempFolder.getImageFusenResId());
+                        globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -289,7 +198,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
             }
         });
 
-        setupMenuListener();
+        buildEventListener();
 
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
@@ -388,7 +297,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
     /**
      * 上部メニュー領域の各アイコン画像のクリックハンドラ
      */
-    public void setupMenuListener() {
+    public void buildEventListener() {
         // 戻る
         view.findViewById(R.id.imageViewGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -592,8 +501,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // 選択されたFolderの詳細内容を表示（タイトル名、色など）
         EditText    editTextTitle                       = view.findViewById(R.id.editTextTitleName);
         ImageView   imageViewIcon                       = view.findViewById(R.id.imageViewIcon);
-        globalMgr.mFolderSettings.editTextTitle    = editTextTitle;
-        globalMgr.mFolderSettings.imageViewIcon        = imageViewIcon;
+        globalMgr.mFolderSettings.editTextTitle         = editTextTitle;
+        globalMgr.mFolderSettings.imageViewIcon         = imageViewIcon;
         editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
         imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(backgroundColor);

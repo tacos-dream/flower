@@ -36,7 +36,7 @@ public class TextColorGridAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (convertView == null) {
-            // fragment_folder_surface.xmlなどの <GridView .../> に gridview_item_text_color.xml を inflate して convertView とする
+            // fragment_folder_front.xmlなどの <GridView .../> に gridview_item_text_color.xml を inflate して convertView とする
             convertView         = inflater.inflate(layoutId, parent, false);
             // ViewHolder を生成
             holder              = new ViewHolder();

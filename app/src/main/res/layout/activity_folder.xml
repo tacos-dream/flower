@@ -27,45 +27,53 @@
 
         <ImageView
             android:id="@+id/imageViewGoBack"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_revert" />
 
         <ImageView
-            android:id="@+id/imageViewPlay"
-            android:layout_width="wrap_content"
+            android:id="@+id/imageViewExercise"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            app:srcCompat="@drawable/exercise" />
 
         <ImageView
-            android:id="@+id/imageViewPlayRandom"
-            android:layout_width="wrap_content"
+            android:id="@+id/imageViewShuffleExercise"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/shuffle" />
+
+        <!--ImageVi
+            android:id="ew@+id/imageViewFilter"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/filter" /-->
 
         <ImageView
-            android:id="@+id/imageViewSave"
-            android:layout_width="wrap_content"
+            android:id="@+id/imageViewReserved1"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_save" />
+            app:srcCompat="@drawable/flower_024_23" />
 
         <ImageView
-            android:id="@+id/imageViewFilterLearned"
-            android:layout_width="30dp"
+            android:id="@+id/imageViewReserved2"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/heart_on" />
+            app:srcCompat="@drawable/flower_024_24" />
 
         <ImageView
-            android:id="@+id/imageViewFilterFusen"
-            android:layout_width="30dp"
+            android:id="@+id/imageViewHelp"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/fusen" />
+            app:srcCompat="@android:drawable/ic_menu_help" />
 
     </LinearLayout>
 

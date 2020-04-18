@@ -70,14 +70,16 @@ public class GlobalManager {
      */
     public HashMap<String, LinkedList>          mCardListMap;
 
+    public boolean                              mChangedCardSettings;
+    CardSettings                                mCardSettings = new CardSettings();
+    CardModel                                   mTempCard;
+
     /**
      * 現在処理中のCardのLinkedList上のIndex
      * 主にListをタップしたときに確定する
      */
     public int                                  mCurrentCardIndex;
 
-    List<Integer>                               mIconResourceIdList     = null;
-    List<Integer>                               mFusenResourceIdList    = null;
 
     /**
      * ダイアログからActivityに値を返すためのDTO定義
@@ -89,6 +91,15 @@ public class GlobalManager {
         CardView                                cardView;
         View                                    cardLayout; // 動的なLayoutの変更はやめたので未使用
         EditText                                editTextTitle;
+        ImageView                               imageViewIcon;
+        ImageView                               imageViewFusen;
+    }
+
+    class CardSettings {
+        CardView                                cardViewFront;
+        CardView                                cardViewBack;
+        EditText                                editTextFront;
+        EditText                                editTextBack;
         ImageView                               imageViewIcon;
         ImageView                               imageViewFusen;
     }

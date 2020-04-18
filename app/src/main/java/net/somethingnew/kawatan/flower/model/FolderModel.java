@@ -32,10 +32,10 @@ public class FolderModel implements Cloneable {
 	int             		numOfLearnedCards;      // 習得済みカード数
 	int             		imageIconResId;         // アイコンのResourceId
 	int						coverBackgroundColor;	// 表紙の背景色
-	int						surfaceBackgroundColor;	// おもての背景色
+	int						frontBackgroundColor;	// おもての背景色
 	int						backBackgroundColor;	// うらの背景色
 	int						coverTextColor;			// 表紙の文字色
-	int						surfaceTextColor;		// おもての文字色
+	int						frontTextColor;		// おもての文字色
 	int						backTextColor;			// うらの文字色
 	int						imageFusenResId;		// ふせんのResourceId
 
@@ -53,10 +53,10 @@ public class FolderModel implements Cloneable {
 		this.imageFusenResId        = imageFusenResId;
 		this.learned				= false;
 		this.coverBackgroundColor	= Color.WHITE;
-		this.surfaceBackgroundColor	= Color.WHITE;
+		this.frontBackgroundColor	= Color.WHITE;
 		this.backBackgroundColor	= Color.WHITE;
 		this.coverTextColor			= Color.BLACK;
-		this.surfaceTextColor		= Color.BLACK;
+		this.frontTextColor		= Color.BLACK;
 		this.backTextColor			= Color.BLACK;
 	}
 
@@ -134,12 +134,12 @@ public class FolderModel implements Cloneable {
 		this.coverBackgroundColor = coverBackgroundColor;
 	}
 
-	public int getSurfaceBackgroundColor() {
-		return surfaceBackgroundColor;
+	public int getFrontBackgroundColor() {
+		return frontBackgroundColor;
 	}
 
-	public void setSurfaceBackgroundColor(int surfaceBackgroundColor) {
-		this.surfaceBackgroundColor = surfaceBackgroundColor;
+	public void setFrontBackgroundColor(int frontBackgroundColor) {
+		this.frontBackgroundColor = frontBackgroundColor;
 	}
 
 	public int getBackBackgroundColor() {
@@ -158,12 +158,12 @@ public class FolderModel implements Cloneable {
 		this.coverTextColor = coverTextColor;
 	}
 
-	public int getSurfaceTextColor() {
-		return surfaceTextColor;
+	public int getFrontTextColor() {
+		return frontTextColor;
 	}
 
-	public void setSurfaceTextColor(int surfaceTextColor) {
-		this.surfaceTextColor = surfaceTextColor;
+	public void setFrontTextColor(int frontTextColor) {
+		this.frontTextColor = frontTextColor;
 	}
 
 	public int getBackTextColor() {

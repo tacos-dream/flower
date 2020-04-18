@@ -2,6 +2,7 @@ package net.somethingnew.kawatan.flower;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -38,18 +39,13 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
-    private Context             mContext;
-    private Activity            mActivity;
-    GlobalManager               globalMgr = GlobalManager.getInstance();
-
-    private SearchView          mSearchView;
-
-    private static RecyclerView.Adapter             mRecyclerViewAdapter;
-    private static RecyclerView                     mRecyclerView;
-
-    private RecyclerView.LayoutManager              mLayoutManager;
-    View.OnClickListener                            mFolderOnClickListener;
-    View.OnClickListener                            mIconOnClickListener;
+    private Context                         mContext;
+    private Activity                        mActivity;
+    private GlobalManager                   globalMgr = GlobalManager.getInstance();
+    private SearchView                      mSearchView;
+    private RecyclerView                    mRecyclerView;
+    private RecyclerView.LayoutManager      mLayoutManager;
+    private MainRecyclerViewAdapter         mRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         // ハンバーガーメニューの準備
         setDrawer(toolbar);
 
+        // FloatingActionButton
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,70 +79,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        // テストデータ投入
+        createExampleList();
 
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        // 最終的には、SQLiteから取得したFolder一覧からArrayListを生成する。
-        // とりあえずは、テストデータでModelを作成
-        globalMgr.mFolderLinkedList = new LinkedList<>();
-        for (int i = 0; i < MyData.folderNameArray.length; i++) {
-            globalMgr.mFolderLinkedList.add(new FolderModel(
-                    MyData.folderNameArray[i],
-                    MyData.folderDrawableArray[i],
-                    R.drawable.fusen_01
-            ));
-        }
-
-        // とりあえず、各フォルダに同じCard群テストデータをセットする
-        for (int iFolder = 0; iFolder < MyData.folderNameArray.length; iFolder++) {
-            String key = globalMgr.mFolderLinkedList.get(iFolder).getId();
-            LinkedList<CardModel> cardLinkedList = new LinkedList<>();
-            for (int iCard = 0; iCard < MyData.cardSurfaceArray.length; iCard++) {
-                cardLinkedList.add(new CardModel(
-                        MyData.cardSurfaceArray[iCard],
-                        MyData.cardBackArray[iCard]
-                ));
-            }
-            globalMgr.mCardListMap.put(key, cardLinkedList);
-        }
-
-        /*
-        for (int iFolder = 0; iFolder < MyData.folderNameArray.length; iFolder++) {
-            LinkedList<CardModel> cardLinkedList = globalMgr.mFolderLinkedList.get(iFolder).getCardLinkedList();
-            for (int iCard = 0; iCard < MyData.cardSurfaceArray.length; iCard++) {
-                cardLinkedList.add(new CardModel(
-                        MyData.cardSurfaceArray[iCard],
-                        MyData.cardBackArray[iCard]
-                ));
-            }
-        }
-         */
-
-        /*
-        // とりあえず、各フォルダに同じCard群テストデータをセットする
-        for (int iFolder = 0; iFolder < MyData.folderNameArray.length; iFolder++) {
-            Map<String, CardModel> cardMap = globalMgr.mFolderLinkedList.get(iFolder).getCardMap();
-            for (int iCard = 0; iCard < MyData.cardSurfaceArray.length; iCard++) {
-                cardMap.put(UUID.randomUUID().toString(), new CardModel(
-                        MyData.cardSurfaceArray[iCard],
-                        MyData.cardBackArray[iCard]
-                ));
-            }
-        }
-
-         */
-
-        /**
-         * Non-staticのリスナーをnewして、あとでItem（個別Folder）をクリック時に呼び出されるようAdapterに渡しておく
-         */
-        mFolderOnClickListener       = new FolderOnClickListener(this);
-        mIconOnClickListener         = new IconOnClickListener(this);
-        mRecyclerViewAdapter         = new MainRecyclerViewAdapter(mFolderOnClickListener, mIconOnClickListener);
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        buildRecyclerView();
 
         // Drag & Drop Handling
         ItemTouchHelper itemTouchHelper  = new ItemTouchHelper(
@@ -184,74 +121,85 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * RecyclerView内の各CardViewをクリックしたときのハンドラ
-     * （ただし、CardView内の画像アイコンのクリック時は別のIconOnClickListenerで処理する）
-     *
-     * 選択されたFolderのCard一覧画面（FolderActivity）へ遷移する
-     *
-     * 参考にしたコードでは以下のFolderOnClickListenerはstaticメソッドで作成していたが、それだと
-     * この中からnon-staticなメソッドの呼び出し（例えば、startActivity()などの呼び出しができないので
-     * FolderOnClickListenerはNon-staticのクラスに変更し、これを呼び出すMyRecyclerViewAdapterには、それをnewした時点で
-     * インスタンスを渡しておくことにする
+     * テストデータ作成
      */
-    private class FolderOnClickListener implements View.OnClickListener {
-        private final Context context;
-
-        private FolderOnClickListener(Context context) {
-            this.context = context;
+    public void createExampleList() { // 最終的には、SQLiteから取得したFolder一覧からArrayListを生成する。
+        // とりあえずは、テストデータでModelを作成
+        globalMgr.mFolderLinkedList = new LinkedList<>();
+        for (int i = 0; i < MyData.folderNameArray.length; i++) {
+            globalMgr.mFolderLinkedList.add(new FolderModel(
+                    MyData.folderNameArray[i],
+                    MyData.folderDrawableArray[i],
+                    R.drawable.fusen_01
+            ));
         }
 
-        @Override
-        public void onClick(View v) {
-            int selectedItemPositionInAdapter   = mRecyclerView.getChildAdapterPosition(v);
-            int selectedItemPositionInLayout    = mRecyclerView.getChildLayoutPosition(v);
-            RecyclerView.ViewHolder viewHolder  = mRecyclerView.getChildViewHolder(v);
-            TextView textViewName               = viewHolder.itemView.findViewById(R.id.textViewTitleName);
-            String selectedName                 = (String)textViewName.getText();
-            LogUtility.d("selectedItemPositionInAdapter: " + selectedItemPositionInAdapter);
-            LogUtility.d("selectedItemPositionInLayout: " + selectedItemPositionInLayout);
-            LogUtility.d("selectedName: " + selectedName);
-
-            // どのデータがクリックされたのかは、selectedItemPositionInAdapterを頼りにglobalMgr.mFolderLinkedListの該当Indexを調べればいい。
-            // あるいは、viewHolderのImageViewにFolderDataModelのkeyIdをタグ付けしてあるので
-            // それをもとにSQLiteを検索する、とかでもいいのだが、とりあえず前者で。
-            globalMgr.mCurrentFolderIndex       = selectedItemPositionInAdapter;
-
-            Intent intent = new Intent();
-            intent.setClass(context, FolderActivity.class);
-            startActivity(intent);
+        // とりあえず、各フォルダに同じCard群テストデータをセットする
+        for (int iFolder = 0; iFolder < MyData.folderNameArray.length; iFolder++) {
+            String key = globalMgr.mFolderLinkedList.get(iFolder).getId();
+            LinkedList<CardModel> cardLinkedList = new LinkedList<>();
+            for (int iCard = 0; iCard < MyData.cardFrontArray.length; iCard++) {
+                cardLinkedList.add(new CardModel(
+                        MyData.cardFrontArray[iCard],
+                        MyData.cardBackArray[iCard]
+                ));
+            }
+            globalMgr.mCardListMap.put(key, cardLinkedList);
         }
     }
 
     /**
-     * Imageアイコンをクリックしたときのハンドラ
-     * FolderSettingsのダイアログを開く
+     * RecyclerView関連準備
      */
-    private class IconOnClickListener implements View.OnClickListener {
-        private final Context context;
+    public void buildRecyclerView() {
+        mRecyclerView               = findViewById(R.id.my_recycler_view);
+        mLayoutManager              = new LinearLayoutManager(this);
+        mRecyclerViewAdapter        = new MainRecyclerViewAdapter();
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-        private IconOnClickListener(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void onClick(View v) {
-            // どのImageアイコンがクリックされたかを識別するためにViewにTag付けされたFolderのidを引数にセットして編集モードでダイアログを開く
-            FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
-            Bundle args     = new Bundle();
-            args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_EDIT);
-            args.putString(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_FOLDER_ID, v.getTag().toString());
-            folderSettingsDialogFragment.setArguments(args);
-            folderSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
-
-            // tagをたよりにmFolderLinkedList上のpositionを求め、globalMgrに持たせておく
-            for (int i = 0; i < globalMgr.mFolderLinkedList.size(); i++) {
-                if (globalMgr.mFolderLinkedList.get(i).getId().equals((String)v.getTag())) {
-                    globalMgr.mCurrentFolderIndex = i;
-                    break;
-                }
+        mRecyclerViewAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                globalMgr.mCurrentFolderIndex       = position;
+                Intent intent = new Intent();
+                intent.setClass(mContext, FolderActivity.class);
+                startActivity(intent);
             }
-        }
+
+            @Override
+            public void onIconClick(int position) {
+                globalMgr.mCurrentFolderIndex       = position;
+
+                // ダイアログ表示（ダイアログ内の操作でItemの変更が発生するのでAdapterを渡しておき、notifyDataSetChanged()を呼べるようにする
+                FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
+                Bundle args     = new Bundle();
+                args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_EDIT);
+                folderSettingsDialogFragment.setArguments(args);
+                folderSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
+            }
+
+            @Override
+            public void onExerciseClick(int position) {
+                globalMgr.mCurrentFolderIndex       = position;
+                Intent intent = new Intent();
+                intent.putExtra(Constants.EXERCISE_MODE_KEY_NAME, Constants.EXERCISE_MODE_NORMAL);
+                intent.setClass(mContext, ExerciseActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onShuffleExerciseClick(int position) {
+                globalMgr.mCurrentFolderIndex       = position;
+                Intent intent = new Intent();
+                intent.putExtra("EXERCISE_MODE", Constants.EXERCISE_MODE_SHUFFLE);
+                intent.setClass(mContext, ExerciseActivity.class);
+                startActivity(intent);
+            }
+
+        });
     }
 
     @Override
@@ -363,4 +311,81 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /**
+     * RecyclerView内の各CardViewをクリックしたときのハンドラ
+     * （ただし、CardView内の画像アイコンのクリック時は別のIconOnClickListenerで処理する）
+     *
+     * 選択されたFolderのCard一覧画面（FolderActivity）へ遷移する
+     *
+     * 参考にしたコードでは以下のFolderOnClickListenerはstaticメソッドで作成していたが、それだと
+     * この中からnon-staticなメソッドの呼び出し（例えば、startActivity()などの呼び出しができないので
+     * FolderOnClickListenerはNon-staticのクラスに変更し、これを呼び出すMyRecyclerViewAdapterには、それをnewした時点で
+     * インスタンスを渡しておくことにする
+     */
+    /* ------------------ interfaceの実装による方法に変更したので、以下は未使用 --------------------------
+    private class FolderOnClickListener implements View.OnClickListener {
+        private final Context context;
+
+        private FolderOnClickListener(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int selectedItemPositionInAdapter   = mRecyclerView.getChildAdapterPosition(v);
+            int selectedItemPositionInLayout    = mRecyclerView.getChildLayoutPosition(v);
+            RecyclerView.ViewHolder viewHolder  = mRecyclerView.getChildViewHolder(v);
+            TextView textViewName               = viewHolder.itemView.findViewById(R.id.textViewTitleName);
+            String selectedName                 = (String)textViewName.getText();
+            LogUtility.d("selectedItemPositionInAdapter: " + selectedItemPositionInAdapter);
+            LogUtility.d("selectedItemPositionInLayout: " + selectedItemPositionInLayout);
+            LogUtility.d("selectedName: " + selectedName);
+
+            // どのデータがクリックされたのかは、selectedItemPositionInAdapterを頼りにglobalMgr.mFolderLinkedListの該当Indexを調べればいい。
+            // あるいは、viewHolderのImageViewにFolderDataModelのkeyIdをタグ付けしてあるので
+            // それをもとにSQLiteを検索する、とかでもいいのだが、とりあえず前者で。
+            globalMgr.mCurrentFolderIndex       = selectedItemPositionInAdapter;
+
+            Intent intent = new Intent();
+            intent.setClass(context, FolderActivity.class);
+            startActivity(intent);
+        }
+    }
+    */
+
+    /**
+     * Imageアイコンをクリックしたときのハンドラ
+     * FolderSettingsのダイアログを開く
+     */
+     /* ------------------ interfaceの実装による方法に変更したので、以下は未使用 --------------------------
+    private class IconOnClickListener implements View.OnClickListener {
+        private final Context context;
+
+        private IconOnClickListener(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View v) {
+            // どのImageアイコンがクリックされたかを識別するためにViewにTag付けされたFolderのidを引数にセットして編集モードでダイアログを開く
+            FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
+            Bundle args     = new Bundle();
+            args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_EDIT);
+            args.putString(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_FOLDER_ID, v.getTag().toString());
+            folderSettingsDialogFragment.setArguments(args);
+            folderSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
+
+            // tagをたよりにmFolderLinkedList上のpositionを求め、globalMgrに持たせておく
+            for (int i = 0; i < globalMgr.mFolderLinkedList.size(); i++) {
+                if (globalMgr.mFolderLinkedList.get(i).getId().equals((String)v.getTag())) {
+                    globalMgr.mCurrentFolderIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+
+      */
+
 }

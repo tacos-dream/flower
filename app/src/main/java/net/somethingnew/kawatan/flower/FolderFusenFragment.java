@@ -20,10 +20,12 @@ public class FolderFusenFragment extends Fragment {
     View                            mView;
     GridView                        gridViewFusen;
     FusenGridAdapter                fusenGridAdapter;
+    ArrayList<Integer>              mFusenResourceIdList;
 
     public FolderFusenFragment() {
         LogUtility.d("FolderFusenFragment: ");
         // Required empty public constructor
+        mFusenResourceIdList     = new ArrayList<>();
     }
 
 
@@ -33,24 +35,21 @@ public class FolderFusenFragment extends Fragment {
         mView               = inflater.inflate(R.layout.fragment_folder_fusen, container, false);
 
         // for-each Resource名をR.drawable.名前としてintに変換してarrayに登録
-        if (globalMgr.mFusenResourceIdList == null) {
-            globalMgr.mFusenResourceIdList = new ArrayList<>();
-            for (String fusenName: MyData.fusenNameArray){
-                int imageId = getResources().getIdentifier(fusenName,"drawable", getActivity().getPackageName());
-                globalMgr.mFusenResourceIdList.add(imageId);
-            }
+        for (String fusenName: MyData.fusenNameArray){
+            int imageId = getResources().getIdentifier(fusenName,"drawable", getActivity().getPackageName());
+            mFusenResourceIdList.add(imageId);
         }
 
         // 付箋のGridView
-        fusenGridAdapter    = new FusenGridAdapter(getActivity().getApplicationContext(), R.layout.gridview_item_fusen);
+        fusenGridAdapter    = new FusenGridAdapter(getActivity().getApplicationContext(), R.layout.gridview_item_fusen, mFusenResourceIdList);
         gridViewFusen       = mView.findViewById(R.id.gridViewFusen);
         gridViewFusen.setAdapter(fusenGridAdapter);
-        gridViewFusen.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getSurfaceBackgroundColor());
+        gridViewFusen.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getFrontBackgroundColor());
         gridViewFusen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のアイコンを入れ替える
-                globalMgr.mFolderSettings.imageViewFusen.setImageResource(globalMgr.mFusenResourceIdList.get(position));
-                globalMgr.mTempFolder.setImageFusenResId(globalMgr.mFusenResourceIdList.get(position));
+                globalMgr.mFolderSettings.imageViewFusen.setImageResource(mFusenResourceIdList.get(position));
+                globalMgr.mTempFolder.setImageFusenResId(mFusenResourceIdList.get(position));
                 globalMgr.mChangedFolderSettings = true;
             }
         });

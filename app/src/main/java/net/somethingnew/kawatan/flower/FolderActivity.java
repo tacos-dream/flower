@@ -2,6 +2,8 @@ package net.somethingnew.kawatan.flower;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -32,180 +35,185 @@ public class FolderActivity extends AppCompatActivity {
 
     private Context                         mContext;
     private Activity                        mActivity;
-    GlobalManager                           globalMgr = GlobalManager.getInstance();
-
+    private GlobalManager                   globalMgr = GlobalManager.getInstance();
     private SearchView                      mSearchView;
-
-    private static RecyclerView.Adapter     mRecyclerViewAdapter;
-    private static RecyclerView             mRecyclerView;
-
+    private RecyclerView                    mRecyclerView;
+    private FolderRecyclerViewAdapter       mRecyclerViewAdapter;
     private RecyclerView.LayoutManager      mLayoutManager;
-    View.OnClickListener                    mCardOnClickListener;
-    View.OnClickListener                    mLearnedIconOnClickListener;
-    View.OnClickListener                    mFusenIconOnClickListener;
+
+    private LinkedList<CardModel>           mCardLinkedList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_folder);
 
+        // Get the application context
+        mContext        = getApplicationContext();
+        mActivity       = FolderActivity.this;
+
+        mCardLinkedList = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
+
         // 標準のActionBarの代わりにToolbarをActionBarとしてセットして利用する
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 新規登録モードでダイアログを開く
-                CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment();
-                Bundle args     = new Bundle();
-                args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_NEW);
-                cardSettingsDialogFragment.setArguments(args);
-                cardSettingsDialogFragment.show(getSupportFragmentManager(),
-                        FolderSettingsDialogFragment.class.getSimpleName());
-            }
-        });
-
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mCardOnClickListener        = new FolderActivity.CardOnClickListener(this);
-        mLearnedIconOnClickListener = new FolderActivity.LearnedIconOnClickListener(this);
-        mFusenIconOnClickListener   = new FolderActivity.FusenIconOnClickListener(this);
-
-        mRecyclerViewAdapter        = new FolderRecyclerViewAdapter(mCardOnClickListener, mLearnedIconOnClickListener, mFusenIconOnClickListener);
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        buildRecyclerView();
+        setupListeners();
 
         // Drag & Drop Handling
         ItemTouchHelper itemTouchHelper  = new ItemTouchHelper(
-                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN ,
-                        ItemTouchHelper.LEFT) {
+            new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN ,
+                    ItemTouchHelper.LEFT) {
 
-                    @Override
-                    public boolean onMove(@NonNull RecyclerView mRecyclerView,
-                                          @NonNull RecyclerView.ViewHolder viewHolder,
-                                          @NonNull RecyclerView.ViewHolder target) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView mRecyclerView,
+                                      @NonNull RecyclerView.ViewHolder viewHolder,
+                                      @NonNull RecyclerView.ViewHolder target) {
 
-                        final int fromPos   = viewHolder.getAdapterPosition();
-                        final int toPos     = target.getAdapterPosition();
-                        mRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
+                    final int fromPos   = viewHolder.getAdapterPosition();
+                    final int toPos     = target.getAdapterPosition();
+                    mRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
 
-                        TextView textViewName   = viewHolder.itemView.findViewById(R.id.textViewSurface);
-                        String selectedName     = (String) textViewName.getText();
-                        LogUtility.d("fromPos: " + fromPos + " toPos: " + toPos + " name: " + selectedName);
+                    TextView textViewName   = viewHolder.itemView.findViewById(R.id.textViewFront);
+                    String selectedName     = (String) textViewName.getText();
+                    LogUtility.d("fromPos: " + fromPos + " toPos: " + toPos + " name: " + selectedName);
 
-                        // fromPosとtoPosは隣同士を指している想定だが、とりあえずswap()を使って入れ替える
-                        LinkedList cardLinkedList = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
-                        Collections.swap(cardLinkedList, fromPos, toPos);
+                    // fromPosとtoPosは隣同士を指している想定だが、とりあえずswap()を使って入れ替える
 
-                        return true;// true if moved, false otherwise
-                    }
+                    Collections.swap(mCardLinkedList, fromPos, toPos);
 
-                    @Override
-                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                        final int fromPos = viewHolder.getAdapterPosition();
-                        //globalMgr.mFolderArrayList.remove(fromPos);
-                        //mRecyclerViewAdapter.notifyItemRemoved(fromPos);
-                    }
-                });
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-    }
-
-    /**
-     * 個別カードの選択時のハンドラ
-     * 当該カードの詳細ダイアログを表示する
-     */
-    private class CardOnClickListener implements View.OnClickListener {
-        private final Context context;
-
-        private CardOnClickListener(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void onClick(View v) {
-            int selectedItemPositionInAdapter   = mRecyclerView.getChildAdapterPosition(v);
-            int selectedItemPositionInLayout    = mRecyclerView.getChildLayoutPosition(v);
-            RecyclerView.ViewHolder viewHolder  = mRecyclerView.getChildViewHolder(v);
-            TextView textViewSurface            = viewHolder.itemView.findViewById(R.id.textViewSurface);
-            String selectedSurface              = (String) textViewSurface.getText();
-            LogUtility.d("selectedItemPositionInAdapter: " + selectedItemPositionInAdapter);
-            LogUtility.d("selectedItemPositionInLayout: " + selectedItemPositionInLayout);
-            LogUtility.d("selectedName: " + selectedSurface);
-
-            globalMgr.mCurrentCardIndex         = selectedItemPositionInAdapter;
-
-            // 編集モードでダイアログを開く
-            CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment();
-            Bundle args     = new Bundle();
-            args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_EDIT);
-            cardSettingsDialogFragment.setArguments(args);
-            cardSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
-        }
-    }
-
-    /**
-     * LearnedのImageアイコンをクリックしたときのハンドラ
-     *
-     */
-    private class LearnedIconOnClickListener implements View.OnClickListener {
-        private final Context context;
-
-        private LearnedIconOnClickListener(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "習得済みアイコンのクリック", Toast.LENGTH_LONG).show();
-
-            // tagにCardのidが保持されているので取り出しマップを検索する
-            String cardId                       = v.getTag().toString();
-            LinkedList cardLinkedList           = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
-            CardModel card                      = null;
-            for (int i = 0; i < cardLinkedList.size(); i++) {
-                card = (CardModel)cardLinkedList.get(i);
-                if (card.getId().equals(cardId)) {
-                    break;
+                    return true;// true if moved, false otherwise
                 }
-            }
 
-            // 現状LearnedがOnだったらOffに、OffだったらOnにセットする
-            if (card.isLearned()) {
-                LogUtility.d("Learned On → Off");
-                ((ImageView)v).setImageResource(R.drawable.heart_off);
-                card.setLearned(false);
-            }
-            else {
-                LogUtility.d("Learned Off → On");
-                ((ImageView)v).setImageResource(R.drawable.heart_on);
-                card.setLearned(true);
-            }
-        }
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                    final int fromPos = viewHolder.getAdapterPosition();
+                    //globalMgr.mFolderArrayList.remove(fromPos);
+                    //mRecyclerViewAdapter.notifyItemRemoved(fromPos);
+                }
+            });
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LogUtility.d("onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtility.d("onResume");
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        LogUtility.d("onRestart");
+
+        // ExerciseActivityから戻った時に習得済みや付箋の更新を反映させる
+        mRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
 
     /**
-     * FusenのImageアイコンをクリックしたときのハンドラ
      *
      */
-    private class FusenIconOnClickListener implements View.OnClickListener {
-        private final Context context;
+    public void buildRecyclerView() {
+        mRecyclerView           = findViewById(R.id.my_recycler_view);
+        mLayoutManager          = new LinearLayoutManager(this);        //RecyclerView内の表示形式にLinearLayoutを指定
+        mRecyclerViewAdapter    = new FolderRecyclerViewAdapter(mCardLinkedList);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-        private FusenIconOnClickListener(Context context) {
-            this.context = context;
-        }
+        // リスナーの実装
+        mRecyclerViewAdapter.setOnItemClickListener(new FolderRecyclerViewAdapter.OnItemClickListener() {
+            CardModel card;
 
-        @Override
-        public void onClick(View v) {
-            // どのImageアイコンがクリックされたかを識別するためにViewにTag付けされたFolderのidを引数にセットして編集モードでダイアログを開く
-            Toast.makeText(context, "付箋アイコンのクリック", Toast.LENGTH_LONG).show();
+            @Override
+            public void onFrontClick(int position) {
+                globalMgr.mCurrentCardIndex         = position;
 
-        }
+                // 編集モードでダイアログを開く
+                CardModel cardModel                 = mCardLinkedList.get(position);
+                CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment(mRecyclerViewAdapter, cardModel, position);
+                Bundle args     = new Bundle();
+                args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_EDIT);
+                cardSettingsDialogFragment.setArguments(args);
+                cardSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
+            }
+
+
+            @Override
+            public void onLearnedClick(int position) {
+                 card = mCardLinkedList.get(position);
+
+                // 現状LearnedがOnだったらOffに、OffだったらOnにセットする
+                if (card.isLearned()) {
+                    card.setLearned(false);
+                } else {
+                    card.setLearned(true);
+                }
+                // 変更を表示に反映させる
+                mRecyclerViewAdapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onFusenClick(int position) {
+                card = mCardLinkedList.get(position);
+
+                // 現状FusenがOnだったらOffに、OffだったらOnにセットする
+                if (card.isFusenTag()) {
+                    card.setFusenTag(false);
+                } else {
+                    card.setFusenTag(true);
+                }
+                // 変更を表示に反映させる
+                mRecyclerViewAdapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onTrashClick(final int position) {
+                card = mCardLinkedList.get(position);
+
+                new AlertDialog.Builder(mActivity)
+                        .setIcon(R.drawable.flower_024_19)
+                        .setMessage(R.string.dlg_msg_delete_card)
+                        .setPositiveButton(
+                                R.string.delete,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        LogUtility.d("[削除]が選択されました");
+
+                                        // LinkedListから削除し一覧に戻る
+                                        mCardLinkedList.remove(position);
+                                        mRecyclerViewAdapter.notifyItemRemoved(position);
+                                    }
+                                })
+                        .setNegativeButton(
+                                R.string.cancel,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        LogUtility.d("[キャンセル]が選択されました");
+                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
+                                    }
+                                })
+                        .show();
+
+            }
+
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,5 +239,66 @@ public class FolderActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    /**
+     * 上部メニュー領域の各アイコン画像、FloatingActionButtonのハンドラ
+     */
+    public void setupListeners() {
+        // 戻る
+        findViewById(R.id.imageViewGoBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "imageViewGoBack", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
+        // Exercise
+        findViewById(R.id.imageViewExercise).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("EXERCISE_MODE", Constants.EXERCISE_MODE_NORMAL);
+                intent.setClass(mContext, ExerciseActivity.class);
+                startActivity(intent);
+                return;
+            }
+        });
+
+        // ShuffleExercise
+        findViewById(R.id.imageViewShuffleExercise).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(Constants.EXERCISE_MODE_KEY_NAME, Constants.EXERCISE_MODE_SHUFFLE);
+                intent.setClass(mContext, ExerciseActivity.class);
+                startActivity(intent);
+                return;
+            }
+        });
+
+        // ヘルプ
+        findViewById(R.id.imageViewHelp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "imageViewHelp", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        // FloatingActionButton
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 新規登録モードでダイアログを開く（Positionの-1は使われることはないので特に意味はなし）
+                CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment(mRecyclerViewAdapter, null, -1);
+                Bundle args     = new Bundle();
+                args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_NEW);
+                cardSettingsDialogFragment.setArguments(args);
+                cardSettingsDialogFragment.show(getSupportFragmentManager(),
+                        FolderSettingsDialogFragment.class.getSimpleName());
+            }
+        });
     }
 }

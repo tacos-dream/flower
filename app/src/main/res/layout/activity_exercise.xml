@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_layout_whole"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFDDDD">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FC9DB8"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- コンテンツ -->
+    <!--LinearLayout
+        android:id="@+id/layoutExercise"
+        android:layout_width="405dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_below="@+id/main_toolbar"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"-->
+
+    <!--　上部メニュー -->
+    <LinearLayout
+        android:id="@+id/linear_layout_menu"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/main_toolbar"
+        android:background="#FFFFDD"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageViewGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
+
+        <!--ImageView
+            android:id="@+id/imageViewLearned"
+            android:layout_width="30dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/heart_off_grey" /-->
+
+        <ImageView
+            android:id="@+id/imageViewReserved1"
+            android:layout_width="30dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/flower_024_23" />
+
+        <ImageView
+            android:id="@+id/imageViewReserved2"
+            android:layout_width="30dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/flower_024_24" />
+
+        <ImageView
+            android:id="@+id/imageViewReserved3"
+            android:layout_width="30dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/flower_024_22" />
+
+        <ImageView
+            android:id="@+id/imageViewReserved4"
+            android:layout_width="30dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/flower_024_19" />
+
+        <ImageView
+            android:id="@+id/imageViewReserved5"
+            android:layout_width="30dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/flower_024_26" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/linear_layout_menu"
+        android:orientation="vertical"
+        android:tag="cards main container">
+
+        <!--Switch
+            android:id="@+id/switchLearned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="center|end"
+            android:text="習得済みを含める"
+            android:textSize="18sp" /-->
+
+        <TextView
+            android:id="@+id/textViewFilterTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="表示フィルター"
+            android:textSize="14sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:singleSelection="false">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLearned"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="習得済"
+                android:theme="@style/FormButton"
+                app:chipStrokeColor="#000000"
+                app:chipStrokeWidth="1dp"
+                app:chipBackgroundColor="@color/chip_bg_state" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipNotLearned"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未習得"
+                android:theme="@style/FormButton"
+                app:chipStrokeColor="#000000"
+                app:chipStrokeWidth="1dp"
+                app:chipBackgroundColor="@color/chip_bg_state" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFusen"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="付箋あり"
+                android:theme="@style/FormButton"
+                app:chipStrokeColor="#000000"
+                app:chipStrokeWidth="1dp"
+                app:chipBackgroundColor="@color/chip_bg_state" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipNoFusen"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="付箋なし"
+                android:theme="@style/FormButton"
+                app:chipStrokeColor="#000000"
+                app:chipStrokeWidth="1dp"
+                app:chipBackgroundColor="@color/chip_bg_state" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_front"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardLayoutFront"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <ImageView
+                    android:id="@+id/imageViewIcon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:tag="image_tag"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/textViewFront"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="4"
+                    android:autoSizeTextType="uniform"
+                    android:text="English"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="24sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageViewLearned"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:scaleType="fitCenter"
+                    android:tag="image_tag"
+                    app:layout_constraintEnd_toStartOf="@id/imageViewFusen"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/heart_off_grey" />
+
+                <ImageView
+                    android:id="@+id/imageViewFusen"
+                    android:layout_width="75dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
+                    android:tag="image_tag"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/fusen_00" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardLayoutBack"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <TextView
+                    android:id="@+id/textViewBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginStart="36dp"
+                    android:layout_weight="4"
+                    android:autoSizeTextType="uniform"
+                    android:text="日本語"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="24sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

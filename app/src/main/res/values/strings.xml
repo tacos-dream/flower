@@ -43,7 +43,7 @@
 
     <!-- FolderSettingsDialog タブメニュー -->
     <string name="icon">アイコン</string>
-    <string name="surface">おもて</string>
+    <string name="front">おもて</string>
     <string name="back">うら</string>
     <string name="fusen">付箋</string>
     <string name="others">その他</string>
@@ -56,19 +56,25 @@
 
     <!-- ダイアログメッセージ -->
     <string name="dlg_msg_go_back_to_list">設定を保存せずに一覧に戻ります。\nいいですか？</string>
+    <string name="dlg_msg_go_back_to_list_simple">一覧に戻ります。\nいいですか？</string>
+    <string name="dlg_msg_exercise_end">最後のカードまで到達しました。</string>
     <string name="dlg_msg_learned_on">この単語帳を\n[習得済み]に変更します。\nいいですか？</string>
     <string name="dlg_msg_learned_off">[習得済み]を解除します。\nいいですか？</string>
     <string name="dlg_msg_delete_folder">この単語帳を削除します。\n復元できなくなります。\n削除してもいいですか？</string>
+    <string name="dlg_msg_delete_card">この単語カードを削除します。\n復元できなくなります。\n削除してもいいですか？</string>
     <string name="dlg_msg_save">設定を保存して一覧に戻ります。\nいいですか？</string>
 
     <!-- ダイアログボタン -->
     <string name="go_back_list">一覧に戻る</string>
+    <string name="try_again">もう一度する</string>
     <string name="delete">削除</string>
     <string name="save">保存</string>
 
     <string name="folder_title_new">新しい単語帳</string>
-    <string name="card_surface">カードのおもて</string>
+    <string name="card_front">カードのおもて</string>
     <string name="card_back">カードのうら</string>
+
+    <string name="back_mask">♡♠♧♦</string>
 
     <!-- 警告系汎用メッセージ -->
     <string name="warn_001">警告メッセージ</string>

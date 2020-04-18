@@ -1,88 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/relative_layout_whole"
-    android:background="#FFDDDD"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFDDDD">
 
     <!-- コンテンツ -->
-    <LinearLayout
-        android:layout_width="405dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="6dp"
-        android:background="@drawable/bg_dialog"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
 
-        <!-- タイトル -->
-        <LinearLayout
-            android:id="@+id/linear_layout_menu"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_below="@+id/main_toolbar"
-            android:background="#FFFFDD"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageViewGoBack"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_revert" />
-
-            <ImageView
-                android:id="@+id/imageViewSave"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_save" />
-
-            <ImageView
-                android:id="@+id/imageViewSaveAndNext"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_save" />
-
-            <ImageView
-                android:id="@+id/imageViewReserved1"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/flower_024_23" />
-
-            <ImageView
-                android:id="@+id/imageViewReserved2"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/flower_024_24" />
-
-            <ImageView
-                android:id="@+id/imageViewReserved3"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/flower_024_26" />
-
-            <ImageView
-                android:id="@+id/imageViewTrash"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:tag="cards main container">
 
@@ -97,7 +28,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cardLayoutFront"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
+                    android:layout_height="150dp">
 
                     <ImageView
                         android:id="@+id/imageViewIcon"
@@ -145,6 +76,7 @@
                 android:id="@+id/card_view_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
@@ -152,7 +84,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cardLayoutBack"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
+                    android:layout_height="150dp">
 
                     <EditText
                         android:id="@+id/editTextBack"
@@ -174,43 +106,4 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-        <TabHost
-            android:id="@android:id/tabhost"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- To view tab widget in horizontal scroll keep TabWidget xml code within HorizontalScrollView -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:background="#FFFFDD"
-                    android:fillViewport="true">
-
-                    <TabWidget
-                        android:id="@android:id/tabs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></TabWidget>
-                </HorizontalScrollView>
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"></FrameLayout>
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
-            </LinearLayout>
-        </TabHost>
-
-
-    </LinearLayout>
 </RelativeLayout>

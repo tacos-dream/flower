@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.somethingnew.kawatan.flower.model.CardModel;
@@ -23,37 +24,111 @@ import java.util.Map;
  */
 public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecyclerViewAdapter.MyViewHolder> {
 
-    GlobalManager                               globalMgr = GlobalManager.getInstance();
-    View.OnClickListener                        cardOnClickListener;
-    View.OnClickListener                        learnedOnClickListener;
-    View.OnClickListener                        fusenOnClickListener;
+    private GlobalManager           globalMgr = GlobalManager.getInstance();
+    private OnItemClickListener     mListener;
+
+    private FolderModel             mFolder;
+    private LinkedList<CardModel>   mCardLinkedList;
+
+    /**
+     * Interfaceを定義し、Activity側にoverrideでonItemClick()を実装させ、Adapter側からそれをCallback的に呼び出せるようにする
+     */
+    public interface OnItemClickListener {
+        void onFrontClick(int position);
+        void onLearnedClick(int position);
+        void onFusenClick(int position);
+        void onTrashClick(int position);
+    }
+
+    // 上記interfaceを実装したActivity側のListenerインスタンスを受け取っておき、このリスナのonItemClickやonIconClickを
+    // Adapter側から呼び出すことで、Activity側に変化を通知する
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView    textViewSurface;
-        TextView    textViewBack;
+        TextView    textViewFront;
+        ImageView   imageViewIcon;
         ImageView   imageViewLearned;
         ImageView   imageViewFusen;
+        ImageView   imageViewTrash;
+        CardView    cardViewFront;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            this.textViewSurface        = itemView.findViewById(R.id.textViewSurface);
-            this.textViewBack           = itemView.findViewById(R.id.textViewBack);
-            this.imageViewLearned       = itemView.findViewById(R.id.imageViewLearned);
-            this.imageViewFusen         = itemView.findViewById(R.id.imageViewFusen);
+            cardViewFront           = itemView.findViewById(R.id.card_view_front);
+            imageViewIcon           = itemView.findViewById(R.id.imageViewIcon);
+            textViewFront           = itemView.findViewById(R.id.textViewFront);
+            imageViewLearned        = itemView.findViewById(R.id.imageViewLearned);
+            imageViewFusen          = itemView.findViewById(R.id.imageViewFusen);
+            imageViewTrash          = itemView.findViewById(R.id.imageViewTrash);
+
+            textViewFront.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position    = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onFrontClick(position);
+                        }
+                    }
+                }
+            });
+
+            imageViewLearned.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position    = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onLearnedClick(position);
+                        }
+                    }
+                }
+            });
+
+            imageViewFusen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position    = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onFusenClick(position);
+                        }
+                    }
+                }
+            });
+
+            imageViewTrash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position    = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Activity側のリスナーをCallbackする
+                            listener.onTrashClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
-    public FolderRecyclerViewAdapter(View.OnClickListener cardOnClickListener,
-                                     View.OnClickListener learnedOnClickListener,
-                                     View.OnClickListener fusenOnClickListener) {
-        this.cardOnClickListener                = cardOnClickListener;
-        this.learnedOnClickListener             = learnedOnClickListener;
-        this.fusenOnClickListener               = fusenOnClickListener;
+    public FolderRecyclerViewAdapter(LinkedList<CardModel> linkedList) {
+        mFolder                     = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
+        mCardLinkedList             = linkedList;
+    }
+
+    public void changeDataSet(LinkedList<CardModel> linkedList) {
+        mCardLinkedList             = linkedList;
     }
 
     /**
@@ -65,21 +140,17 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
     @NonNull
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         /**
-         * 各カードのViewをInfrateし、OnClickのリスナを設定する
+         * 各カードのViewをInfrateし、その中の表紙、付箋、習得済み、ゴミ箱にそれぞれOnClickのリスナを設定する
          */
         LogUtility.d("onCreateViewHolder ");
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item_card, parent, false);
 
-        // OnClickを検知してイベント処理できるようにリスナを登録（Card全体とImageViewのそれぞれ）
-        view.setOnClickListener(cardOnClickListener);
-        view.findViewById(R.id.imageViewLearned).setOnClickListener(learnedOnClickListener);
-        view.findViewById(R.id.imageViewFusen).setOnClickListener(fusenOnClickListener);
-
         /**
          * 各カードのView部品をViewHolderに作成しLayoutManagerに返す
+         * Listenerも渡してViewHolder内で使えるようにしておく
          */
-        MyViewHolder myViewHolder = new MyViewHolder(view);
+        MyViewHolder myViewHolder = new MyViewHolder(view, mListener);
         return myViewHolder;
     }
 
@@ -93,24 +164,33 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int listPosition) {
         LogUtility.d("onBindViewHolder listPosition: " + listPosition);
-        TextView    textViewSurface                 = holder.textViewSurface;
-        TextView    textViewBack                    = holder.textViewBack;
+        TextView    textViewFront                   = holder.textViewFront;
+        ImageView   imageViewIcon                   = holder.imageViewIcon;
         ImageView   imageViewLearned                = holder.imageViewLearned;
         ImageView   imageViewFusen                  = holder.imageViewFusen;
+        CardView    cardViewFront                   = holder.cardViewFront;
 
         /**
          * このPositionのView(Card)に表示する
          */
-        FolderModel folder                          = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
-        LinkedList<CardModel> cardLinkedList        = globalMgr.mCardListMap.get(folder.getId());
-        textViewSurface.setText(cardLinkedList.get(listPosition).getSurfaceText());
-        // 裏面の答えはデフォルトでは非表示にする
-        //textViewBack.setText(cardArrayList.get(listPosition).getBackText());
+        CardModel card                              = mCardLinkedList.get(listPosition);
+        imageViewIcon.setImageResource(card.getImageIconResId());
+        textViewFront.setText(card.getFrontText());
+        if (card.isLearned()) {
+            imageViewLearned.setImageResource(R.drawable.heart_on);
+        } else {
+            imageViewLearned.setImageResource(R.drawable.heart_off_grey);
+        }
 
-        // cardのidをLearndとFusenのImageViewにTag付けしておき、それらのOnClickのイベント処理の際に
-        // どのcardのLearnedやFusenがクリックされたのかの判断に使う
-        imageViewLearned.setTag(cardLinkedList.get(listPosition).getId());
-        imageViewFusen.setTag(cardLinkedList.get(listPosition).getId());
+        if (card.isFusenTag()) {
+            imageViewFusen.setImageResource(mFolder.getImageFusenResId());
+        } else {
+            imageViewFusen.setImageResource(R.drawable.fusen_00);
+        }
+
+        cardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
+        textViewFront.setBackgroundColor(mFolder.getFrontBackgroundColor());
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

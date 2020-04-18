@@ -10,17 +10,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
 
-public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
+public class CardSettingsDialogPagerAdapter extends FragmentPagerAdapter {
 //public class FolderSettingsDialogPagerAdapter extends FragmentStatePagerAdapter {
-
-    private CharSequence[] tabTitles = {"あいこん", "ひょうし", "おもて", "うら", "ふせん" };
-
-    // 設定でひらがな⇔漢字の切り替えができるようにする
-    //private CharSequence[] tabTitles = {"アイコン", "表紙", "表面", "裏面", "付箋", "その他" };
 
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-    public FolderSettingsDialogPagerAdapter(FragmentManager fm) {
+    public CardSettingsDialogPagerAdapter(FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
@@ -50,32 +45,17 @@ public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
      */
     public Fragment getItem(int position) {
         LogUtility.d("getItem: " + position);
-        switch (position) {
-            case 0:
-                return new FolderIconFragment();
-            case 1:
-                return new FolderCoverFragment();
-            case 2:
-                return new FolderFrontFragment();
-            case 3:
-                return new FolderBackFragment();
-            case 4:
-                return new FolderFusenFragment();
-            case 5:
-                //return new FolderOthersFragment();
-            default:
-                return null;
-        }
+        return new CategoryIconFragment(position);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         LogUtility.d("getPageTitle position:" + position);
-        return tabTitles[position];
+        return Constants.CARD_TAB_NAME_ARRAY[position];
     }
 
     @Override
     public int getCount() {
-        return Constants.FOLDER_SETTINGS_NUM_OF_TABS;
+        return Constants.NUM_OF_CARD_TAB;
     }
 }

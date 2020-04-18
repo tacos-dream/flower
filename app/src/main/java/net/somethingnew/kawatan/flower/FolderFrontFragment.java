@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-
 import com.jaredrummler.android.colorpicker.ColorPickerView;
 
 import net.somethingnew.kawatan.flower.util.LogUtility;
@@ -17,7 +17,7 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FolderCoverFragment extends Fragment {
+public class FolderFrontFragment extends Fragment {
 
     GlobalManager                   globalMgr = GlobalManager.getInstance();
     View                            mView;
@@ -25,7 +25,7 @@ public class FolderCoverFragment extends Fragment {
     ArrayList<String>               pastelColorArrayList    = new ArrayList<>(Arrays.asList(MyData.pastelColorArray));
     GridView                        gridViewText;
 
-    public FolderCoverFragment() {
+    public FolderFrontFragment() {
         //LogUtility.d("FolderFrontFragment: ");
         // Required empty public constructor
     }
@@ -33,20 +33,20 @@ public class FolderCoverFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtility.d("onCreateView: ");
-        mView = inflater.inflate(R.layout.fragment_folder_cover, container, false);
+        mView = inflater.inflate(R.layout.fragment_folder_front, container, false);
 
         // 文字色のGridView
         TextColorGridAdapter textColorGridAdapter = new TextColorGridAdapter(
                 getActivity().getApplicationContext(), R.layout.gridview_item_text_color, textColorArrayList);
         gridViewText = mView.findViewById(R.id.gridViewText);
         gridViewText.setAdapter(textColorGridAdapter);
-        gridViewText.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getCoverBackgroundColor());
+        gridViewText.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getFrontBackgroundColor());
         gridViewText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のおもて表紙の文字とを変える
                 int color = Color.parseColor(textColorArrayList.get(position));
                 globalMgr.mFolderSettings.editTextTitle.setTextColor(color);
-                globalMgr.mTempFolder.setCoverTextColor(color);
+                globalMgr.mTempFolder.setFrontTextColor(color);
                 globalMgr.mChangedFolderSettings = true;
             }
         });
@@ -61,7 +61,7 @@ public class FolderCoverFragment extends Fragment {
                 // 単語帳のおもて表紙の色を変える
                 int color = Color.parseColor(pastelColorArrayList.get(position));
                 globalMgr.mFolderSettings.cardView.setCardBackgroundColor(color);
-                globalMgr.mTempFolder.setCoverBackgroundColor(color);
+                globalMgr.mTempFolder.setFrontBackgroundColor(color);
                 globalMgr.mChangedFolderSettings = true;
 
                 gridViewText.setBackgroundColor(color);
@@ -74,7 +74,7 @@ public class FolderCoverFragment extends Fragment {
             @Override
             public void onColorChanged(int color) {
                 globalMgr.mFolderSettings.cardView.setCardBackgroundColor(color);
-                globalMgr.mTempFolder.setCoverBackgroundColor(color);
+                globalMgr.mTempFolder.setFrontBackgroundColor(color);
                 globalMgr.mChangedFolderSettings = true;
 
                 gridViewText.setBackgroundColor(color);

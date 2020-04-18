@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.maltaisn:icondialog:3.1.1'
     implementation 'com.maltaisn:iconpack-default:1.0.0'
     implementation 'com.maltaisn:iconpack-community-material:4.9.95'
+    implementation 'com.google.android.material:material:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
