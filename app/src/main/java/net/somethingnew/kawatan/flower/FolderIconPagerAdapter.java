@@ -10,12 +10,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
 
-public class CardSettingsDialogPagerAdapter extends FragmentPagerAdapter {
-//public class FolderSettingsDialogPagerAdapter extends FragmentStatePagerAdapter {
+public class FolderIconPagerAdapter extends FragmentPagerAdapter {
 
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-    public CardSettingsDialogPagerAdapter(FragmentManager fm) {
+    public FolderIconPagerAdapter(FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
@@ -45,7 +44,7 @@ public class CardSettingsDialogPagerAdapter extends FragmentPagerAdapter {
      */
     public Fragment getItem(int position) {
         LogUtility.d("getItem: " + position);
-        return new CategoryIconFragment(position, Constants.CATEGORY_ICON_IN_CARD_SETTINGS);
+        return new CategoryIconFragment(position, Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS);
     }
 
     @Override

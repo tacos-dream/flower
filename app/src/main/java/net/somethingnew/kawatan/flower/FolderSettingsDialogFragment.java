@@ -57,7 +57,6 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         globalMgr.mFolderSettings.editTextTitle     = view.findViewById(R.id.editTextTitleName);
         globalMgr.mFolderSettings.imageViewIcon     = view.findViewById(R.id.imageViewIcon);
         globalMgr.mFolderSettings.imageViewFusen    = view.findViewById(R.id.imageViewFusen);
-        //globalMgr.mIncludeCardLayoutInFolderSettings    = view.findViewById(R.id.cardLayout);
 
         globalMgr.mChangedFolderSettings = false;
 
@@ -115,7 +114,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //LogUtility.d("OnTabSelectedListener onTabSelected: " + tab.getTag());
+                LogUtility.d("OnTabSelectedListener onTabSelected: " + tab.getTag());
                 //LogUtility.d("OnTabSelectedListener onTabSelected position: " + tab.getPosition());
                 // カードのLayoutを該当のものに切り替える
                 currentTabPosition = tab.getPosition();
@@ -124,8 +123,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                     case Constants.FOLDER_SETTINGS_TAB_ICON:
                         // ICONのGridViewの背景色とCardViewの背景色をCoverの背景色で表示する。CardViewに該当アイコンを表示する
                         FolderIconFragment folderIconFragment = (FolderIconFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
-                        folderIconFragment.mGridViewIcon.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
-                        folderIconFragment.mIconGridAdapter.notifyDataSetChanged();
+                        folderIconFragment.refreshCategoryIconFragment();
                         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
                         globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.VISIBLE);

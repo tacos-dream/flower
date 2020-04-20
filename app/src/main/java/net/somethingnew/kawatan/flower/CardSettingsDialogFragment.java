@@ -83,7 +83,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
         mCardSettingsDialogPagerAdapter = new CardSettingsDialogPagerAdapter(getChildFragmentManager());
         mViewPager             = mView.findViewById(R.id.viewPager);
         mViewPager.setAdapter(mCardSettingsDialogPagerAdapter);
-        mViewPager.setOffscreenPageLimit(Constants.NUM_OF_CARD_TAB);
+        mViewPager.setOffscreenPageLimit(Constants.NUM_OF_ICON_TAB);
 
         buildTabMenu();
         buildEventListener();
@@ -337,10 +337,10 @@ public class CardSettingsDialogFragment extends DialogFragment {
 
 
         for(int i = 0; i < mCardSettingsDialogPagerAdapter.getCount(); i++){
-            int imageId = getResources().getIdentifier(Constants.CARD_TAB_IMAGE_ID[i],"drawable", getActivity().getPackageName());
+            int imageId = getResources().getIdentifier(Constants.ICON_TAB_IMAGE_ID[i],"drawable", getActivity().getPackageName());
             View tabView = new CustomTabView(getActivity(), "dummy", imageId);
             mTabHost.addTab(mTabHost
-                    .newTabSpec(Constants.CARD_TAB_ARRAY[i])
+                    .newTabSpec(Constants.ICON_TAB_ARRAY[i])
                     .setIndicator(tabView)
                     .setContent(android.R.id.tabcontent));
         }
@@ -350,7 +350,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                int position = Arrays.asList(Constants.CARD_TAB_ARRAY).indexOf(tabId);
+                int position = Arrays.asList(Constants.ICON_TAB_ARRAY).indexOf(tabId);
                 LogUtility.d("onTabChanged: " + tabId + " position: " + position);
                 // Pagerに表示を指示
                 mViewPager.setCurrentItem(position);

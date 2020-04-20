@@ -25,13 +25,15 @@ public class IconGridAdapter extends BaseAdapter {
 
     private LayoutInflater          inflater;
     private int                     layoutId;
+    private int                     mHost;
 
-    IconGridAdapter(Context context, int layoutId, ArrayList mIconResourceIdList) {
+    IconGridAdapter(Context context, int layoutId, ArrayList mIconResourceIdList, int host) {
 
         super();
         this.inflater               = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layoutId               = layoutId;
         this.mIconResourceIdList    = mIconResourceIdList;
+        this.mHost                  = host;
     }
 
     @Override
@@ -56,7 +58,14 @@ public class IconGridAdapter extends BaseAdapter {
         // 以下を実行すると、透過PNG画像の背景に色を付けることができるが、
         // border.xmlで定義してあるstate_pressedが効かない（押したときに色を付ける）
         // どうせ効かないので、border.xmlは一旦使わない
-        //holder.imageView.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
+        /*
+        if (mHost == Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS) {
+            holder.imageView.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
+        }
+        else {
+            holder.imageView.setBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
+        }
+        */
 
         // 以下の方法で枠線を引こうとしたが、CastExceptionが出てだめ・・・
         //ShapeDrawable shapeDrawable = (ShapeDrawable) holder.imageView.getBackground();

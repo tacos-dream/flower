@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_relative_layout"
+    android:id="@+id/relative_layout_whole"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AAA"
-    tools:context=".FolderIconFragment">
+    android:layout_marginTop="5dp"
+    android:background="#FFDDDD">
 
-    <LinearLayout
+    <TabHost
+        android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <GridView
-            android:id="@+id/gridViewIcon"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:horizontalSpacing="1dp"
-            android:numColumns="8"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="1dp" />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView1"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#FFFFDD"
+                android:fillViewport="true">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></TabWidget>
+            </HorizontalScrollView>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"></FrameLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"></androidx.viewpager.widget.ViewPager>
+        </LinearLayout>
+    </TabHost>
 
 </RelativeLayout>
