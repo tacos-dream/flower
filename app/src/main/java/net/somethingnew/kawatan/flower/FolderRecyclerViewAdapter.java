@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * FolderActivityのリスト表示用RecyclerViewer（リスト内に表示するのはCard群）
@@ -174,20 +175,12 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
          * このPositionのView(Card)に表示する
          */
         CardModel card                              = mCardLinkedList.get(listPosition);
-        imageViewIcon.setImageResource(card.getImageIconResId());
+        imageViewIcon.setImageResource(card.isIconAutoDisplay() ?
+                globalMgr.mIconResourceIdListArray[card.getIconCategory()].get(new Random().nextInt(Constants.NUM_OF_ICONS_IN_CATEGORY[card.getIconCategory()]) + 1) :
+                card.getImageIconResId());
+        imageViewLearned.setImageResource(card.isLearned() ? R.drawable.heart_on : R.drawable.heart_off_grey);
+        imageViewFusen.setImageResource(card.isFusenTag() ? mFolder.getImageFusenResId() : R.drawable.fusen_00);
         textViewFront.setText(card.getFrontText());
-        if (card.isLearned()) {
-            imageViewLearned.setImageResource(R.drawable.heart_on);
-        } else {
-            imageViewLearned.setImageResource(R.drawable.heart_off_grey);
-        }
-
-        if (card.isFusenTag()) {
-            imageViewFusen.setImageResource(mFolder.getImageFusenResId());
-        } else {
-            imageViewFusen.setImageResource(R.drawable.fusen_00);
-        }
-
         cardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
         textViewFront.setBackgroundColor(mFolder.getFrontBackgroundColor());
 
@@ -196,7 +189,8 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        //LogUtility.d("getItemCount: " + dataSet.size());
-        return globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId()).size();
+        LogUtility.d("getItemCount: " + mCardLinkedList.size());
+        //return globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId()).size();
+        return mCardLinkedList.size();
     }
 }

@@ -27,7 +27,6 @@ public class FolderModel implements Cloneable {
 	Date            		createdDate;            // 作成日
 	Date            		updatedDate;            // 最終更新日
 	Date            		lastUsedDate;           // 最終利用日
-	boolean					learned;				// 習得済みフラグ
 	int             		numOfAllCards;          // 含まれるカード数
 	int             		numOfLearnedCards;      // 習得済みカード数
 	int             		imageIconResId;         // アイコンのResourceId
@@ -35,15 +34,19 @@ public class FolderModel implements Cloneable {
 	int						frontBackgroundColor;	// おもての背景色
 	int						backBackgroundColor;	// うらの背景色
 	int						coverTextColor;			// 表紙の文字色
-	int						frontTextColor;		// おもての文字色
+	int						frontTextColor;			// おもての文字色
 	int						backTextColor;			// うらの文字色
 	int						imageFusenResId;		// ふせんのResourceId
+	int						order;					// 並び順
+	int						iconCategory;			// ICONのカテゴリー
+	boolean					iconAutoDisplay;		// アイコンの自動ランダム表示
 
-	//LinkedList<CardModel>	cardLinkedList;			// HashMapに変更して独立化
+	public FolderModel() {
+	}
 
-	public FolderModel(String titleName, int imageIconResId, int imageFusenResId) {
+	public FolderModel(int imageIconResId, int imageFusenResId) {
 		this.id                     = UUID.randomUUID().toString();
-		this.titleName              = titleName;
+		this.titleName              = "";
 		this.createdDate            = new Date();
 		this.updatedDate            = new Date();
 		this.lastUsedDate           = new Date();
@@ -51,13 +54,15 @@ public class FolderModel implements Cloneable {
 		this.numOfLearnedCards      = 0;
 		this.imageIconResId         = imageIconResId;
 		this.imageFusenResId        = imageFusenResId;
-		this.learned				= false;
 		this.coverBackgroundColor	= Color.WHITE;
 		this.frontBackgroundColor	= Color.WHITE;
 		this.backBackgroundColor	= Color.WHITE;
 		this.coverTextColor			= Color.BLACK;
-		this.frontTextColor		= Color.BLACK;
+		this.frontTextColor			= Color.BLACK;
 		this.backTextColor			= Color.BLACK;
+		this.order		            = -1;
+		this.iconCategory			= 0;					// Defalut: flower
+		this.iconAutoDisplay		= true;
 	}
 
 
@@ -103,23 +108,19 @@ public class FolderModel implements Cloneable {
 	}
 	public void     setLastUsedDate(Date lastUsedDate) { this.lastUsedDate = lastUsedDate;}
 
-	public void setLearned(boolean learned) {
-		this.learned = learned;
-	}
-
-	public boolean isLearned() {
-		return learned;
-	}
-
 	public int      getNumOfAllCards() {
 		return numOfAllCards;
 	}
 	public void     setNumOfAllCards(int numOfAllCards) { this.numOfAllCards = numOfAllCards;}
+	public void		incrementNumObAllCards() {this.numOfAllCards++;}
+	public void		decrementNumObAllCards() {this.numOfAllCards--;}
 
 	public int      getNumOfLearnedCards() {
 		return numOfLearnedCards;
 	}
 	public void     setNumOfLearnedCards(int numOfLearnedCards) { this.numOfLearnedCards = numOfLearnedCards;}
+	public void		incrementNumObLearnedCards() {this.numOfLearnedCards++;}
+	public void		decrementNumObLearnedCards() {this.numOfLearnedCards--;}
 
 	public int      getImageIconResId() {
 		return imageIconResId;
@@ -180,5 +181,29 @@ public class FolderModel implements Cloneable {
 
 	public void setImageFusenResId(int imageFusenResId) {
 		this.imageFusenResId = imageFusenResId;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public boolean isIconAutoDisplay() {
+		return iconAutoDisplay;
+	}
+
+	public void setIconAutoDisplay(boolean iconAutoDisplay) {
+		this.iconAutoDisplay = iconAutoDisplay;
+	}
+
+	public int getIconCategory() {
+		return iconCategory;
+	}
+
+	public void setIconCategory(int iconCategory) {
+		this.iconCategory = iconCategory;
 	}
 }

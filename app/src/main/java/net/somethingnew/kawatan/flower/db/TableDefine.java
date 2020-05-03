@@ -1,10 +1,10 @@
 package net.somethingnew.kawatan.flower.db;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * TableDefine テーブル作成用SQL文リスト定義クラス.
- * 2011/01/20　宮坂　淳
  */
 public final class TableDefine {
 	/**
@@ -12,80 +12,49 @@ public final class TableDefine {
 	 */
 	public static final ArrayList<String> CREATE_TABLE_SQL_LIST = new ArrayList<String>();
 
-	// テーブル名
-	public static final String TABLE_NAME = "COMPANY_INF";
-	// カラム名配列
-	public static final String[] COLUMN_NAMES = {"SEC_CD", "MARKET_CD", "CMPNY_NM_SH5", "CMPNY_NM_KABU", "CMPNY_NM_K"};
-
 	private TableDefine() {
 	}
-	
+
 	static {
 		CREATE_TABLE_SQL_LIST.add(
-			"CREATE TABLE COMPANY_INF ("
-				+ "SEC_CD TEXT NOT NULL, "
-				+ "MARKET_CD TEXT NOT NULL, "
-				+ "CMPNY_NM_SH5 TEXT, "
-				+ "CMPNY_NM_KABU TEXT, "
-				+ "CMPNY_NM_K TEXT, "
-				+ "PRIMARY KEY("
-				+ 	"SEC_CD, "
-				+ 	"MARKET_CD"
-				+ "))"
+			"CREATE TABLE FOLDER_TBL ("
+				+ "FOLDER_ID				TEXT		NOT NULL, "
+				+ "TITLE_NAME				TEXT		NOT NULL, "
+				+ "CREATED_DATE				TEXT, "
+				+ "UPDATED_DATE				TEXT, "
+				+ "LAST_USED_DATE			TEXT, "
+				+ "NUM_OF_ALL_CARDS			INTEGER, "
+				+ "NUM_OF_LEARNED_CARDS		INTEGER, "
+				+ "ICON_RES_ID				INTEGER, "
+				+ "COVER_BG_COLOR			INTEGER, "
+				+ "FRONT_BG_COLOR			INTEGER, "
+				+ "BACK_BG_COLOR			INTEGER, "
+				+ "COVER_TXT_COLOR			INTEGER, "
+				+ "FRONT_TXT_COLOR			INTEGER, "
+				+ "BACK_TXT_COLOR			INTEGER, "
+				+ "FUSEN_RES_ID				INTEGER, "
+				+ "DISPLAY_ORDER			INTEGER, "
+				+ "ICON_CATEGORY			INTEGER, "
+				+ "ICON_AUTO_DISPLAY		INTEGER, "
+				+ "PRIMARY KEY(FOLDER_ID))"
 		);
 
 		CREATE_TABLE_SQL_LIST.add(
-			"CREATE TABLE INDIV_STOCK_INF_REF_HISTORY ("
-				+ "SEC_CD TEXT NOT NULL, "
-				+ "MARKET_CD TEXT NOT NULL, "
-				+ "CMPNY_NM_SH5 TEXT, "
-				+ "REF_TM TEXT, "
-				+ "PRIMARY KEY("
-				+ 	"SEC_CD, "
-				+ 	"MARKET_CD"
-				+ "))"
-		);
-		
-		CREATE_TABLE_SQL_LIST.add(
-			"CREATE TABLE REGISTERED_STOCK_INF_LIST ("
-				+ "LIST_NO INTEGER NOT NULL, "
-				+ "LIST_NAME TEXT, "
-				+ "LIST_COUNT INTEGER, "
-				+ "MAX_LIST_COUNT INTEGER, "
-				+ "LIST_TYPE TEXT, "
-				+ "PRIMARY KEY("
-				+ 	"LIST_NO"
-				+ "))"
-		);	
-
-		CREATE_TABLE_SQL_LIST.add(
-			"CREATE TABLE REGISTERED_STOCK_INF_LIST_DETAIL ("
-				+ "LIST_NO INTEGER NOT NULL, "
-				+ "LIST_SUB_NO INTEGER NOT NULL, "
-				+ "REQUEST_CD TEXT, "
-				+ "SEC_CD TEXT, "
-				+ "SEC_NM TEXT, "
-				+ "MARKET_NM TEXT, "
-				+ "TRADE_TYP TEXT, "
-				+ "NOMINAL TEXT, "
-				+ "EXEC_PRICE TEXT, "
-				+ "STATUS_CD TEXT, "
-				+ "PRIMARY KEY("
-				+ 	"LIST_NO, "
-				+ 	"LIST_SUB_NO"
-				+ "))"
-		);
-		
-		CREATE_TABLE_SQL_LIST.add(
-			"CREATE TABLE STOCK_EVENT_INF ("
-				+ "EVENT_DLV_DT TEXT NOT NULL, "
-				+ "EVENT_NM TEXT NOT NULL, "
-				+ "REQUEST_CD TEXT, "
-				+ "SEC_CD TEXT, "
-				+ "SEC_NM TEXT, "
-				+ "MARKET_NM TEXT, "
-				+ "EVENT_SUMMARY TEXT"
+			"CREATE TABLE CARD_TBL ("
+				+ "CARD_ID					TEXT		NOT NULL, "
+				+ "FOLDER_ID				TEXT		NOT NULL, "
+				+ "FRONT_TEXT				TEXT		NOT NULL, "
+				+ "BACK_TEXT				TEXT		NOT NULL, "
+				+ "CREATED_DATE				TEXT, "
+				+ "UPDATED_DATE				TEXT, "
+				+ "LAST_USED_DATE			TEXT, "
+				+ "LEARNED					INTEGER, "
+				+ "FUSEN_TAG				INTEGER, "
+				+ "ICON_AUTO_DISPLAY		INTEGER, "
+				+ "ICON_CATEGORY			INTEGER, "
+				+ "ICON_RES_ID				INTEGER "
 				+ ")"
-		);	
+		);
+
 	}
 }

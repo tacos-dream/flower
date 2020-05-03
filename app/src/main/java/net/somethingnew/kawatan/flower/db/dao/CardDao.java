@@ -2,12 +2,13 @@ package net.somethingnew.kawatan.flower.db.dao;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteStatement;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.SQLiteStatement;
 
 import net.somethingnew.kawatan.flower.Constants;
 import net.somethingnew.kawatan.flower.db.DatabaseHelper;
-import net.somethingnew.kawatan.flower.model.FolderModel;
+import net.somethingnew.kawatan.flower.model.CardModel;
+import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
 import java.text.SimpleDateFormat;
@@ -18,19 +19,20 @@ import java.util.Locale;
 
 
 /**
- * FOLDERテーブルアクセスクラス.
+ * CARDテーブルアクセスクラス.
  */
-public class FolderDao extends DatabaseHelper {
+public class CardDao extends DatabaseHelper {
 	// SQL文キャッシュ
 	private static String insertSqlStr = null;
 	private static String selectAllSqlStr = null;
+	private static String deleteSqlStr = null;
 	private static String updateSqlStr = null;
 	private static String selectCountAllSqlStr = null;
 
 	/**
 	 * コンストラクタ
 	 */
-	public FolderDao(Context context) {
+	public CardDao(Context context) {
 		super(context);
 		LogUtility.d("constructor");
 	}
@@ -47,7 +49,7 @@ public class FolderDao extends DatabaseHelper {
 			// SQL文を作成
 			StringBuilder sqlBuilder = new StringBuilder();
 			sqlBuilder.append("DELETE FROM ");
-			sqlBuilder.append(Constants.TABLE_NAME_FOLDER);
+			sqlBuilder.append(Constants.TABLE_NAME_CARD);
 
 			// ステートメントを取得
 			SQLiteStatement stmt = getDBInstance().compileStatement(sqlBuilder.toString());
@@ -70,9 +72,9 @@ public class FolderDao extends DatabaseHelper {
 
 	/**
 	 * データ挿入
-	 * @param data FolderModel 対象データ
+	 * @param data CardModel 対象データ
 	 */
-	public void insert(FolderModel data, int order) {
+	public void insert(CardModel data) {
 		// トランザクション開始
 		LogUtility.d("insert");
 		getDBInstance().beginTransaction();
@@ -83,9 +85,9 @@ public class FolderDao extends DatabaseHelper {
 				StringBuilder sqlBuilder = new StringBuilder();
 
 				sqlBuilder.append("INSERT INTO ");
-				sqlBuilder.append(Constants.TABLE_NAME_FOLDER);
+				sqlBuilder.append(Constants.TABLE_NAME_CARD);
 				sqlBuilder.append(" VALUES (");
-				for (int i = 0; i < Constants.COLUMN_NAMES_FOLDER.length; i++) {
+				for (int i = 0; i < Constants.COLUMN_NAMES_CARD.length; i++) {
 					sqlBuilder.append("?, ");
 				}
 				sqlBuilder.delete(sqlBuilder.length() - 2, sqlBuilder.length());
@@ -99,23 +101,17 @@ public class FolderDao extends DatabaseHelper {
 			SQLiteStatement stmt = getDBInstance().compileStatement(insertSqlStr);
 
 			stmt.bindString(index++, data.getId());
-			stmt.bindString(index++, data.getTitleName());
+			stmt.bindString(index++, data.getFolderId());
+			stmt.bindString(index++, data.getFrontText());
+			stmt.bindString(index++, data.getBackText());
 			stmt.bindString(index++, data.getCreatedDate().toString());
 			stmt.bindString(index++, data.getUpdatedDate().toString());
 			stmt.bindString(index++, data.getLastUsedDate().toString());
-			stmt.bindLong(index++, data.getNumOfAllCards());
-			stmt.bindLong(index++, data.getNumOfLearnedCards());
-			stmt.bindLong(index++, data.getImageIconResId());
-			stmt.bindLong(index++, data.getCoverBackgroundColor());
-			stmt.bindLong(index++, data.getFrontBackgroundColor());
-			stmt.bindLong(index++, data.getBackBackgroundColor());
-			stmt.bindLong(index++, data.getCoverTextColor());
-			stmt.bindLong(index++, data.getFrontTextColor());
-			stmt.bindLong(index++, data.getBackTextColor());
-			stmt.bindLong(index++, data.getImageFusenResId());
-			stmt.bindLong(index++, order);
-			stmt.bindLong(index++, data.getIconCategory());
+			stmt.bindLong(index++, (data.isLearned()) ? 1 : 0);
+			stmt.bindLong(index++, (data.isFusenTag()) ? 1 : 0);
 			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
+			stmt.bindLong(index++, data.getIconCategory());
+			stmt.bindLong(index++, data.getImageIconResId());
 
 			// SQL実行
 			stmt.executeInsert();
@@ -135,9 +131,9 @@ public class FolderDao extends DatabaseHelper {
 
 	/**
 	 * データ一括挿入
-	 * @param dataList ArrayList<FolderModel> 対象データリスト
+	 * @param dataList ArrayList<CardModel> 対象データリスト
 	 */
-	public void bulkInsert(ArrayList<FolderModel> dataList) {
+	public void bulkInsert(ArrayList<CardModel> dataList) {
 		LogUtility.d("bulkInsert");
 		// トランザクション開始
 		getDBInstance().beginTransaction();
@@ -148,9 +144,9 @@ public class FolderDao extends DatabaseHelper {
 				StringBuilder sqlBuilder = new StringBuilder();
 
 				sqlBuilder.append("INSERT INTO ");
-				sqlBuilder.append(Constants.TABLE_NAME_FOLDER);
+				sqlBuilder.append(Constants.TABLE_NAME_CARD);
 				sqlBuilder.append(" VALUES (");
-				for (int i = 0; i < Constants.COLUMN_NAMES_FOLDER.length; i++) {
+				for (int i = 0; i < Constants.COLUMN_NAMES_CARD.length; i++) {
 					sqlBuilder.append("?, ");
 				}
 				sqlBuilder.delete(sqlBuilder.length() - 2, sqlBuilder.length());
@@ -163,31 +159,24 @@ public class FolderDao extends DatabaseHelper {
 			SQLiteStatement stmt = getDBInstance().compileStatement(insertSqlStr);
 
 			// 与えられた全データを順次処理
-			for (Iterator<FolderModel> itr = dataList.iterator(); itr.hasNext();) {
-				int order = 1;
+			for (Iterator<CardModel> itr = dataList.iterator(); itr.hasNext();) {
 				int index = 1;
 
 				// １レコード分のデータを取得
-				FolderModel folder = itr.next();
+				CardModel card = itr.next();
 
-				stmt.bindString(index++, folder.getId());
-				stmt.bindString(index++, folder.getTitleName());
-				stmt.bindString(index++, folder.getCreatedDate().toString());
-				stmt.bindString(index++, folder.getUpdatedDate().toString());
-				stmt.bindString(index++, folder.getLastUsedDate().toString());
-				stmt.bindLong(index++, folder.getNumOfAllCards());
-				stmt.bindLong(index++, folder.getNumOfLearnedCards());
-				stmt.bindLong(index++, folder.getImageIconResId());
-				stmt.bindLong(index++, folder.getCoverBackgroundColor());
-				stmt.bindLong(index++, folder.getFrontBackgroundColor());
-				stmt.bindLong(index++, folder.getBackBackgroundColor());
-				stmt.bindLong(index++, folder.getCoverTextColor());
-				stmt.bindLong(index++, folder.getFrontTextColor());
-				stmt.bindLong(index++, folder.getBackTextColor());
-				stmt.bindLong(index++, folder.getImageFusenResId());
-				stmt.bindLong(index++, order++);
-				stmt.bindLong(index++, folder.getIconCategory());
-				stmt.bindLong(index++, (folder.isIconAutoDisplay()) ? 1 : 0);
+				stmt.bindString(index++, card.getId());
+				stmt.bindString(index++, card.getFolderId());
+				stmt.bindString(index++, card.getFrontText());
+				stmt.bindString(index++, card.getBackText());
+				stmt.bindString(index++, card.getCreatedDate().toString());
+				stmt.bindString(index++, card.getUpdatedDate().toString());
+				stmt.bindString(index++, card.getLastUsedDate().toString());
+				stmt.bindLong(index++, (card.isLearned()) ? 1 : 0);
+				stmt.bindLong(index++, (card.isFusenTag()) ? 1 : 0);
+				stmt.bindLong(index++, (card.isIconAutoDisplay()) ? 1 : 0);
+				stmt.bindLong(index++, card.getIconCategory());
+				stmt.bindLong(index++, card.getImageIconResId());
 				
 				// SQL実行
 				stmt.executeInsert();
@@ -209,9 +198,9 @@ public class FolderDao extends DatabaseHelper {
 	/**
 	 * データ更新
 	 * とりあえず、すべてのフィールドを対象に更新をかける
-	 * @param data FolderModel 対象データ
+	 * @param data CardModel 対象データ
 	 */
-	public void update(FolderModel data) {
+	public void update(CardModel data) {
 		// トランザクション開始
 		LogUtility.d("update");
 		getDBInstance().beginTransaction();
@@ -222,15 +211,15 @@ public class FolderDao extends DatabaseHelper {
 				StringBuilder sqlBuilder = new StringBuilder();
 
 				sqlBuilder.append("UPDATE ");
-				sqlBuilder.append(Constants.TABLE_NAME_FOLDER);
+				sqlBuilder.append(Constants.TABLE_NAME_CARD);
 				sqlBuilder.append(" SET ");
 
 				// 先頭カラムのidは除外してセットする（idはwhere句のKeyのため）
-				for (int i = 1; i < Constants.COLUMN_NAMES_FOLDER.length; i++) {
-					sqlBuilder.append(Constants.COLUMN_NAMES_FOLDER[i] + " = ?, ");
+				for (int i = 1; i < Constants.COLUMN_NAMES_CARD.length; i++) {
+					sqlBuilder.append(Constants.COLUMN_NAMES_CARD[i] + " = ?, ");
 				}
 				sqlBuilder.delete(sqlBuilder.length() - 2, sqlBuilder.length());
-				sqlBuilder.append(" WHERE FOLDER_ID = ?");
+				sqlBuilder.append(" WHERE CARD_ID = ?");
 				updateSqlStr = sqlBuilder.toString();
 			}
 
@@ -239,23 +228,17 @@ public class FolderDao extends DatabaseHelper {
 			SQLiteStatement stmt = getDBInstance().compileStatement(updateSqlStr);
 
 			// Set項目のバインド
-			stmt.bindString(index++, data.getTitleName());
+			stmt.bindString(index++, data.getFolderId());
+			stmt.bindString(index++, data.getFrontText());
+			stmt.bindString(index++, data.getBackText());
 			stmt.bindString(index++, data.getCreatedDate().toString());
 			stmt.bindString(index++, data.getUpdatedDate().toString());
 			stmt.bindString(index++, data.getLastUsedDate().toString());
-			stmt.bindLong(index++, data.getNumOfAllCards());
-			stmt.bindLong(index++, data.getNumOfLearnedCards());
-			stmt.bindLong(index++, data.getImageIconResId());
-			stmt.bindLong(index++, data.getCoverBackgroundColor());
-			stmt.bindLong(index++, data.getFrontBackgroundColor());
-			stmt.bindLong(index++, data.getBackBackgroundColor());
-			stmt.bindLong(index++, data.getCoverTextColor());
-			stmt.bindLong(index++, data.getFrontTextColor());
-			stmt.bindLong(index++, data.getBackTextColor());
-			stmt.bindLong(index++, data.getImageFusenResId());
-			stmt.bindLong(index++, data.getOrder());
-			stmt.bindLong(index++, data.getIconCategory());
+			stmt.bindLong(index++, (data.isLearned()) ? 1 : 0);
+			stmt.bindLong(index++, (data.isFusenTag()) ? 1 : 0);
 			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
+			stmt.bindLong(index++, data.getIconCategory());
+			stmt.bindLong(index++, data.getImageIconResId());
 
 			// Where項目のバインド
 			stmt.bindString(index++, data.getId());
@@ -276,19 +259,55 @@ public class FolderDao extends DatabaseHelper {
 		}
 	}
 
+	public void deleteByCardId(String cardId) {
+		// トランザクション開始
+		getDBInstance().beginTransaction();
+
+		try {
+			// SQL文を作成
+			if (deleteSqlStr == null) {
+				StringBuilder sqlBuilder = new StringBuilder();
+				sqlBuilder.append("DELETE FROM ");
+				sqlBuilder.append(Constants.TABLE_NAME_CARD);
+				sqlBuilder.append(" WHERE CARD_ID = ?");
+
+				deleteSqlStr = sqlBuilder.toString();
+			}
+
+			// ステートメントを取得して変数をバインド
+			int index = 1;
+			SQLiteStatement stmt = getDBInstance().compileStatement(deleteSqlStr);
+			stmt.bindString(index++, cardId);
+
+			// SQL実行
+			stmt.execute();
+
+			// ステートメントをクローズ
+			stmt.close();
+
+			// 変更内容をコミット
+			getDBInstance().setTransactionSuccessful();
+		} catch (Exception e) {
+
+		} finally {
+			// トランザクション終了
+			getDBInstance().endTransaction();
+		}
+	}
+
 	/**
-	 * @return ArrayList<FolderModel>
+	 * @return ArrayList<CardModel>
 	 */
-	public ArrayList<FolderModel> selectAll() {
+	public ArrayList<CardModel> selectAll() {
 		LogUtility.d("selectAll");
-		ArrayList<FolderModel> result = new ArrayList<>();
+		ArrayList<CardModel> result = new ArrayList<>();
 
 		try {
 
 			// SQL文生成
 			if (selectAllSqlStr == null) {
-				selectAllSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_FOLDER, Constants.COLUMN_NAMES_FOLDER, null, null,
-						null, "DISPLAY_ORDER", null);
+				selectAllSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_CARD, Constants.COLUMN_NAMES_CARD, null, null,
+						null, "LAST_USED_DATE", null);
 			}
 
 			// カーソルを取得
@@ -300,28 +319,22 @@ public class FolderDao extends DatabaseHelper {
 			while (cursor.moveToNext()) {
 				int index = 0;
 
-				FolderModel folder = new FolderModel();
+				CardModel card = new CardModel();
 
-                folder.setId(cursor.getString(index++)); 
-                folder.setTitleName(cursor.getString(index++)); 
-                folder.setCreatedDate(dateFormat.parse(cursor.getString(index++))); 
-                folder.setUpdatedDate(dateFormat.parse(cursor.getString(index++))); 
-                folder.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
-                folder.setNumOfAllCards(cursor.getInt(index++)); 
-                folder.setNumOfLearnedCards(cursor.getInt(index++)); 
-                folder.setImageIconResId(cursor.getInt(index++)); 
-                folder.setCoverBackgroundColor(cursor.getInt(index++)); 
-                folder.setFrontBackgroundColor(cursor.getInt(index++)); 
-                folder.setBackBackgroundColor(cursor.getInt(index++)); 
-                folder.setCoverTextColor(cursor.getInt(index++)); 
-                folder.setFrontTextColor(cursor.getInt(index++)); 
-                folder.setBackTextColor(cursor.getInt(index++)); 
-                folder.setImageFusenResId(cursor.getInt(index++));
-				folder.setOrder(cursor.getInt(index++));
-				folder.setIconCategory(cursor.getInt(index++));
-				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
+				card.setId(cursor.getString(index++));
+				card.setFolderId(cursor.getString(index++));
+				card.setFrontText(cursor.getString(index++));
+				card.setBackText(cursor.getString(index++));
+				card.setCreatedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setLearned((cursor.getInt(index++) == 1)? true : false);
+				card.setFusenTag((cursor.getInt(index++) == 1)? true : false);
+				card.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
+				card.setIconCategory(cursor.getInt(index++));
+				card.setImageIconResId(cursor.getInt(index++));
 
-                result.add(folder);
+                result.add(card);
 			}
 
 			// カーソルをクローズ
@@ -343,8 +356,8 @@ public class FolderDao extends DatabaseHelper {
 		try {
 			// SQL文生成
 			if (selectCountAllSqlStr == null) {
-				String[] targetColumns = {"COUNT(" + Constants.COLUMN_NAMES_FOLDER[0] + ")"};
-				selectCountAllSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_FOLDER, targetColumns, null, null, null, null, null);
+				String[] targetColumns = {"COUNT(" + Constants.COLUMN_NAMES_CARD[0] + ")"};
+				selectCountAllSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_CARD, targetColumns, null, null, null, null, null);
 			}
 
 			// ステートメントを取得

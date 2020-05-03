@@ -40,7 +40,7 @@ public class FolderFrontFragment extends Fragment {
                 getActivity().getApplicationContext(), R.layout.gridview_item_text_color, textColorArrayList);
         gridViewText = mView.findViewById(R.id.gridViewText);
         gridViewText.setAdapter(textColorGridAdapter);
-        gridViewText.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getFrontBackgroundColor());
+        gridViewText.setBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
         gridViewText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のおもて表紙の文字とを変える
@@ -82,6 +82,12 @@ public class FolderFrontFragment extends Fragment {
         });
 
         return mView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
     }
 
 }

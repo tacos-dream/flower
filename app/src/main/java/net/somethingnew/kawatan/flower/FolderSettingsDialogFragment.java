@@ -26,6 +26,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import net.somethingnew.kawatan.flower.db.dao.FolderDao;
+import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
@@ -46,7 +48,20 @@ public class FolderSettingsDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // 呼び出し側からの引数の受け取り
+        mode = getArguments().getInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE);
+
         view = inflater.inflate(R.layout.dialog_folder_settings, container, false);
+
+        // 新規と編集でメニュー表示を切り替える（デフォルトは新規用になっているので、編集の場合に差し替え処理を実行
+        if (mode == Constants.FOLDER_SETTINGS_FOR_EDIT) {
+            // 変更したいレイアウトを取得する
+            LinearLayout menu_layout = view.findViewById(R.id.linear_layout_menu);
+            // レイアウトのビューをすべて削除する
+            menu_layout.removeAllViews();
+            // EDIT用メニューに差し替える
+            getLayoutInflater().inflate(R.layout.dialog_folder_settings_edit_menu, menu_layout);
+        }
 
         // 呼び出し側からの引数の受け取り
         mode = getArguments().getInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE);
@@ -94,17 +109,16 @@ public class FolderSettingsDialogFragment extends DialogFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
-                if (currentTabPosition != Constants.FOLDER_SETTINGS_TAB_COVER) {
-                    // カバー以外の場合は処理不要
-                    return;
-                }
-                if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                    globalMgr.mTempFolder.setTitleName(s.toString());
-                    globalMgr.mChangedFolderSettings = true;
-                } else {
-                    if (!globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getTitleName().equals(s.toString())) {
+                if (currentTabPosition == Constants.FOLDER_SETTINGS_TAB_COVER || currentTabPosition == Constants.FOLDER_SETTINGS_TAB_ICON) {
+
+                    if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
                         globalMgr.mTempFolder.setTitleName(s.toString());
                         globalMgr.mChangedFolderSettings = true;
+                    } else {
+                        if (!globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getTitleName().equals(s.toString())) {
+                            globalMgr.mTempFolder.setTitleName(s.toString());
+                            globalMgr.mChangedFolderSettings = true;
+                        }
                     }
                 }
             }
@@ -128,8 +142,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.VISIBLE);
                         globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getCoverTextColor());
+                        globalMgr.mFolderSettings.editTextTitle.setEnabled(true);
                         globalMgr.mFolderSettings.editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
-                        globalMgr.mFolderSettings.editTextTitle.setEnabled(false);
                         globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.INVISIBLE);
                         break;
                     case Constants.FOLDER_SETTINGS_TAB_COVER:
@@ -196,29 +210,32 @@ public class FolderSettingsDialogFragment extends DialogFragment {
             }
         });
 
-        buildEventListener();
+        buildCommonEventListener();
 
-        // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-            globalMgr.mTempFolder = new FolderModel(getResources().getString(R.string.folder_title_new), R.drawable.flower_024_19, R.drawable.fusen_01);
+            buildEventListenerForNew();
+        }
+        else {
+            buildEventListenerForEdit();
+        }
+
+        // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）し、
+        // 初期表示設定を行う
+        if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
+            int iconImageResId              = getResources().getIdentifier(Constants.DEFAULT_ICON_NAME,"drawable", getActivity().getPackageName());
+            int fusenImageResId             = getResources().getIdentifier(Constants.DEFAULT_FUSEN_NAME,"drawable", getActivity().getPackageName());
+            globalMgr.mTempFolder           = new FolderModel(iconImageResId, fusenImageResId);
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
         } else {
             // 選択されたFolderの内容の表示
             globalMgr.mTempFolder = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).clone();
-        }
 
-        // FolderSettingsダイアログで最初に表示するFragmentは「アイコン」なので、その表示準備
-        globalMgr.mFolderSettings.editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
-        globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getCoverTextColor());
-        globalMgr.mFolderSettings.editTextTitle.setEnabled(false);
-        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
-        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
-
-        ImageView imageViewLearned = view.findViewById(R.id.imageViewLearned);
-        if (globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).isLearned()) {
-            imageViewLearned.setImageResource(R.drawable.heart_on);
-        } else {
-            imageViewLearned.setImageResource(R.drawable.heart_off_grey);
+            // FolderSettingsダイアログで最初に表示するFragmentは「アイコン」なので、その表示準備
+            // アイコン表示の場合もタイトル名（単語帳名）の入力は許可する
+            globalMgr.mFolderSettings.editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
+            globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getCoverTextColor());
+            globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
+            globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
         }
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -230,6 +247,12 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         this.setCancelable(false);
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
     }
 
     @Override
@@ -293,18 +316,21 @@ public class FolderSettingsDialogFragment extends DialogFragment {
     }
 
     /**
-     * 上部メニュー領域の各アイコン画像のクリックハンドラ
+     * 新規登録、編集モード両方の共通イベント処理
      */
-    public void buildEventListener() {
+    public void buildCommonEventListener() {
         // 戻る
         view.findViewById(R.id.imageViewGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
                 //Toast.makeText(getActivity().getApplicationContext(), "キャンセル", Toast.LENGTH_LONG).show();
+                /*
                 if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
                     getDialog().dismiss();      // 一覧に戻る
                     return;
                 }
+
+                 */
 
                 if (!globalMgr.mChangedFolderSettings) {
                     // 変更なしの場合は確認ダイアログ無しですぐに一覧に戻る
@@ -350,16 +376,29 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            LogUtility.d("[保存]が選択されました");
+                                            FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                             if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
+                                                // 既存Folderの順序を繰り下げる
+                                                int i = 1;
+                                                for (FolderModel folder : globalMgr.mFolderLinkedList) {
+                                                    folder.setOrder(i++);
+                                                    folderDao.update(folder);
+                                                }
+
                                                 // 先頭に追加
                                                 globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
+                                                folderDao.insert(globalMgr.mTempFolder, 0);
+
+                                                // CardListMapに入れ物だけ作っておく
+                                                LinkedList<CardModel> cardLinkedList = new LinkedList<>();
+                                                globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), cardLinkedList);
+
                                             } else {
                                                 // 上書き
                                                 globalMgr.mFolderLinkedList.set(globalMgr.mCurrentFolderIndex, globalMgr.mTempFolder);
+                                                folderDao.update(globalMgr.mTempFolder);
                                             }
                                             recyclerViewAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getActivity().getApplicationContext(), "設定変更を保存しました", Toast.LENGTH_LONG).show();
                                             getDialog().dismiss();      // 親も消す
                                         }
                                     })
@@ -378,14 +417,99 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                 }
             }
         });
+
+        // 共有（シェア）
+        /*
+        view.findViewById(R.id.imageViewShare).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "シェア", Toast.LENGTH_LONG).show();
+            }
+        });
+        */
+
+        // ヘルプ
+        view.findViewById(R.id.imageViewHelp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                Toast.makeText(getActivity().getApplicationContext(), "ヘルプ", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     * 新規登録専用のイベント処理
+     */
+    public void buildEventListenerForNew() {
+
+        // 保存&カード登録への遷移
+        view.findViewById(R.id.imageViewGoCard).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                if (globalMgr.mChangedFolderSettings) {
+                    // ユーザーによる設定情報の変更をmFolderLinkedListに反映する
+                    new AlertDialog.Builder(getContext())
+                            .setIcon(R.drawable.flower_024_19)
+                            .setMessage(R.string.dlg_msg_save)
+                            .setPositiveButton(
+                                    R.string.save,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                            if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
+                                                // 既存Folderの順序を繰り下げる
+                                                int i = 1;
+                                                for (FolderModel folder : globalMgr.mFolderLinkedList) {
+                                                    folder.setOrder(i++);
+                                                    folderDao.update(folder);
+                                                }
+
+                                                // 先頭に追加
+                                                globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
+                                                folderDao.insert(globalMgr.mTempFolder, 0);
+
+                                                // CardListMapに入れ物だけ作っておく
+                                                LinkedList<CardModel> cardLinkedList = new LinkedList<>();
+                                                globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), cardLinkedList);
+
+                                            } else {
+                                                // 上書き
+                                                globalMgr.mFolderLinkedList.set(globalMgr.mCurrentFolderIndex, globalMgr.mTempFolder);
+                                                folderDao.update(globalMgr.mTempFolder);
+                                            }
+                                            recyclerViewAdapter.notifyDataSetChanged();
+                                            getDialog().dismiss();      // 親も消す
+
+                                            // TODO CardSettingsに移る
+                                        }
+                                    })
+                            .setNegativeButton(
+                                    R.string.cancel,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            LogUtility.d("[キャンセル]が選択されました");
+                                            // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
+                                        }
+                                    })
+                            .show();
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "設定変更無し", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * 編集モード専用のイベント処理
+     */
+    public void buildEventListenerForEdit() {
+
         // ゴミ箱（破棄）
         view.findViewById(R.id.imageViewTrash).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                    getDialog().dismiss();      // 一覧に戻る
-                    return;
-                }
                 Toast.makeText(getActivity().getApplicationContext(), "ゴミ箱", Toast.LENGTH_LONG).show();
                 new AlertDialog.Builder(getContext())
                         .setIcon(R.drawable.flower_024_19)
@@ -397,9 +521,12 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         LogUtility.d("[削除]が選択されました");
 
-                                        // LinkedListから削除し一覧に戻る
+                                        // Folder関連削除
                                         globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
+
+                                        // Card関連削除
                                         // TODO CardのLinkedListとそれを管理しているmapからも削除要
+
 
                                         getDialog().dismiss();
 
@@ -419,12 +546,10 @@ public class FolderSettingsDialogFragment extends DialogFragment {
             }
         });
         // 習得済み・習得解除
+        /* 単語帳全体に対する「習得済み有無」の機能は不要と思われるので外す
         view.findViewById(R.id.imageViewLearned).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                    return;
-                }
 
                 //Toast.makeText(getActivity().getApplicationContext(), "習得済み", Toast.LENGTH_LONG).show();
                 int res_string_id = R.string.dlg_msg_learned_on;
@@ -464,23 +589,9 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         .show();
             }
         });
-        // 共有（シェア）
-        /*
-        view.findViewById(R.id.imageViewShare).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(), "シェア", Toast.LENGTH_LONG).show();
-            }
-        });
-        */
 
-        // ヘルプ
-        view.findViewById(R.id.imageViewHelp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v){
-                Toast.makeText(getActivity().getApplicationContext(), "ヘルプ", Toast.LENGTH_LONG).show();
-            }
-        });
+         */
+
     }
 
 

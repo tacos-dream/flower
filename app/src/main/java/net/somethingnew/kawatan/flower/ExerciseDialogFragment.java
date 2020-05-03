@@ -49,6 +49,12 @@ public class ExerciseDialogFragment extends DialogFragment {
         return mView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
+    }
+
     /**
      * 上記の通り、onCloseの後に呼び出されることはなくなったが、
      * 確認AlertDialogでgetDialog().dismiss()が呼ばれたときはここに来る

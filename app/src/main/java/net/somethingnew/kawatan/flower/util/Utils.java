@@ -26,8 +26,12 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 
+import net.somethingnew.kawatan.flower.Constants;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Class containing some static utility methods.
@@ -169,4 +173,5 @@ public class Utils {
 
         return strength;
     }
+
 }

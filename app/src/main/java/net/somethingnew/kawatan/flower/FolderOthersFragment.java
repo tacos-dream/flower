@@ -26,4 +26,10 @@ public class FolderOthersFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
+    }
+
 }

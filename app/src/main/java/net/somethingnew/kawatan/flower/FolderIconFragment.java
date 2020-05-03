@@ -49,12 +49,17 @@ public class FolderIconFragment extends Fragment {
         buildTabMenu();
 
         // CardViewの初期表示
-        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getCoverBackgroundColor());
-        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getImageIconResId());
+        globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
+        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
         globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.INVISIBLE);
-        globalMgr.mFolderSettings.editTextTitle.setEnabled(false);
 
         return mView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
     }
 
     /**

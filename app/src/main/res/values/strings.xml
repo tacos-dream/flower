@@ -58,8 +58,6 @@
     <string name="dlg_msg_go_back_to_list">設定を保存せずに一覧に戻ります。\nいいですか？</string>
     <string name="dlg_msg_go_back_to_list_simple">一覧に戻ります。\nいいですか？</string>
     <string name="dlg_msg_exercise_end">最後のカードまで到達しました。</string>
-    <string name="dlg_msg_learned_on">この単語帳を\n[習得済み]に変更します。\nいいですか？</string>
-    <string name="dlg_msg_learned_off">[習得済み]を解除します。\nいいですか？</string>
     <string name="dlg_msg_delete_folder">この単語帳を削除します。\n復元できなくなります。\n削除してもいいですか？</string>
     <string name="dlg_msg_delete_card">この単語カードを削除します。\n復元できなくなります。\n削除してもいいですか？</string>
     <string name="dlg_msg_save">設定を保存して一覧に戻ります。\nいいですか？</string>

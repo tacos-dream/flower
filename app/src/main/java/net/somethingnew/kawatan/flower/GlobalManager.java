@@ -1,22 +1,16 @@
 package net.somethingnew.kawatan.flower;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.cardview.widget.CardView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
-import net.somethingnew.kawatan.flower.db.dto.CardDto;
-import net.somethingnew.kawatan.flower.db.dto.FolderDto;
+import net.somethingnew.kawatan.flower.db.DatabaseHelper;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 
@@ -38,6 +32,13 @@ public class GlobalManager {
     public LinkedList<FolderModel>              mFolderLinkedList;
 
     /**
+     * Folder一覧でDrag&Dropによる並び順が変更になった場合に、どこからどこの範囲に並び替えの更新が発生したかを保持しておき、
+     * 終了時に並び順をDBに反映する
+     */
+    public int                                  mOrderChangedStartFolderIndex = 0;
+    public int                                  mOrderChangedEndFolderIndex = 0;
+
+    /**
      * 現在処理中のFolderのLinkedList上のIndex
      * Listをタップしたときに確定する
      */
@@ -54,14 +55,13 @@ public class GlobalManager {
      * ViewPagerの各Fragmentの文字色GridView
      * のIDを保持しておき、パステルカラーGridや色パレットでの色選択時にに動的に背景色や文字色を変更するために利用
      */
-    FolderSettings                              mFolderSettings = new FolderSettings();
-
+    public FolderSettings                        mFolderSettings;
 
     /**
      * FolderSettingsDialog操作中の色の変更内容を一時的に保持し、ユーザーの明示的な保存行為を受けて
      * mFolderLinkedListの該当箇所のFolderModelを更新するため、その一時保存用
      */
-    FolderModel                                 mTempFolder;
+    public FolderModel                          mTempFolder;
 
     /**
      * 各FolderのCardListを保持するMap
@@ -71,8 +71,8 @@ public class GlobalManager {
     public HashMap<String, LinkedList>          mCardListMap;
 
     public boolean                              mChangedCardSettings;
-    CardSettings                                mCardSettings = new CardSettings();
-    CardModel                                   mTempCard;
+    public CardSettings                         mCardSettings;
+    public CardModel                            mTempCard;
 
     /**
      * 現在処理中のCardのLinkedList上のIndex
@@ -80,12 +80,11 @@ public class GlobalManager {
      */
     public int                                  mCurrentCardIndex;
 
+    ArrayList<Integer>[]                        mIconResourceIdListArray;
 
-    /**
-     * ダイアログからActivityに値を返すためのDTO定義
-     */
-    public FolderDto                            mFolderDto;
-    public CardDto                              mCardDto;
+    public DatabaseHelper                       mDbHelper;
+
+    public UserSettings                         mUserSettings;
 
     class FolderSettings {
         CardView                                cardView;
@@ -104,13 +103,21 @@ public class GlobalManager {
         ImageView                               imageViewFusen;
     }
 
+    class UserSettings {
+        boolean                                 aaa;
+        int                                     bbb;
+    }
+
     /**
      * コンストラクタ.
      */
     private GlobalManager (Context applicationContext)
     {
-        this.mApplicationContext    = applicationContext;
-        this.mCardListMap           = new HashMap<>();
+        this.mApplicationContext        = applicationContext;
+        this.mCardListMap               = new HashMap<>();
+        this.mFolderSettings            = new FolderSettings();
+        this.mCardSettings              = new CardSettings();
+        this.mUserSettings              = new UserSettings();
     }
 
     static void onCreateApplication(Context applicationContext) {

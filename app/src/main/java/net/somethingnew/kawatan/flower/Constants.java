@@ -13,6 +13,7 @@ public final class Constants {
 
     public static final String VERSION = "202002B";
 
+	public static final int SPLASH_TIME_MILLI_SEC       = 1500;
     /**
      * 戻り値
      */
@@ -26,19 +27,28 @@ public final class Constants {
     /**
      * SharedPreference関連項目
      */
-    public static final String SHARED_PREFERENCE_NAME = "kawatan_pref";
-    public static final String SHARED_PREF_KEY_USERID = "userId";
+    public static final String SHARED_PREFERENCE_NAME               = "kawatan_pref";
+    public static final String SHARED_PREF_KEY_ICON_RANDOM          = "iconRandomMode";
+
 
     /**
      * SQLite関連
      */
+    public static final String DB_NAME                  = "KawatanV1.db";
+    public static final int    DB_VERSION               = 1;
     public static final String TABLE_NAME_FOLDER        = "FOLDER_TBL";
     public static final String TABLE_NAME_CARD          = "CARD_TBL";
 
     // カラム名配列
-    public static final String[] COLUMN_NAMES_FOLDER    = {"SEC_CD", "MARKET_CD", "CMPNY_NM_SH5", "CMPNY_NM_KABU", "CMPNY_NM_K"};
-    public static final String[] COLUMN_NAMES_CARD      = {"SEC_CD", "MARKET_CD", "CMPNY_NM_SH5", "CMPNY_NM_KABU", "CMPNY_NM_K"};
-
+    public static final String[] COLUMN_NAMES_FOLDER    =   { "FOLDER_ID", "TITLE_NAME", "CREATED_DATE", "UPDATED_DATE", "LAST_USED_DATE",
+                                                              "NUM_OF_ALL_CARDS", "NUM_OF_LEARNED_CARDS", "ICON_RES_ID", "COVER_BG_COLOR",
+                                                              "FRONT_BG_COLOR", "BACK_BG_COLOR", "COVER_TXT_COLOR", "FRONT_TXT_COLOR", "BACK_TXT_COLOR",
+                                                              "FUSEN_RES_ID", "DISPLAY_ORDER", "ICON_CATEGORY", "ICON_AUTO_DISPLAY"
+                                                            };
+    public static final String[] COLUMN_NAMES_CARD    =     { "CARD_ID", "FOLDER_ID", "FRONT_TEXT", "BACK_TEXT", "CREATED_DATE",
+                                                              "UPDATED_DATE", "LAST_USED_DATE", "LEARNED", "FUSEN_TAG", "ICON_AUTO_DISPLAY",
+                                                              "ICON_CATEGORY", "ICON_RES_ID"
+                                                            };
 
     /**
      * AdMob関連
@@ -47,10 +57,6 @@ public final class Constants {
     public static final int ADMOB_NUM_OF_DATA_BETWEEN_ADS       = 5;
     public static final int ADMOB_FIRST_AD_INDEX                = 2;
 
-    /**
-     * 各種タイマー時間
-     */
-    public static final int SPLASH_DISPLAY_TIME = 1500;
 
     /**
      * URLs
@@ -88,50 +94,23 @@ public final class Constants {
     public static final int CARD_SETTINGS_FOR_EDIT                      = 2;
     public static final int CARD_SETTINGS_NUM_OF_TABS                   = 6;
 
-
-    /**
-     * アイコンのカテゴリー
-     */
-    public static final int ICON_CATEGORY_JEWELRY                   = 0;
-    public static final int ICON_CATEGORY_FLOWER                    = 1;
-    public static final int ICON_CATEGORY_COSME                     = 2;
-    public static final int ICON_CATEGORY_FOOD                      = 3;
-    public static final int ICON_CATEGORY_VEHICLE                   = 4;
-    public static final int ICON_CATEGORY_ANIMAL                    = 5;
-
-    /**
-     * Folderでの表示フィルター
-     */
-    public static final int FILTER_STATUS_ALL                       = 0;
-    public static final int FILTER_STATUS_LEARNED                   = 1;
-    public static final int FILTER_STATUS_NOT_LEARNED               = 2;
-    public static final int FILTER_STATUS_FUSEN                     = 3;
-    public static final int NUM_OF_FILTER_STATUS                    = 4;
-
-    /**
-     * 学習ステータス
-     */
-    public static final int LEARNING_STATUS_NORMAL                  = 1;
-    public static final int LEARNING_STATUS_FUSEN                   = 2;
-    public static final int LEARNING_STATUS_DONE                    = 3;
-
     /**
      * フィルターステート
      * ビットフラグの考えで制御する
      * ex.)  LEARNED(1) + NOT_LEARNED(2) = ALL(3)
      */
-    public static final int FILTER_STATE_LEARNED                    = 1;
-    public static final int FILTER_STATE_NOT_LEARNED                = 2;
-    public static final int FILTER_STATE_FUSEN                      = 1;
-    public static final int FILTER_STATE_NO_FUSEN                   = 2;
-    public static final int FILTER_STATE_ALL                        = 3;
+    public static final int FILTER_STATE_LEARNED                        = 1;
+    public static final int FILTER_STATE_NOT_LEARNED                    = 2;
+    public static final int FILTER_STATE_FUSEN                          = 1;
+    public static final int FILTER_STATE_NO_FUSEN                       = 2;
+    public static final int FILTER_STATE_ALL                            = 3;
 
     /**
      * Exerciseのモード
      */
-    public static final String EXERCISE_MODE_KEY_NAME               = "EXERCISE_MODE";
-    public static final int EXERCISE_MODE_NORMAL                    = 1;
-    public static final int EXERCISE_MODE_SHUFFLE                   = 2;
+    public static final String EXERCISE_MODE_KEY_NAME                   = "EXERCISE_MODE";
+    public static final int EXERCISE_MODE_NORMAL                        = 1;
+    public static final int EXERCISE_MODE_SHUFFLE                       = 2;
 
     /**
      * OnClickListenerの種類
@@ -147,14 +126,19 @@ public final class Constants {
     public static final int CATEGORY_ICON_IN_CARD_SETTINGS              = 2;
 
     /**
-     * アイコン
+     * 付箋関連
+     */
+    public static final String      DEFAULT_FUSEN_NAME                  = "fusen_01";
+
+    /**
+     * アイコン関連
      */
     public static final int         NUM_OF_ICON_TAB                     = 8;
     public static final int[]       NUM_OF_ICONS_IN_CATEGORY            = {135, 67, 102, 75, 135, 80, 90, 77};
     public static final String[]    ICON_TAB_ARRAY                      = {"jewelry", "flower", "cosme", "heart", "parts", "character", "food", "alphanum"};
     public static final String[]    ICON_TAB_NAME_ARRAY                 = {"ジュエリー", "フラワー", "コスメ", "ハート", "パーツ", "表情", "たべもの", "数字ABC"};
     public static final String[]    ICON_TAB_IMAGE_ID                   = {"jewelry_001", "flower_001", "cosme_001", "heart_001","parts_001", "character_001", "food_001", "alphanum_001"};
-
+    public static final String      DEFAULT_ICON_NAME                   = "alphanum_031";
 
     /**
      * ひらがなテーブル.<br>

@@ -6,17 +6,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import net.somethingnew.kawatan.flower.Constants;
+import net.somethingnew.kawatan.flower.util.LogUtility;
+
 /**
  * SQLiteデータベース接続クラス.
- * 2011/01/20　宮坂　淳
  */
-public abstract class DBConnectionHelper extends SQLiteOpenHelper {
-	/**
-	 * デフォルトデータベース名.<BR>
-	 * nullに設定した場合はインメモリで起動
-	 */
-	private static final String DB_NAME = "MarketViewer.db";
-	//private static final String DB_NAME = null;
+public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 *  DBインスタンス.<BR>
@@ -27,9 +23,10 @@ public abstract class DBConnectionHelper extends SQLiteOpenHelper {
 	 * コンストラクタ.<BR>
 	 * @param context Context　コンテキスト
 	 */
-	public DBConnectionHelper(Context context) {
+	public DatabaseHelper(Context context) {
 		// DBインスタンスを生成
-		super(context, DB_NAME, null, 1);
+		super(context, Constants.DB_NAME, null, Constants.DB_VERSION);
+		LogUtility.d("constructor");
 	}
 
 	/**
@@ -39,12 +36,14 @@ public abstract class DBConnectionHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		try {
+			LogUtility.d("onCreate");
 			// トランザクション開始
 			db.beginTransaction();
 
 			// テーブル作成用SQL文を発行
 			for (Iterator<String> itr = TableDefine.CREATE_TABLE_SQL_LIST.iterator(); itr.hasNext();) {
-				String sqlStr = (String)itr.next();
+				String sqlStr = itr.next();
+				LogUtility.d("sqlStr: " + sqlStr);
 				db.execSQL(sqlStr);
 			}
 
@@ -66,7 +65,7 @@ public abstract class DBConnectionHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+		LogUtility.d("onUpgrade oldVersion:" + oldVersion + "  newVersion:" + newVersion);
 	}
 
 	/**

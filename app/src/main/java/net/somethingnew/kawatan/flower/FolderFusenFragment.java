@@ -44,7 +44,7 @@ public class FolderFusenFragment extends Fragment {
         fusenGridAdapter    = new FusenGridAdapter(getActivity().getApplicationContext(), R.layout.gridview_item_fusen, mFusenResourceIdList);
         gridViewFusen       = mView.findViewById(R.id.gridViewFusen);
         gridViewFusen.setAdapter(fusenGridAdapter);
-        gridViewFusen.setBackgroundColor(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getFrontBackgroundColor());
+        gridViewFusen.setBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
         gridViewFusen.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 単語帳のアイコンを入れ替える
@@ -55,6 +55,12 @@ public class FolderFusenFragment extends Fragment {
         });
 
         return mView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
     }
 
 }

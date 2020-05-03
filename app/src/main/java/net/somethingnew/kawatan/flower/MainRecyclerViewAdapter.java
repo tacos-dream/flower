@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
+
+import java.text.SimpleDateFormat;
+import java.util.Random;
 
 /**
  * MainActivityのリスト表示用RecyclerViewer（リスト内に表示するのはFolder群）
@@ -42,7 +46,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView    textViewTitleName;
-        TextView    textViewNumOfAllCards;
+        TextView    textViewNumOfCards;
+        TextView    textViewLastUsedDate;
         ImageView   imageViewIcon;
         ImageView   imageViewExercise;
         ImageView   imageViewShuffleExercise;
@@ -51,7 +56,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             this.textViewTitleName          = itemView.findViewById(R.id.textViewTitleName);
-            this.textViewNumOfAllCards      = itemView.findViewById(R.id.textViewNumOfAllCards);
+            this.textViewNumOfCards         = itemView.findViewById(R.id.textViewNumOfCards);
+            this.textViewLastUsedDate       = itemView.findViewById(R.id.textViewLastUsedDate);
             this.imageViewIcon              = itemView.findViewById(R.id.imageViewIcon);
             this.imageViewExercise          = itemView.findViewById(R.id.imageViewExercise);
             this.imageViewShuffleExercise   = itemView.findViewById(R.id.imageViewShuffleExercise);
@@ -148,18 +154,22 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int listPosition) {
         LogUtility.d("onBindViewHolder listPosition: " + listPosition + "(" + globalMgr.mFolderLinkedList.get(listPosition).getTitleName() + ")");
         TextView    textViewTitleName           = holder.textViewTitleName;
-        //TextView    textViewCreatedDate         = holder.textViewCreatedDate;
-        TextView    textViewNumOfAllCards       = holder.textViewNumOfAllCards;
+        TextView    textViewLastUsedDate        = holder.textViewLastUsedDate;
+        TextView    textViewNumOfCards          = holder.textViewNumOfCards;
         ImageView   imageViewIcon               = holder.imageViewIcon;
         CardView    cardViewFolder              = holder.cardViewFolder;
 
         textViewTitleName.setText(globalMgr.mFolderLinkedList.get(listPosition).getTitleName());
-        //textViewCreatedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(globalMgr.mFolderLinkedList.get(listPosition).getCreatedDate()));
-        textViewNumOfAllCards.setText(String.valueOf(globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards()));
-        imageViewIcon.setImageResource(globalMgr.mFolderLinkedList.get(listPosition).getImageIconResId());
+        textViewLastUsedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(globalMgr.mFolderLinkedList.get(listPosition).getLastUsedDate()));
+        textViewNumOfCards.setText(globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards() + " / " + globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards());
         cardViewFolder.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
+        int category                = globalMgr.mFolderLinkedList.get(listPosition).getIconCategory();
+        FolderModel folderModel     = globalMgr.mFolderLinkedList.get(listPosition);
+        imageViewIcon.setImageResource(folderModel.isIconAutoDisplay() ?
+                globalMgr.mIconResourceIdListArray[category].get(new Random().nextInt(Constants.NUM_OF_ICONS_IN_CATEGORY[category]) + 1) :
+                folderModel.getImageIconResId()
+        );
 
-        // アイコンのクリック時にはFolderSettingを開くが、どのFolderかを特定するためにFolderのidをTag付けしておく
         // mFolderLinkedListのpositionだとDrag&Dropにより入れ替わることがあるので、id番号をタグ付けしておく
         imageViewIcon.setTag(globalMgr.mFolderLinkedList.get(listPosition).getId());
     }

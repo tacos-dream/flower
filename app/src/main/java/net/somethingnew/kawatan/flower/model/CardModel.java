@@ -14,6 +14,7 @@ import java.util.UUID;
  */
 public class CardModel implements Cloneable{
 	String          id;                     // ユニークなKeyId (UUIDから生成）
+	String          folderId;
 	String          frontText;              // 表面テキスト
 	String          backText;              	// 裏面テキスト
 	Date            createdDate;            // 作成日
@@ -21,18 +22,25 @@ public class CardModel implements Cloneable{
 	Date            lastUsedDate;           // 最終更新日
 	boolean         learned;     			// 習得済み
 	boolean         fusenTag;               // 付箋
-	int				learningStatus;			// 学習ステータス
+	boolean			iconAutoDisplay;
+	int				iconCategory;
 	int				imageIconResId;         // アイコンのResourceId
 
-	public CardModel(String frontText, String backText) {
-		//this.id                     = UUID.randomUUID().toString();
-		this.frontText				= frontText;
-		this.backText            	= backText;
+	public CardModel() {
+	}
+
+	public CardModel(String folderId) {
+		this.id                     = UUID.randomUUID().toString();
+		this.folderId				= folderId;
+		this.frontText				= "";
+		this.backText            	= "";
 		this.createdDate            = new Date();
 		this.updatedDate            = new Date();
 		this.lastUsedDate           = new Date();
 		this.learned           		= false;
 		this.fusenTag				= false;
+		this.iconAutoDisplay		= true;
+		this.iconCategory			= 0;			// Dealut: flower
 		this.imageIconResId			= R.mipmap.ic_launcher;
 	}
 
@@ -56,6 +64,14 @@ public class CardModel implements Cloneable{
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getFolderId() {
+		return folderId;
+	}
+
+	public void setFolderId(String folderId) {
+		this.folderId = folderId;
 	}
 
 	public String getFrontText() {
@@ -120,5 +136,21 @@ public class CardModel implements Cloneable{
 
 	public void setImageIconResId(int imageIconResId) {
 		this.imageIconResId = imageIconResId;
+	}
+
+	public void setIconAutoDisplay(boolean iconAutoDisplay) {
+		this.iconAutoDisplay = iconAutoDisplay;
+	}
+
+	public boolean isIconAutoDisplay() {
+		return iconAutoDisplay;
+	}
+
+	public void setIconCategory(int iconCategory) {
+		this.iconCategory = iconCategory;
+	}
+
+	public int getIconCategory() {
+		return iconCategory;
 	}
 }

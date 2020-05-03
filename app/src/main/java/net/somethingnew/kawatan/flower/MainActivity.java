@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         // テストデータ投入
-        createExampleList();
+        //createExampleList();
 
         buildRecyclerView();
 
@@ -105,19 +105,57 @@ public class MainActivity extends AppCompatActivity
                     // fromPosとtoPosは隣同士を指している想定だが、とりあえずswap()を使って入れ替える
                     Collections.swap(globalMgr.mFolderLinkedList, fromPos, toPos);
 
+                    // 更新範囲を保持しておく
+                    if (globalMgr.mOrderChangedStartFolderIndex > fromPos) globalMgr.mOrderChangedStartFolderIndex = fromPos;
+                    if (globalMgr.mOrderChangedEndFolderIndex < toPos) globalMgr.mOrderChangedEndFolderIndex = toPos;
+
                     return true;// true if moved, false otherwise
                 }
 
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     final int fromPos = viewHolder.getAdapterPosition();
-                    //globalMgr.mFolderLinkedList.remove(fromPos);
-                    //mRecyclerViewAdapter.notifyItemRemoved(fromPos);
-                }
 
+                    new AlertDialog.Builder(mActivity)
+                            .setIcon(R.drawable.flower_024_19)
+                            .setMessage(R.string.dlg_msg_delete_folder)
+                            .setPositiveButton(
+                                    R.string.delete,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            LogUtility.d("[削除]が選択されました");
+
+                                            // Folder関連削除
+                                            globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
+
+                                            // Card関連削除
+                                            // TODO CardのLinkedListとそれを管理しているmapからも削除要
+
+                                            mRecyclerViewAdapter.notifyDataSetChanged();
+                                        }
+                                    })
+                            .setNegativeButton(
+                                    R.string.cancel,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            LogUtility.d("[キャンセル]が選択されました");
+                                            // Swipeで消えたものを再描画するため
+                                            mRecyclerViewAdapter.notifyDataSetChanged();
+                                        }
+                                    })
+                            .show();
+                }
 
             });
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
     }
 
     /**
@@ -127,11 +165,9 @@ public class MainActivity extends AppCompatActivity
         // とりあえずは、テストデータでModelを作成
         globalMgr.mFolderLinkedList = new LinkedList<>();
         for (int i = 0; i < MyData.folderNameArray.length; i++) {
-            globalMgr.mFolderLinkedList.add(new FolderModel(
-                    MyData.folderNameArray[i],
-                    MyData.folderDrawableArray[i],
-                    R.drawable.fusen_01
-            ));
+            FolderModel folderModel = new FolderModel(MyData.folderDrawableArray[i], R.drawable.fusen_01);
+            folderModel.setTitleName(MyData.folderNameArray[i]);
+            globalMgr.mFolderLinkedList.add(folderModel);
         }
 
         // とりあえず、各フォルダに同じCard群テストデータをセットする
@@ -139,10 +175,10 @@ public class MainActivity extends AppCompatActivity
             String key = globalMgr.mFolderLinkedList.get(iFolder).getId();
             LinkedList<CardModel> cardLinkedList = new LinkedList<>();
             for (int iCard = 0; iCard < MyData.cardFrontArray.length; iCard++) {
-                cardLinkedList.add(new CardModel(
-                        MyData.cardFrontArray[iCard],
-                        MyData.cardBackArray[iCard]
-                ));
+                CardModel cardModel = new CardModel();
+                cardModel.setFrontText(MyData.cardFrontArray[iCard]);
+                cardModel.setBackText(MyData.cardBackArray[iCard]);
+                cardLinkedList.add(cardModel);
             }
             globalMgr.mCardListMap.put(key, cardLinkedList);
         }

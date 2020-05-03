@@ -55,13 +55,19 @@ public class FolderActivity extends AppCompatActivity {
         mCardLinkedList = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
 
         // 標準のActionBarの代わりにToolbarをActionBarとしてセットして利用する
+        // ToolBar内の中央にタイトルを表示したいのでTextViewを配置してCenterにレイアウトする
+        // (Toolbarに対する直接のsetTitleでは中央表示はできないため）
         Toolbar toolbar = findViewById(R.id.main_toolbar);
+        TextView title  = findViewById(R.id.toolbar_title);
+        title.setText(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getTitleName());    // setSupportActionBar()の前に呼ぶ必要あり
+        //toolbar.setTitle(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getTitleName());    // setSupportActionBar()の前に呼ぶ必要あり
         setSupportActionBar(toolbar);
 
         buildRecyclerView();
         setupListeners();
 
         // Drag & Drop Handling
+        /* Drag & Drop はカード一覧ではとりあえずやらない
         ItemTouchHelper itemTouchHelper  = new ItemTouchHelper(
             new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN ,
                     ItemTouchHelper.LEFT) {
@@ -96,24 +102,26 @@ public class FolderActivity extends AppCompatActivity {
             });
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+         */
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        LogUtility.d("onStart");
+        //LogUtility.d("onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LogUtility.d("onResume");
+        //LogUtility.d("onResume");
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
-        LogUtility.d("onRestart");
+        //LogUtility.d("onRestart");
 
         // ExerciseActivityから戻った時に習得済みや付箋の更新を反映させる
         mRecyclerViewAdapter.notifyDataSetChanged();
@@ -121,7 +129,8 @@ public class FolderActivity extends AppCompatActivity {
 
 
     /**
-     *
+     *　カード一枚毎の中に含まれる各種ViewのonClickリスナなどの登録処理（Override）
+     * 　onClickのイベント自体はRecyclerViewのAdapterであるFolderRecyclerViewAdapterの方で検出され、こちらに通知される
      */
     public void buildRecyclerView() {
         mRecyclerView           = findViewById(R.id.my_recycler_view);
@@ -160,6 +169,9 @@ public class FolderActivity extends AppCompatActivity {
                 } else {
                     card.setLearned(true);
                 }
+
+                // DBに反映
+
                 // 変更を表示に反映させる
                 mRecyclerViewAdapter.notifyItemChanged(position);
             }
@@ -214,6 +226,11 @@ public class FolderActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //LogUtility.d("onDestroy");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

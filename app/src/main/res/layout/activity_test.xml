@@ -16,6 +16,22 @@
         tools:layout_editor_absoluteX="154dp"
         tools:layout_editor_absoluteY="38dp" />
 
+    <Button
+        android:id="@+id/buttonCreateFolderDb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Folder DB"
+        tools:layout_editor_absoluteX="154dp"
+        tools:layout_editor_absoluteY="38dp" />
+
+    <Button
+        android:id="@+id/buttonCreateCardDb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Card DB"
+        tools:layout_editor_absoluteX="154dp"
+        tools:layout_editor_absoluteY="38dp" />
+
     <net.somethingnew.kawatan.flower.ExpandableGridView
         android:id="@+id/country_grid"
         android:layout_width="match_parent"

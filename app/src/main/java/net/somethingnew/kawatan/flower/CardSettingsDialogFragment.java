@@ -32,6 +32,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import net.somethingnew.kawatan.flower.db.dao.CardDao;
+import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
@@ -90,7 +92,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
 
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
-            globalMgr.mTempCard = new CardModel("Front", "うら");
+            globalMgr.mTempCard = new CardModel(mFolder.getId());
         } else {
             // 選択されたCardのクローン
             globalMgr.mTempCard = mCardModel.clone();
@@ -99,11 +101,11 @@ public class CardSettingsDialogFragment extends DialogFragment {
         // おもてとうらのカードへの初期表示
         globalMgr.mCardSettings.cardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
         globalMgr.mCardSettings.cardViewBack.setCardBackgroundColor(mFolder.getBackBackgroundColor());
-        globalMgr.mCardSettings.editTextFront.setText(mCardModel.getFrontText());
+        globalMgr.mCardSettings.editTextFront.setText(globalMgr.mTempCard.getFrontText());
         globalMgr.mCardSettings.editTextFront.setTextColor(mFolder.getFrontTextColor());
-        globalMgr.mCardSettings.editTextBack.setText(mCardModel.getBackText());
+        globalMgr.mCardSettings.editTextBack.setText(globalMgr.mTempCard.getBackText());
         globalMgr.mCardSettings.editTextBack.setTextColor(mFolder.getBackTextColor());
-        globalMgr.mCardSettings.imageViewIcon.setImageResource(mCardModel.getImageIconResId());
+        globalMgr.mCardSettings.imageViewIcon.setImageResource(globalMgr.mTempCard.getImageIconResId());
         globalMgr.mCardSettings.imageViewFusen.setImageResource(mFolder.getImageFusenResId());
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -125,6 +127,12 @@ public class CardSettingsDialogFragment extends DialogFragment {
         super.onDismiss(dialog);
         //Toast.makeText(getActivity().getApplicationContext(), "onDismiss", Toast.LENGTH_LONG).show();
         LogUtility.d("onDismiss");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
     }
 
     /**
@@ -186,15 +194,32 @@ public class CardSettingsDialogFragment extends DialogFragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             LogUtility.d("[保存]が選択されました");
+                                            CardDao cardDao = new CardDao(getActivity().getApplicationContext());
                                             if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
                                                 // 先頭に追加
                                                 mCardLinkedList.add(0, globalMgr.mTempCard);
+                                                cardDao.insert(globalMgr.mTempCard);        // DB上は特に順番は意識しない
+
+                                                // カード数更新
+                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumObAllCards();
+                                                FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                                folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+
                                             } else {
                                                 // 上書き
                                                 mCardLinkedList.set(mPosition, globalMgr.mTempCard);
+                                                cardDao.update(globalMgr.mTempCard);
+
+                                                // TODO カード数や習得済み数に変更があった場合に、FOLDER_TBLへの反映
+                                                // ここの保存が呼ばれるまではtempFolderに反映しておいて、最後に更新した方がいいが・・・
+                                                // その「最後」というのがどのタイミングにすべきかが明確にできない・・・
+                                                // とりあえず、ここで反映
+                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumObAllCards();
+                                                FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                                folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
                                             }
+
                                             mRecyclerViewAdapter.notifyDataSetChanged();
-                                            //Toast.makeText(getActivity().getApplicationContext(), "設定変更を保存しました", Toast.LENGTH_LONG).show();
                                             getDialog().dismiss();      // 親も消す
                                         }
                                     })
@@ -232,13 +257,21 @@ public class CardSettingsDialogFragment extends DialogFragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         LogUtility.d("[削除]が選択されました");
 
-                                        // LinkedListから削除し一覧に戻る
+                                        // LinkedListから削除
                                         mCardLinkedList.remove(mPosition);
-                                        // TODO CardのLinkedListとそれを管理しているmapからも削除要
 
-                                        getDialog().dismiss();
+                                        // Folderで管理しているカード数などを更新
+                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumObAllCards();
+                                        if (globalMgr.mTempCard.isLearned()) globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumObLearnedCards();
+
+                                        // DBに反映
+                                        FolderDao   folderDao   = new FolderDao(getActivity().getApplicationContext());
+                                        CardDao     cardDao     = new CardDao(getActivity().getApplicationContext());
+                                        folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+                                        cardDao.deleteByCardId(globalMgr.mTempCard.getId());
 
                                         mRecyclerViewAdapter.notifyItemRemoved(mPosition);
+                                        getDialog().dismiss();
                                     }
                                 })
                         .setNegativeButton(

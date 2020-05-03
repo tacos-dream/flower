@@ -103,6 +103,12 @@ public class ExerciseActivity extends AppCompatActivity {
         showCardContents();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogUtility.d("onDestroy");
+    }
+
     /**
      *
      * @param event
