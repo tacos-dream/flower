@@ -161,7 +161,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         textViewTitleName.setText(globalMgr.mFolderLinkedList.get(listPosition).getTitleName());
         textViewLastUsedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(globalMgr.mFolderLinkedList.get(listPosition).getLastUsedDate()));
-        textViewNumOfCards.setText(globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards() + " / " + globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards());
+        textViewNumOfCards.setText(globalMgr.mFolderLinkedList.get(listPosition).getNumOfLearnedCards() + " / " + globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards());
         cardViewFolder.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
         int category                = globalMgr.mFolderLinkedList.get(listPosition).getIconCategory();
         FolderModel folderModel     = globalMgr.mFolderLinkedList.get(listPosition);

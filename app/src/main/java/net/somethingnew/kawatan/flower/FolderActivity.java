@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.somethingnew.kawatan.flower.db.dao.CardDao;
+import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
@@ -49,8 +51,11 @@ public class FolderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_folder);
 
         // Get the application context
-        mContext        = getApplicationContext();
-        mActivity       = FolderActivity.this;
+        mContext                        = getApplicationContext();
+        mActivity                       = FolderActivity.this;
+
+        // Card総数増減、Learned数増減時に更新
+        globalMgr.mCardStatsChanged     = false;
 
         mCardLinkedList = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
 
@@ -150,8 +155,8 @@ public class FolderActivity extends AppCompatActivity {
                 globalMgr.mCurrentCardIndex         = position;
 
                 // 編集モードでダイアログを開く
-                CardModel cardModel                 = mCardLinkedList.get(position);
-                CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment(mRecyclerViewAdapter, cardModel, position);
+                card                 = mCardLinkedList.get(position);
+                CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment(mRecyclerViewAdapter, card, position);
                 Bundle args     = new Bundle();
                 args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_EDIT);
                 cardSettingsDialogFragment.setArguments(args);
@@ -161,19 +166,27 @@ public class FolderActivity extends AppCompatActivity {
 
             @Override
             public void onLearnedClick(int position) {
-                 card = mCardLinkedList.get(position);
+                card = mCardLinkedList.get(position);
 
                 // 現状LearnedがOnだったらOffに、OffだったらOnにセットする
                 if (card.isLearned()) {
                     card.setLearned(false);
+                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
                 } else {
                     card.setLearned(true);
+                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfLearnedCards();
                 }
 
                 // DBに反映
+                FolderDao folderDao     = new FolderDao(getApplicationContext());
+                CardDao cardDao         = new CardDao(getApplicationContext());
+                folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+                cardDao.update(card);
 
                 // 変更を表示に反映させる
                 mRecyclerViewAdapter.notifyItemChanged(position);
+
+                globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
             }
 
             @Override
@@ -204,8 +217,21 @@ public class FolderActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         LogUtility.d("[削除]が選択されました");
 
-                                        // LinkedListから削除し一覧に戻る
+                                        // LinkedListから削除
                                         mCardLinkedList.remove(position);
+
+                                        // Folderで管理しているカード数などを更新
+                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfAllCards();
+                                        if (card.isLearned()) globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
+
+                                        // DBに反映
+                                        FolderDao   folderDao   = new FolderDao(getApplicationContext());
+                                        CardDao     cardDao     = new CardDao(getApplicationContext());
+                                        folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+                                        cardDao.deleteByCardId(card.getId());
+
+                                        globalMgr.mCardStatsChanged = true;
+
                                         mRecyclerViewAdapter.notifyItemRemoved(position);
                                     }
                                 })

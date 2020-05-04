@@ -26,6 +26,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
@@ -378,12 +379,14 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                         public void onClick(DialogInterface dialog, int which) {
                                             FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                             if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                                                // 既存Folderの順序を繰り下げる
+                                                // Drag&Drop廃止したのでorderの再設定は不要
+                                                /*
                                                 int i = 1;
                                                 for (FolderModel folder : globalMgr.mFolderLinkedList) {
                                                     folder.setOrder(i++);
                                                     folderDao.update(folder);
                                                 }
+                                                 */
 
                                                 // 先頭に追加
                                                 globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
@@ -521,12 +524,22 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         LogUtility.d("[削除]が選択されました");
 
-                                        // Folder関連削除
+                                        // Card関連
+                                        //   LinkedList自体の削除
+                                        //   管理しているmapから削除
+                                        //   CARD_TBLからの削除
+                                        String folderId     = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId();
+                                        globalMgr.mCardListMap.get(folderId).clear();
+                                        globalMgr.mCardListMap.remove(folderId);
+                                        CardDao cardDao     = new CardDao(getActivity().getApplicationContext());
+                                        cardDao.deleteByFolderId(folderId);
+
+                                        // Folderのorderの付け替え処理は不要（Drag&Dropをやめたので）
+
+                                        // FolderのLinkedListから削除
                                         globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
-
-                                        // Card関連削除
-                                        // TODO CardのLinkedListとそれを管理しているmapからも削除要
-
+                                        FolderDao folderDao     = new FolderDao(getActivity().getApplicationContext());
+                                        folderDao.deleteByFolderId(folderId);
 
                                         getDialog().dismiss();
 

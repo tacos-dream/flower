@@ -80,6 +80,12 @@ public class GlobalManager {
      */
     public int                                  mCurrentCardIndex;
 
+    /**
+     * Card数に変化があった場合（新規追加や削除）にFolderActivityからMainActivityに戻った時に
+     * Card数の表示に反映させる必要がある場合かどうかの識別
+     */
+    public boolean                              mCardStatsChanged;
+
     ArrayList<Integer>[]                        mIconResourceIdListArray;
 
     public DatabaseHelper                       mDbHelper;

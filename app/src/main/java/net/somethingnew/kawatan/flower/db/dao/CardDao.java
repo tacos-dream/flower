@@ -295,6 +295,42 @@ public class CardDao extends DatabaseHelper {
 		}
 	}
 
+    public void deleteByFolderId(String folderId) {
+        // トランザクション開始
+        getDBInstance().beginTransaction();
+
+        try {
+            // SQL文を作成
+            if (deleteSqlStr == null) {
+                StringBuilder sqlBuilder = new StringBuilder();
+                sqlBuilder.append("DELETE FROM ");
+                sqlBuilder.append(Constants.TABLE_NAME_CARD);
+                sqlBuilder.append(" WHERE FOLDER_ID = ?");
+
+                deleteSqlStr = sqlBuilder.toString();
+            }
+
+            // ステートメントを取得して変数をバインド
+            int index = 1;
+            SQLiteStatement stmt = getDBInstance().compileStatement(deleteSqlStr);
+            stmt.bindString(index++, folderId);
+
+            // SQL実行
+            stmt.execute();
+
+            // ステートメントをクローズ
+            stmt.close();
+
+            // 変更内容をコミット
+            getDBInstance().setTransactionSuccessful();
+        } catch (Exception e) {
+
+        } finally {
+            // トランザクション終了
+            getDBInstance().endTransaction();
+        }
+    }
+
 	/**
 	 * @return ArrayList<CardModel>
 	 */

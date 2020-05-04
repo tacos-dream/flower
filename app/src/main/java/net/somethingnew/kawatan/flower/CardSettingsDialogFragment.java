@@ -201,9 +201,11 @@ public class CardSettingsDialogFragment extends DialogFragment {
                                                 cardDao.insert(globalMgr.mTempCard);        // DB上は特に順番は意識しない
 
                                                 // カード数更新
-                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumObAllCards();
+                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
                                                 FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                                 folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+
+                                                globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
 
                                             } else {
                                                 // 上書き
@@ -214,7 +216,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
                                                 // ここの保存が呼ばれるまではtempFolderに反映しておいて、最後に更新した方がいいが・・・
                                                 // その「最後」というのがどのタイミングにすべきかが明確にできない・・・
                                                 // とりあえず、ここで反映
-                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumObAllCards();
+                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
                                                 FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                                 folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
                                             }
@@ -261,14 +263,16 @@ public class CardSettingsDialogFragment extends DialogFragment {
                                         mCardLinkedList.remove(mPosition);
 
                                         // Folderで管理しているカード数などを更新
-                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumObAllCards();
-                                        if (globalMgr.mTempCard.isLearned()) globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumObLearnedCards();
+                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfAllCards();
+                                        if (globalMgr.mTempCard.isLearned()) globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
 
                                         // DBに反映
                                         FolderDao   folderDao   = new FolderDao(getActivity().getApplicationContext());
                                         CardDao     cardDao     = new CardDao(getActivity().getApplicationContext());
                                         folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
                                         cardDao.deleteByCardId(globalMgr.mTempCard.getId());
+
+                                        globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
 
                                         mRecyclerViewAdapter.notifyItemRemoved(mPosition);
                                         getDialog().dismiss();

@@ -60,7 +60,7 @@ public class FolderModel implements Cloneable {
 		this.coverTextColor			= Color.BLACK;
 		this.frontTextColor			= Color.BLACK;
 		this.backTextColor			= Color.BLACK;
-		this.order		            = -1;
+		this.order		            = -1;					// Drag&Dropを禁止したので実質未使用
 		this.iconCategory			= 0;					// Defalut: flower
 		this.iconAutoDisplay		= true;
 	}
@@ -112,15 +112,15 @@ public class FolderModel implements Cloneable {
 		return numOfAllCards;
 	}
 	public void     setNumOfAllCards(int numOfAllCards) { this.numOfAllCards = numOfAllCards;}
-	public void		incrementNumObAllCards() {this.numOfAllCards++;}
-	public void		decrementNumObAllCards() {this.numOfAllCards--;}
+	public void		incrementNumOfAllCards() {this.numOfAllCards++;}
+	public void		decrementNumOfAllCards() {this.numOfAllCards--;}
 
 	public int      getNumOfLearnedCards() {
 		return numOfLearnedCards;
 	}
 	public void     setNumOfLearnedCards(int numOfLearnedCards) { this.numOfLearnedCards = numOfLearnedCards;}
-	public void		incrementNumObLearnedCards() {this.numOfLearnedCards++;}
-	public void		decrementNumObLearnedCards() {this.numOfLearnedCards--;}
+	public void		incrementNumOfLearnedCards() {this.numOfLearnedCards++;}
+	public void		decrementNumOfLearnedCards() {this.numOfLearnedCards--;}
 
 	public int      getImageIconResId() {
 		return imageIconResId;

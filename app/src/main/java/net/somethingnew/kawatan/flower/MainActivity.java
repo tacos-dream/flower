@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import net.somethingnew.kawatan.flower.db.dao.CardDao;
+import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
@@ -85,15 +87,17 @@ public class MainActivity extends AppCompatActivity
         buildRecyclerView();
 
         // Drag & Drop Handling
+        // DB反映処理があまりにもコスト高なので、Drag&Dropはやめて、Swipのみ対応する
+        // ItemTouchHelper.UP | ItemTouchHelper.DOWN
         ItemTouchHelper itemTouchHelper  = new ItemTouchHelper(
-            new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN ,
-                    ItemTouchHelper.LEFT) {
+            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
                 @Override
                 public boolean onMove(@NonNull RecyclerView mRecyclerView,
                                       @NonNull RecyclerView.ViewHolder viewHolder,
                                       @NonNull RecyclerView.ViewHolder target) {
 
+                    /*
                     final int fromPos   = viewHolder.getAdapterPosition();
                     final int toPos     = target.getAdapterPosition();
                     mRecyclerViewAdapter.notifyItemMoved(fromPos, toPos);
@@ -109,12 +113,16 @@ public class MainActivity extends AppCompatActivity
                     if (globalMgr.mOrderChangedStartFolderIndex > fromPos) globalMgr.mOrderChangedStartFolderIndex = fromPos;
                     if (globalMgr.mOrderChangedEndFolderIndex < toPos) globalMgr.mOrderChangedEndFolderIndex = toPos;
 
+                    // TODO orderの付け替え処理とそれのDBへの反映が必要・・・
+
+                     */
+
                     return true;// true if moved, false otherwise
                 }
 
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    final int fromPos = viewHolder.getAdapterPosition();
+                    final int swipedPosition = viewHolder.getAdapterPosition();
 
                     new AlertDialog.Builder(mActivity)
                             .setIcon(R.drawable.flower_024_19)
@@ -126,12 +134,24 @@ public class MainActivity extends AppCompatActivity
                                         public void onClick(DialogInterface dialog, int which) {
                                             LogUtility.d("[削除]が選択されました");
 
-                                            // Folder関連削除
-                                            globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
+                                            // Card関連
+                                            //   LinkedList自体の削除
+                                            //   管理しているmapから削除
+                                            //   CARD_TBLからの削除
+                                            String folderId     = globalMgr.mFolderLinkedList.get(swipedPosition).getId();
+                                            globalMgr.mCardListMap.get(folderId).clear();
+                                            globalMgr.mCardListMap.remove(folderId);
+                                            CardDao cardDao     = new CardDao(getApplicationContext());
+                                            cardDao.deleteByFolderId(folderId);
 
-                                            // Card関連削除
-                                            // TODO CardのLinkedListとそれを管理しているmapからも削除要
+                                            // Folderのorderの付け替え処理は不要（Drag&Dropをやめたので）
 
+                                            // FolderのLinkedListから削除
+                                            globalMgr.mFolderLinkedList.remove(swipedPosition);
+                                            FolderDao folderDao     = new FolderDao(getApplicationContext());
+                                            folderDao.deleteByFolderId(folderId);
+
+                                            // 再表示の通知
                                             mRecyclerViewAdapter.notifyDataSetChanged();
                                         }
                                     })
@@ -150,6 +170,22 @@ public class MainActivity extends AppCompatActivity
 
             });
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtility.d("onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtility.d("onResume");
+        // Card数の増減などが発生していた場合は、リストを再表示する
+        if (globalMgr.mCardStatsChanged) mRecyclerViewAdapter.notifyDataSetChanged();
+        globalMgr.mCardStatsChanged = false;
     }
 
     @Override
