@@ -65,13 +65,6 @@
                 app:srcCompat="@drawable/flower_024_24" />
 
             <ImageView
-                android:id="@+id/imageViewReserved3"
-                android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/flower_024_26" />
-
-            <ImageView
                 android:id="@+id/imageViewTrash"
                 android:layout_width="0dp"
                 android:layout_height="75dp"

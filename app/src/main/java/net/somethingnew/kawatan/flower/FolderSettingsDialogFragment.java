@@ -74,6 +74,11 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         globalMgr.mFolderSettings.imageViewIcon     = view.findViewById(R.id.imageViewIcon);
         globalMgr.mFolderSettings.imageViewFusen    = view.findViewById(R.id.imageViewFusen);
 
+        ImageView imageView                         = view.findViewById(R.id.imageViewReserved);
+        ImageView imageView1                        = view.findViewById(R.id.imageViewReserved1);
+        imageView.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+        imageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+
         globalMgr.mChangedFolderSettings = false;
 
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
@@ -89,11 +94,14 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // イベントを処理する
         tabLayout.setupWithViewPager(viewPager);
 
+        /*
         CharSequence[] tabTitles = {"アイコン", "表紙", "おもて", "うら", "付箋", "その他"};
         for (int i = 0; i < Constants.FOLDER_SETTINGS_NUM_OF_TABS; i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setTag(tabTitles[i]);
         }
+
+         */
 
         // フォルダ名のEditTextのイベントリスナ
         globalMgr.mFolderSettings.editTextTitle.addTextChangedListener(new TextWatcher() {
@@ -129,7 +137,6 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                LogUtility.d("OnTabSelectedListener onTabSelected: " + tab.getTag());
                 //LogUtility.d("OnTabSelectedListener onTabSelected position: " + tab.getPosition());
                 // カードのLayoutを該当のものに切り替える
                 currentTabPosition = tab.getPosition();
@@ -201,13 +208,12 @@ public class FolderSettingsDialogFragment extends DialogFragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                LogUtility.d("OnTabSelectedListener onTabUnselected: " + tab.getTag());
+                LogUtility.d("OnTabSelectedListener onTabUnselected position: " + tab.getPosition());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 LogUtility.d("OnTabSelectedListener onTabReselected position: " + tab.getPosition());
-                int position = tab.getPosition();
             }
         });
 
@@ -282,7 +288,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         }
         LogUtility.d("imageViewGoBack onClick");
         new AlertDialog.Builder(getContext())
-                .setIcon(R.drawable.flower_024_19)
+                .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                .setTitle(R.string.dlg_title_goback_list)
                 .setMessage(R.string.dlg_msg_go_back_to_list)
                 .setPositiveButton(
                         R.string.go_back_list,
@@ -340,7 +347,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                 }
                 LogUtility.d("imageViewGoBack onClick");
                 new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_goback_list)
                         .setMessage(R.string.dlg_msg_go_back_to_list)
                         .setPositiveButton(
                                 R.string.go_back_list,
@@ -370,7 +378,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                 if (globalMgr.mChangedFolderSettings) {
                     // ユーザーによる設定情報の変更をmFolderLinkedListに反映する
                     new AlertDialog.Builder(getContext())
-                            .setIcon(R.drawable.flower_024_19)
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_save_confirm)
                             .setMessage(R.string.dlg_msg_save)
                             .setPositiveButton(
                                     R.string.save,
@@ -379,14 +388,12 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                         public void onClick(DialogInterface dialog, int which) {
                                             FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                             if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                                                // Drag&Drop廃止したのでorderの再設定は不要
-                                                /*
+                                                // 既存Folderの順序を繰り下げる
                                                 int i = 1;
                                                 for (FolderModel folder : globalMgr.mFolderLinkedList) {
                                                     folder.setOrder(i++);
                                                     folderDao.update(folder);
                                                 }
-                                                 */
 
                                                 // 先頭に追加
                                                 globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
@@ -452,7 +459,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                 if (globalMgr.mChangedFolderSettings) {
                     // ユーザーによる設定情報の変更をmFolderLinkedListに反映する
                     new AlertDialog.Builder(getContext())
-                            .setIcon(R.drawable.flower_024_19)
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_save_confirm)
                             .setMessage(R.string.dlg_msg_save)
                             .setPositiveButton(
                                     R.string.save,
@@ -515,7 +523,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
             public void onClick (View v){
                 Toast.makeText(getActivity().getApplicationContext(), "ゴミ箱", Toast.LENGTH_LONG).show();
                 new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_delete_confirm)
                         .setMessage(R.string.dlg_msg_delete_folder)
                         .setPositiveButton(
                                 R.string.delete,
@@ -540,6 +549,13 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                         globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
                                         FolderDao folderDao     = new FolderDao(getActivity().getApplicationContext());
                                         folderDao.deleteByFolderId(folderId);
+
+                                        // 削除したFolderの後ろのorderを更新する
+                                        for (int index = globalMgr.mCurrentFolderIndex; index < globalMgr.mFolderLinkedList.size(); index++) {
+                                            FolderModel folder = globalMgr.mFolderLinkedList.get(index);
+                                            folder.setOrder(index);
+                                            folderDao.update(folder);
+                                        }
 
                                         getDialog().dismiss();
 
@@ -570,7 +586,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                     res_string_id = R.string.dlg_msg_learned_off;
                 }
                 new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(RIconManager.getResIdAtRandom(globalMgr.mCategory))
                         .setMessage(res_string_id)
                         .setPositiveButton(
                                 R.string.apply,

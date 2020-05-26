@@ -37,7 +37,7 @@ public class FolderModel implements Cloneable {
 	int						frontTextColor;			// おもての文字色
 	int						backTextColor;			// うらの文字色
 	int						imageFusenResId;		// ふせんのResourceId
-	int						order;					// 並び順
+	int						order;					// mFolderLinkedList内での並び順
 	int						iconCategory;			// ICONのカテゴリー
 	boolean					iconAutoDisplay;		// アイコンの自動ランダム表示
 
@@ -60,7 +60,7 @@ public class FolderModel implements Cloneable {
 		this.coverTextColor			= Color.BLACK;
 		this.frontTextColor			= Color.BLACK;
 		this.backTextColor			= Color.BLACK;
-		this.order		            = -1;					// Drag&Dropを禁止したので実質未使用
+		this.order		            = -1;
 		this.iconCategory			= 0;					// Defalut: flower
 		this.iconAutoDisplay		= true;
 	}

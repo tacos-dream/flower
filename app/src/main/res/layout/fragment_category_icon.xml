@@ -4,7 +4,7 @@
     android:id="@+id/main_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AAA"
+    android:background="#FFFFDD"
     tools:context=".CategoryIconFragment">
 
     <LinearLayout
@@ -19,8 +19,17 @@
             android:gravity="center"
             android:horizontalSpacing="1dp"
             android:numColumns="8"
+            android:layout_weight="1"
             android:stretchMode="columnWidth"
             android:verticalSpacing="1dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="2dp"
+            android:text="©2014 IPC, Design by PD" />
 
     </LinearLayout>
 

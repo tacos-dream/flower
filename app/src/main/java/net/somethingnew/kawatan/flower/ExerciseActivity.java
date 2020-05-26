@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.chip.Chip;
 
 import net.somethingnew.kawatan.flower.model.CardModel;
@@ -24,6 +30,7 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class ExerciseActivity extends AppCompatActivity {
 
@@ -35,7 +42,8 @@ public class ExerciseActivity extends AppCompatActivity {
     private CardModel                           mCard;
     private LinkedList<CardModel>               mCardModelLinkedList;
     private LinkedList<CardModel>               mCardModelLinkedListShuffle;
-    private Boolean                             mUnderExercise = false;
+    private Boolean                             mExerciseHasStarted = false;
+    private Boolean                             mBackTextWasDisplayed = false;
     private int                                 mTotalCardNum;
     private int                                 mCurrentCardIndex;
     private int                                 mLearnedFilterState;
@@ -84,7 +92,13 @@ public class ExerciseActivity extends AppCompatActivity {
         mChipNoFusen            = findViewById(R.id.chipNoFusen);
 
         Toolbar toolbar         = findViewById(R.id.main_toolbar);
+        TextView title          = findViewById(R.id.toolbar_title);
+        title.setText(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getTitleName());
         setSupportActionBar(toolbar);
+
+        MobileAds.initialize(mContext, BuildConfig.ADMOB_APPLICATION_ID);
+        setBottomBannerAdView();
+
         buildEventListener();
 
         // Filterのデフォルト（未収得＆付箋あり＆付箋なし）
@@ -100,7 +114,9 @@ public class ExerciseActivity extends AppCompatActivity {
             Collections.shuffle(mCardModelLinkedListShuffle);
         }
 
-        showCardContents();
+        // 先頭カードの表示なので
+        mCurrentCardIndex = -1;
+        showCardContents(true);
     }
 
     @Override
@@ -154,15 +170,21 @@ public class ExerciseActivity extends AppCompatActivity {
         return mGestureDetector.onTouchEvent(event);
     }
 
-    //複雑なタッチイベント処理
-    private final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
+    /**
+     * 複雑なタッチイベント処理
+     *   SingleTap      →　答え表示　→　SingleTap　→　次の問題
+     *   DoubleTap      →　次の問題
+     *   Swipe(LEFT)    →　次の問題
+     *   Swipe(RIGHT)   →　前の問題
+     */
+    private final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+        
         @Override
         public boolean onDoubleTap(MotionEvent event) {
             //LogUtility.d("onDoubleTap");
-            mUnderExercise          = true;
-            mCurrentCardIndex++;
-            showCardContents();
+            showCardContents(true);
+            mExerciseHasStarted         = true;
             return super.onDoubleTap(event);
         }
 
@@ -180,12 +202,12 @@ public class ExerciseActivity extends AppCompatActivity {
 
         @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-            mUnderExercise          = true;
+            mExerciseHasStarted          = true;
             float startTouchX       = event1.getX();
             float endTouchX         = event2.getX();
-            //LogUtility.d("onFling startTouchX:" + startTouchX + " endTouchX:" + endTouchX);
-            mCurrentCardIndex++;
-            showCardContents();
+            LogUtility.d("onFling startTouchX:" + startTouchX + " endTouchX:" + endTouchX);
+            if (startTouchX > endTouchX) showCardContents(true); else showCardContents(false);
+
             return super.onFling(event1, event2, velocityX, velocityY);
         }
 
@@ -210,8 +232,16 @@ public class ExerciseActivity extends AppCompatActivity {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
             //LogUtility.d("onSingleTapConfirmed");
-            mUnderExercise          = true;
-            mTextViewBack.setText(mCard.getBackText());
+            if (mBackTextWasDisplayed) {
+                showCardContents(true);
+                mBackTextWasDisplayed   = false;
+            }
+            else {
+                mTextViewBack.setText(mCard.getBackText());
+                mBackTextWasDisplayed   = true;
+            }
+            mExerciseHasStarted         = true;
+
             return super.onSingleTapConfirmed(event);
         }
 
@@ -224,6 +254,61 @@ public class ExerciseActivity extends AppCompatActivity {
     };
 
     /**
+     * 画面下部のバナー広告
+     */
+    private void setBottomBannerAdView() {
+        LogUtility.d("setBottomBannerAdView...");
+
+        // バナー広告
+        RelativeLayout mRelativeLayout = findViewById(R.id.relative_layout_whole);
+        AdView adView = new AdView(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        adView.setLayoutParams(params);
+        mRelativeLayout.addView(adView);
+        adView.setAdSize(AdSize.BANNER);      // 320×50
+        //adView.setAdSize(AdSize.SMART_BANNER);  // 画面の幅×50
+        adView.setAdUnitId(BuildConfig.ADMOB_BANNER_UNIT_ID_EXERCISE);
+
+        // XMLで定義する場合は上記をコメントにし、以下の１行だけを有効にする
+        // AdView adView = findViewById(R.id.adView);
+
+        // 以下でなくてもEmulatorで動いた
+        // AdRequest adRequest = new AdRequest.Builder().addTestDevice( AdRequest.DEVICE_ID_EMULATOR ).build();
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        // ad's lifecycle: loading, opening, closing, and so on
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                LogUtility.d("Code to be executed when an ad finishes loading.");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                LogUtility.d("Code to be executed when an ad request fails.");
+            }
+
+            @Override
+            public void onAdOpened() {
+                LogUtility.d("Code to be executed when an ad opens an overlay that covers the screen.");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                LogUtility.d("Code to be executed when the user has left the app.");
+            }
+
+            @Override
+            public void onAdClosed() {
+                LogUtility.d("Code to be executed when when the user is about to return to the app after tapping on an ad.");
+            }
+        });
+    }
+
+    /**
      * 上部メニュー領域の各アイコン、表示フィルターのChip、カードの編集箇所のイベントハンドラ
      */
     public void buildEventListener() {
@@ -233,14 +318,14 @@ public class ExerciseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(getActivity().getApplicationContext(), "キャンセル", Toast.LENGTH_LONG).show();
 
-                if (!mUnderExercise) {
+                if (!mExerciseHasStarted) {
                     // 練習開始前の場合は確認ダイアログ無しですぐに一覧に戻る
                     finish();
                     return;
                 }
 
                 new AlertDialog.Builder(mActivity)
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
                         .setMessage(R.string.dlg_msg_go_back_to_list_simple)
                         .setPositiveButton(
                                 R.string.go_back_list,
@@ -366,19 +451,40 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
-    public void showCardContents() {
+    /**
+     * 表示すべき前後のカードを見つけて表示する
+     * @param next　true: 次に進む場合　false: 前に戻る場合
+     */
+    public void showCardContents(boolean next) {
+        if (next) mCurrentCardIndex++; else mCurrentCardIndex--;
+
         while (mCurrentCardIndex < mTotalCardNum) {
-            //mCard           = mCardModelLinkedList.get(mCurrentCardIndex);
-            if (mExerciseMode == Constants.EXERCISE_MODE_SHUFFLE) {
-                mCard           = mCardModelLinkedListShuffle.get(mCurrentCardIndex);
+
+            if (mCurrentCardIndex == -1) {
+                // 先頭に戻りきっているのでアラートを出す
+                new AlertDialog.Builder(mActivity)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_information)
+                        .setMessage(R.string.dlg_msg_first_card_now)
+                        .setPositiveButton(
+                                android.R.string.ok,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        LogUtility.d("[OK]が選択されました");
+                                        // 単にダイアログが消えて何もしない
+                                    }
+                                })
+                        .show();
+                return;
             }
-            else {
-                mCard           = mCardModelLinkedList.get(mCurrentCardIndex);
-            }
+
+            if (mExerciseMode == Constants.EXERCISE_MODE_SHUFFLE)
+                mCard = mCardModelLinkedListShuffle.get(mCurrentCardIndex);
+            else
+                mCard = mCardModelLinkedList.get(mCurrentCardIndex);
 
             // フィルターチェック
             if (mLearnedFilterState == Constants.FILTER_STATE_LEARNED) {
@@ -386,20 +492,13 @@ public class ExerciseActivity extends AppCompatActivity {
                 if (mCard.isLearned()) {
                     // 習得フィルターは「習得済」で一致したので、付箋フィルターをチェック
                     if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
-                        if (mCard.isFusenTag()) {
-                            // 付箋フィルターが「付箋あり」で一致したので対象
-                            break;
-                        }
+                        if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
                     }
                     else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
-                        if (!mCard.isFusenTag()) {
-                            // 付箋フィルターが「付箋なし」で一致したので対象
-                            break;
-                        }
+                        if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
                     }
                     else {
-                        // 付箋あり・なしすべてなので対象
-                        break;
+                        break;      // 付箋あり・なしすべてなので対象
                     }
                 }
             }
@@ -408,20 +507,13 @@ public class ExerciseActivity extends AppCompatActivity {
                 if (!mCard.isLearned()) {
                     // 習得フィルターは「未習得」で一致したので、付箋フィルターをチェック
                     if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
-                        if (mCard.isFusenTag()) {
-                            // 付箋フィルターが「付箋あり」で一致したので対象
-                            break;
-                        }
+                        if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
                     }
                     else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
-                        if (!mCard.isFusenTag()) {
-                            // 付箋フィルターが「付箋なし」で一致したので対象
-                            break;
-                        }
+                        if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
                     }
                     else {
-                        // 付箋あり・なしすべてなので対象
-                        break;
+                        break;      // 付箋あり・なしすべてなので対象
                     }
                 }
             }
@@ -429,31 +521,26 @@ public class ExerciseActivity extends AppCompatActivity {
                 // 習得済・未習得すべて
                 // 付箋フィルターをチェックする
                 if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
-                    if (mCard.isFusenTag()) {
-                        // 付箋フィルターが「付箋あり」で一致したので対象
-                        break;
-                    }
+                    if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
                 }
                 else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
-                    if (!mCard.isFusenTag()) {
-                        // 付箋フィルターが「付箋なし」で一致したので対象
-                        break;
-                    }
+                    if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
                 }
                 else {
-                    // 付箋あり・なしすべてなので対象
-                    break;
+                    break;      // 付箋あり・なしすべてなので対象
                 }
             }
 
             // 上記でフィルターにかからなかったのでスキップして次をチェックする
-            mCurrentCardIndex++;
+            if (next) mCurrentCardIndex++; else mCurrentCardIndex--;
         }
 
         if (mCurrentCardIndex >= mTotalCardNum) {
-            // TODO 終了の表示をする
+            // ここに来るのはカード全体を超えた場合
+            // 終了の表示をする
             new AlertDialog.Builder(mActivity)
-                    .setIcon(R.drawable.flower_024_19)
+                    .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                    .setTitle(R.string.dlg_title_information)
                     .setMessage(R.string.dlg_msg_exercise_end)
                     .setPositiveButton(
                             R.string.go_back_list,
@@ -470,35 +557,32 @@ public class ExerciseActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     LogUtility.d("[もう一度]が選択されました");
-                                    mCurrentCardIndex = 0;
-                                    showCardContents();
+                                    mCurrentCardIndex = -1;
+                                    showCardContents(true);
                                 }
                             })
                     .show();
             return;
         }
 
+        // 表示すべきカードが見つかったので表示する
         mCardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
         mCardViewBack.setCardBackgroundColor(mFolder.getBackBackgroundColor());
         mTextViewFront.setTextColor(mFolder.getFrontTextColor());
         mTextViewFront.setText(mCard.getFrontText());
         mTextViewBack.setTextColor(mFolder.getBackTextColor());
         mTextViewBack.setText(R.string.back_mask);
-        mImageViewIcon.setImageResource(mCard.getImageIconResId());
+        mImageViewIcon.setImageResource(mCard.isIconAutoDisplay() ?
+                IconManager.getResIdAtRandom(mCard.getIconCategory()) : mCard.getImageIconResId());
 
-        if (mCard.isLearned()) {
-            mImageViewLearned.setImageResource(R.drawable.heart_on);
-        }
-        else {
-            mImageViewLearned.setImageResource(R.drawable.heart_off_grey);
-        }
+        if (mCard.isLearned())  mImageViewLearned.setImageResource(R.drawable.heart_on);
+        else                    mImageViewLearned.setImageResource(R.drawable.heart_off_grey);
 
-        if (mCard.isFusenTag()) {
-            mImageViewFusen.setImageResource(mFolder.getImageFusenResId());
-        }
-        else {
-            mImageViewFusen.setImageResource(R.drawable.fusen_00);
-        }
+        if (mCard.isFusenTag()) mImageViewFusen.setImageResource(mFolder.getImageFusenResId());
+        else                    mImageViewFusen.setImageResource(R.drawable.fusen_00);
+
+        mBackTextWasDisplayed       = false;            // 新しいカードに移ったので裏面表示のステータスを「未表示」にする
+        return;
     }
 
 }

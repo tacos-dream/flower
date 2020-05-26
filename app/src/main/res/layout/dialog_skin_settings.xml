@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".SplashActivity">
+
+    <TextView
+        android:id="@+id/textViewVersionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
+        android:text="Version"
+        android:textSize="18sp"
+        android:textStyle="italic" />
+
+    <LinearLayout
+        android:id="@+id/linerLayoutVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@+id/textViewVersionTitle"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:id="@+id/radioGroupVersion1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1">
+            <RadioButton
+                android:id="@+id/radioButtonFlower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flower" />
+            <RadioButton
+                android:id="@+id/radioButtonJewelry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jewelry" />
+            <RadioButton
+                android:id="@+id/radioButtonCosme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cosme" />
+            <RadioButton
+                android:id="@+id/radioButtonHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heart" />
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radioGroupVersion2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <RadioButton
+                android:id="@+id/radioButtonParts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parts" />
+            <RadioButton
+                android:id="@+id/radioButtonCharacter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Character" />
+            <RadioButton
+                android:id="@+id/radioButtonFood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food" />
+        </RadioGroup>
+    </LinearLayout>>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutIcons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linerLayoutVersion"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">>
+
+        <ImageView
+            android:id="@+id/imageViewIconSample1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/imageViewIconSample2"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/imageViewIconSample3"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:scaleType="fitCenter" />
+
+        <ImageView
+            android:id="@+id/imageViewIconSample4"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textViewBaseColorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@+id/linearLayoutIcons"
+        android:text="ベースColor"
+        android:textSize="18sp"
+        android:textStyle="italic" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBaseColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@+id/textViewBaseColorTitle"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutBaseColor1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/buttonWhite"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_white"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPink"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_pink"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonGreen"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_green"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonBlue"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_blue"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayoutBaseColor2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/buttonViolet"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_violet"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonYellow"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_yellow"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonGrey"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_grey"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonDarkGrey"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/button_darkgrey"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_below="@+id/linearLayoutBaseColor"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/buttonSaveClose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:text="保存して閉じる" />
+        <Button
+            android:id="@+id/buttonCancelClose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:text="キャンセル" />
+    </LinearLayout>>
+</RelativeLayout>

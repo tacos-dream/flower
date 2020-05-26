@@ -19,17 +19,21 @@ import net.somethingnew.kawatan.flower.model.FolderModel;
  */
 public class GlobalManager {
 
-    public Context                      mApplicationContext;
+    public Context                              mApplicationContext;
 
     // GlobalManagerのシングルトンインスタンスの生成は、起動直後のSplashActivityで
     // static関数のonCreateApplication()を呼び出した時点で生成する。
     // 同時にContextを渡してもらい、以後、アプリ内の各所でContext参照できるようにする
     private static GlobalManager                mInstance = null;
 
+    public int                                  mCategory;
+    public int                                  mBaseColor;
+
     /**
      * Folder一覧を保持するLinedList
      */
     public LinkedList<FolderModel>              mFolderLinkedList;
+    public LinkedList<FolderModel>              mSearchedFolderLinkedList;
 
     /**
      * Folder一覧でDrag&Dropによる並び順が変更になった場合に、どこからどこの範囲に並び替えの更新が発生したかを保持しておき、

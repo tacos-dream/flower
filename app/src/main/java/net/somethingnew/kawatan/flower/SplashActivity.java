@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import net.somethingnew.kawatan.flower.db.DatabaseHelper;
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
@@ -19,11 +24,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * スプラッシュ画面Activity.<br>
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity {
 
     GlobalManager               globalMgr;
     SharedPreferences           mSharedPref;
@@ -41,8 +47,13 @@ public class SplashActivity extends Activity {
 
         setContentView(R.layout.activity_splash);
 
-        //TextView txvVersion     = findViewById(R.id.txvVerion);
-        //txvVersion.setText("Version: " + Constants.VERSION);
+        loadSharedPreference();
+        TextView textViewTitleVersion       = findViewById(R.id.textViewTitleVersion);
+        textViewTitleVersion.setText(Constants.CATEGORY_NAME[globalMgr.mCategory] + " Version");
+
+        IconManager.init(this);
+        ImageView imageView     = findViewById(R.id.imageViewLogo);
+        imageView.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
 
         /*
         LogUtility.d("Showing splash for a while...");
@@ -67,8 +78,6 @@ public class SplashActivity extends Activity {
                 globalMgr.mDbHelper.getWritableDatabase();
 
                 loadDb();
-                loadSharedPreference();
-                loadIcons();
 
                 while (true) {
                     if (System.currentTimeMillis() - mStartTime > Constants.SPLASH_TIME_MILLI_SEC) {
@@ -130,30 +139,9 @@ public class SplashActivity extends Activity {
         // Preferenceから設定情報を取得しglobalMgrに保持
         mSharedPref                                 = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME,Context.MODE_PRIVATE);
         //globalMgr.strParam                        = mSharedPref.getString(Constants.SHARED_PREF_KEY_USERID, "");
-        //globalMgr.intParam                        = sharedPref.getInt(Constants.SHARED_PREF_KEY_GENRE,  Constants.GAE_API_GENRE_NUM_UNKNOWN);
-        globalMgr.mUserSettings.aaa                 = mSharedPref.getBoolean(Constants.SHARED_PREF_KEY_ICON_RANDOM, false);
-    }
-
-    /**
-     * カテゴリー毎のすべてのアイコンを読み込みArrayListの配列に保持する
-     */
-    public void loadIcons() {
-        LogUtility.d("Loading Icons...");
-        globalMgr.mIconResourceIdListArray                   = new ArrayList[Constants.NUM_OF_ICON_TAB];
-        for (int category = 0; category < Constants.NUM_OF_ICON_TAB; category++) {
-            globalMgr.mIconResourceIdListArray[category]     = new ArrayList<>();
-
-            // Resource名をR.drawable.名前としてintに変換してarrayに登録
-            // 先頭にはランダムアイコンをセットする
-            int imageId         = getResources().getIdentifier(Constants.DEFAULT_ICON_NAME,"drawable", this.getPackageName());
-            globalMgr.mIconResourceIdListArray[category].add(imageId);
-            for (int i = 0; i < Constants.NUM_OF_ICONS_IN_CATEGORY[category]; i++) {
-                String iconName     = Constants.ICON_TAB_ARRAY[category] + "_" +  String.format("%03d", i+1);
-                imageId             = getResources().getIdentifier(iconName,"drawable", this.getPackageName());
-                globalMgr.mIconResourceIdListArray[category].add(imageId);
-            }
-        }
-
+        globalMgr.mCategory                         = mSharedPref.getInt(Constants.SHARED_PREF_KEY_CATEGORY,  Constants.CATEGORY_INDEX_JEWELRY);
+        globalMgr.mBaseColor                        = mSharedPref.getInt(Constants.SHARED_PREF_KEY_BASE_COLOR, Color.parseColor(Constants.DEFALUT_BASE_COLOR));
+        //globalMgr.mUserSettings.aaa                 = mSharedPref.getBoolean(Constants.SHARED_PREF_KEY_ICON_RANDOM, false);
     }
 
 }

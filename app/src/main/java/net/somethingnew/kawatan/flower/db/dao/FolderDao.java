@@ -23,9 +23,10 @@ import java.util.Locale;
 public class FolderDao extends DatabaseHelper {
 	// SQL文キャッシュ
 	private static String insertSqlStr = null;
-	private static String selectAllSqlStr = null;
-	private static String deleteSqlStr = null;
 	private static String updateSqlStr = null;
+	private static String deleteSqlStr = null;
+	private static String selectAllSqlStr = null;
+	private static String selectByTitleSqlStr = null;
 	private static String selectCountAllSqlStr = null;
 
 	/**
@@ -370,6 +371,63 @@ public class FolderDao extends DatabaseHelper {
 		return result;
 	}
 
+	/**
+	 * @return ArrayList<FolderModel>
+	 */
+	public ArrayList<FolderModel> selectByTitle(String searchWord) {
+		LogUtility.d("selectByTitle");
+		ArrayList<FolderModel> result = new ArrayList<>();
+
+		try {
+
+			// SQL文生成
+			if (selectByTitleSqlStr == null) {
+				selectByTitleSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_FOLDER, Constants.COLUMN_NAMES_FOLDER, "TITLE_NAME LIKE ?", null,
+						null, "DISPLAY_ORDER", null);
+			}
+
+			// 変数をバインドしカーソルを取得
+			String[] whereBindValue = {"%" + searchWord + "%"};
+			Cursor cursor = getDBInstance().rawQuery(selectByTitleSqlStr, whereBindValue);
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+
+			// カーソルが終わるまで繰り返し
+			while (cursor.moveToNext()) {
+				int index = 0;
+
+				FolderModel folder = new FolderModel();
+
+				folder.setId(cursor.getString(index++));
+				folder.setTitleName(cursor.getString(index++));
+				folder.setCreatedDate(dateFormat.parse(cursor.getString(index++)));
+				folder.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
+				folder.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
+				folder.setNumOfAllCards(cursor.getInt(index++));
+				folder.setNumOfLearnedCards(cursor.getInt(index++));
+				folder.setImageIconResId(cursor.getInt(index++));
+				folder.setCoverBackgroundColor(cursor.getInt(index++));
+				folder.setFrontBackgroundColor(cursor.getInt(index++));
+				folder.setBackBackgroundColor(cursor.getInt(index++));
+				folder.setCoverTextColor(cursor.getInt(index++));
+				folder.setFrontTextColor(cursor.getInt(index++));
+				folder.setBackTextColor(cursor.getInt(index++));
+				folder.setImageFusenResId(cursor.getInt(index++));
+				folder.setOrder(cursor.getInt(index++));
+				folder.setIconCategory(cursor.getInt(index++));
+				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
+
+				result.add(folder);
+			}
+
+			// カーソルをクローズ
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
 	/**
 	 * レコード件数取得.<BR>

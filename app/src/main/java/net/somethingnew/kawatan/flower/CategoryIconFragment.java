@@ -33,7 +33,7 @@ public class CategoryIconFragment extends Fragment {
         LogUtility.d("constructor: category: " + category);
         mCategory               = category;
         mHost                   = host;
-        mIconResourceIdList     = globalMgr.mIconResourceIdListArray[category];
+        mIconResourceIdList     = IconManager.getIconResourceIdList(category);
     }
 
     @Override

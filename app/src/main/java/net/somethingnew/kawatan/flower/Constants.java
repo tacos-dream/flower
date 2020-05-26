@@ -13,7 +13,11 @@ public final class Constants {
 
     public static final String VERSION = "202002B";
 
+    /**
+     * 時間関連
+     */
 	public static final int SPLASH_TIME_MILLI_SEC       = 1500;
+
     /**
      * 戻り値
      */
@@ -23,12 +27,32 @@ public final class Constants {
     public static final int RTC_IO_ERROR                = -2;
     public static final int RTC_NETWORK_UNAVAILABLE     = -3;
 
+    /**
+     * 外部リンク用URL
+     */
+    public static final String EXTERNAL_LINK_URL_JSPUCHIKIRA            = "https://book.impress.co.jp/books/1113101121";
+    public static final String EXTERNAL_LINK_URL_KAWATN_INFO            = "https://kawatan-2020.an.r.appspot.com/files/introduction.html";
+    public static final String EXTERNAL_LINK_URL_KAWATN_HOWTO           = "https://kawatan-2020.an.r.appspot.com/files/introduction.html";
+    public static final String EXTERNAL_LINK_URL_KAWATN_TERMS           = "https://kawatan-2020.an.r.appspot.com/files/terms.html";
+    public static final String EXTERNAL_LINK_URL_KAWATN_PRIVACY_POLICY  = "https://kawatan-2020.an.r.appspot.com/files/privacy_policy.html";
+    //public static final String EXTERNAL_LINK_URL_PLAY_STORE           = "https://play.google.com/apps/testing/jp.tacos_mcs.earth1";
+    public static final String EXTERNAL_LINK_URL_PLAY_STORE             = "https://play.google.com/store/apps/details?id=jp.tacos_mcs.earth1";
+    public static final String EXTERNAL_LINK_URL_HOWTO_YOUTUBE_WEB      = "https://www.youtube.com/watch?v=P4ipJ2rXIJs";
+    public static final String EXTERNAL_LINK_URL_HOWTO_YOUTUBE_APL      = "vnd.youtube:P4ipJ2rXIJs";
+
+    /**
+     * メール問い合わせ関連
+     */
+    public static final String MAIL_TO_ADDRESS          = "somethingnew.dream@gmail.com";
+    public static final String MAIL_SUBJECT             = "【かわたん】ご意見・ご感想・ご質問";
+    public static final String MAIL_BODY                = "いつもアプリのご利用ありがとうございます。\n\nご自由にご意見、ご感想、ご質問をお書きください。\nよろしくお願い致します。\n-----------------------------------------------";
 
     /**
      * SharedPreference関連項目
      */
-    public static final String SHARED_PREFERENCE_NAME               = "kawatan_pref";
-    public static final String SHARED_PREF_KEY_ICON_RANDOM          = "iconRandomMode";
+    public static final String SHARED_PREFERENCE_NAME       = "kawatan_pref";
+    public static final String SHARED_PREF_KEY_CATEGORY     = "category";
+    public static final String SHARED_PREF_KEY_BASE_COLOR   = "base_color";
 
 
     /**
@@ -113,6 +137,11 @@ public final class Constants {
     public static final int EXERCISE_MODE_SHUFFLE                       = 2;
 
     /**
+     * 検索関連
+     */
+    public static final String SEARCH_WORD_KEY_NAME                   = "SEARCH_WORD";
+
+    /**
      * OnClickListenerの種類
      */
     public static final int ONCLICK_LISTENER_TYPE_CARD                  = 1;
@@ -133,12 +162,32 @@ public final class Constants {
     /**
      * アイコン関連
      */
-    public static final int         NUM_OF_ICON_TAB                     = 8;
-    public static final int[]       NUM_OF_ICONS_IN_CATEGORY            = {135, 67, 102, 75, 135, 80, 90, 77};
-    public static final String[]    ICON_TAB_ARRAY                      = {"jewelry", "flower", "cosme", "heart", "parts", "character", "food", "alphanum"};
-    public static final String[]    ICON_TAB_NAME_ARRAY                 = {"ジュエリー", "フラワー", "コスメ", "ハート", "パーツ", "表情", "たべもの", "数字ABC"};
-    public static final String[]    ICON_TAB_IMAGE_ID                   = {"jewelry_001", "flower_001", "cosme_001", "heart_001","parts_001", "character_001", "food_001", "alphanum_001"};
+    public static final int         NUM_OF_ICON_TAB                     = 7;
+    public static final int[]       NUM_OF_ICONS_IN_CATEGORY            = {67, 135, 102, 75, 135, 80, 90};
+    public static final String[]    ICON_TAB_ARRAY                      = {"flower", "jewelry", "cosme", "heart", "parts", "character", "food"};
+    public static final String[]    ICON_TAB_NAME_ARRAY                 = {"フラワー", "ジュエリー", "コスメ", "ハート", "パーツ", "表情", "たべもの"};
+    public static final String[]    ICON_TAB_IMAGE_ID                   = {"flower_001", "jewelry_001", "cosme_001", "heart_001","parts_001", "character_001", "food_001"};
     public static final String      DEFAULT_ICON_NAME                   = "alphanum_031";
+
+    /**
+     * カテゴリー
+     * 注意注意注意注意注意注意注意注意　　上記のICONの設定と合わせること　　注意注意注意注意注意注意注意注意
+     */
+    public static final String[]    CATEGORY_NAME                      = {"Flower", "Jewelry", "Cosme", "Heart", "Parts", "Character", "Food"};
+    public static final int         CATEGORY_INDEX_FLOWER              = 0;
+    public static final int         CATEGORY_INDEX_JEWELRY             = 1;
+    public static final int         CATEGORY_INDEX_COSME               = 2;
+    public static final int         CATEGORY_INDEX_HEART               = 3;
+    public static final int         CATEGORY_INDEX_PARTS               = 4;
+    public static final int         CATEGORY_INDEX_CHARACTER           = 5;
+    public static final int         CATEGORY_INDEX_FOOD                = 6;
+
+    /**
+     * BASE_COLOR関連
+     */
+    public static final String      DEFALUT_BASE_COLOR                  = "#FFBBDD";        // PINK
+
+
 
     /**
      * ひらがなテーブル.<br>

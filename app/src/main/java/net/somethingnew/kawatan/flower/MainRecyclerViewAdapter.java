@@ -13,6 +13,7 @@ import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -22,6 +23,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     private GlobalManager                       globalMgr = GlobalManager.getInstance();
     private OnItemClickListener                 mListener;
+    private LinkedList<FolderModel>             mFolderLinkedList;
 
     /**
      * Interfaceを定義し、Activity側にoverrideでonItemClick()を実装させ、Adapter側からそれをCallback的に呼び出せるようにする
@@ -121,10 +123,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         }
     }
 
-    public MainRecyclerViewAdapter() {
-        // きれいな実装としては、ここの引数でArrayListを受け取るのがよいが、今回は
-        // globalMgr.mFolderLinkedListで参照するので、
-        // とりあえず、コンストラクターでは何もなし
+    public MainRecyclerViewAdapter(LinkedList<FolderModel> folderModelLinkedList) {
+        mFolderLinkedList = folderModelLinkedList;
     }
 
     /**
@@ -152,32 +152,32 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
      */
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int listPosition) {
-        LogUtility.d("onBindViewHolder listPosition: " + listPosition + "(" + globalMgr.mFolderLinkedList.get(listPosition).getTitleName() + ")");
+        LogUtility.d("onBindViewHolder listPosition: " + listPosition + "(" + mFolderLinkedList.get(listPosition).getTitleName() + ")");
         TextView    textViewTitleName           = holder.textViewTitleName;
         TextView    textViewLastUsedDate        = holder.textViewLastUsedDate;
         TextView    textViewNumOfCards          = holder.textViewNumOfCards;
         ImageView   imageViewIcon               = holder.imageViewIcon;
         CardView    cardViewFolder              = holder.cardViewFolder;
 
-        textViewTitleName.setText(globalMgr.mFolderLinkedList.get(listPosition).getTitleName());
-        textViewLastUsedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(globalMgr.mFolderLinkedList.get(listPosition).getLastUsedDate()));
-        textViewNumOfCards.setText(globalMgr.mFolderLinkedList.get(listPosition).getNumOfLearnedCards() + " / " + globalMgr.mFolderLinkedList.get(listPosition).getNumOfAllCards());
-        cardViewFolder.setCardBackgroundColor(globalMgr.mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
-        int category                = globalMgr.mFolderLinkedList.get(listPosition).getIconCategory();
-        FolderModel folderModel     = globalMgr.mFolderLinkedList.get(listPosition);
+        textViewTitleName.setText(mFolderLinkedList.get(listPosition).getTitleName());
+        textViewLastUsedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(mFolderLinkedList.get(listPosition).getLastUsedDate()));
+        textViewNumOfCards.setText(mFolderLinkedList.get(listPosition).getNumOfLearnedCards() + " / " + mFolderLinkedList.get(listPosition).getNumOfAllCards());
+        cardViewFolder.setCardBackgroundColor(mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
+        int category                = mFolderLinkedList.get(listPosition).getIconCategory();
+        FolderModel folderModel     = mFolderLinkedList.get(listPosition);
         imageViewIcon.setImageResource(folderModel.isIconAutoDisplay() ?
-                globalMgr.mIconResourceIdListArray[category].get(new Random().nextInt(Constants.NUM_OF_ICONS_IN_CATEGORY[category]) + 1) :
+                IconManager.getResIdAtRandom(category) :
                 folderModel.getImageIconResId()
         );
 
         // mFolderLinkedListのpositionだとDrag&Dropにより入れ替わることがあるので、id番号をタグ付けしておく
-        imageViewIcon.setTag(globalMgr.mFolderLinkedList.get(listPosition).getId());
+        imageViewIcon.setTag(mFolderLinkedList.get(listPosition).getId());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         //LogUtility.d("getItemCount: " + dataSet.size());
-        return globalMgr.mFolderLinkedList.size();
+        return mFolderLinkedList.size();
     }
 }

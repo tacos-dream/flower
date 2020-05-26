@@ -8,6 +8,7 @@
             android:id="@+id/naviItemSkinDesign"
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/skin_design" />
+        <!--
         <item
             android:id="@+id/naviItemIconDesign"
             android:icon="@android:drawable/ic_menu_gallery"
@@ -16,6 +17,7 @@
             android:id="@+id/naviItemSplashDesign"
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/splash_design" />
+        -->
     </group>
 
     <group
@@ -60,6 +62,10 @@
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/terms" />
         <item
+            android:id="@+id/naviItemPrivacyPolicy"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/privacy_policy" />
+        <item
             android:id="@+id/naviItemReviewUs"
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/review_us" />
@@ -67,6 +73,10 @@
             android:id="@+id/naviItemShareUs"
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/share_us" />
+        <item
+            android:id="@+id/naviItemAboutIcon"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/about_icon" />
         <item
             android:id="@+id/naviItemAboutUs"
             android:icon="@android:drawable/ic_menu_gallery"

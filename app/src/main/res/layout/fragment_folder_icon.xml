@@ -28,19 +28,23 @@
                 <TabWidget
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></TabWidget>
+                    android:layout_height="wrap_content">
+                </TabWidget>
             </HorizontalScrollView>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="0dp"
-                android:layout_height="0dp"></FrameLayout>
+                android:layout_height="0dp">
+            </FrameLayout>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"></androidx.viewpager.widget.ViewPager>
+                android:layout_marginTop="5dp">
+            </androidx.viewpager.widget.ViewPager>
+
         </LinearLayout>
     </TabHost>
 

@@ -83,7 +83,8 @@ public class ExerciseDialogFragment extends DialogFragment {
                 }
 
                 new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_goback_list)
                         .setMessage(R.string.dlg_msg_go_back_to_list)
                         .setPositiveButton(
                                 R.string.go_back_list,

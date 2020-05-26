@@ -176,7 +176,7 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
          */
         CardModel card                              = mCardLinkedList.get(listPosition);
         imageViewIcon.setImageResource(card.isIconAutoDisplay() ?
-                globalMgr.mIconResourceIdListArray[card.getIconCategory()].get(new Random().nextInt(Constants.NUM_OF_ICONS_IN_CATEGORY[card.getIconCategory()]) + 1) :
+                IconManager.getResIdAtRandom(card.getIconCategory()) :
                 card.getImageIconResId());
         imageViewLearned.setImageResource(card.isLearned() ? R.drawable.heart_on : R.drawable.heart_off_grey);
         imageViewFusen.setImageResource(card.isFusenTag() ? mFolder.getImageFusenResId() : R.drawable.fusen_00);

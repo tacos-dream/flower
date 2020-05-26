@@ -40,6 +40,7 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class CardSettingsDialogFragment extends DialogFragment {
 
@@ -89,6 +90,11 @@ public class CardSettingsDialogFragment extends DialogFragment {
 
         buildTabMenu();
         buildEventListener();
+
+        ImageView imageView1                        = mView.findViewById(R.id.imageViewReserved1);
+        ImageView imageView2                        = mView.findViewById(R.id.imageViewReserved2);
+        imageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+        imageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
 
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
@@ -156,7 +162,8 @@ public class CardSettingsDialogFragment extends DialogFragment {
                 }
                 LogUtility.d("imageViewGoBack onClick");
                 new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_goback_list)
                         .setMessage(R.string.dlg_msg_go_back_to_list)
                         .setPositiveButton(
                                 R.string.go_back_list,
@@ -186,7 +193,8 @@ public class CardSettingsDialogFragment extends DialogFragment {
                 if (globalMgr.mChangedCardSettings) {
                     // ユーザーによる設定情報の変更をmCardLinkedListに反映する
                     new AlertDialog.Builder(getContext())
-                            .setIcon(R.drawable.flower_024_19)
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_save_confirm)
                             .setMessage(R.string.dlg_msg_save)
                             .setPositiveButton(
                                     R.string.save,
@@ -250,7 +258,8 @@ public class CardSettingsDialogFragment extends DialogFragment {
                 }
                 //Toast.makeText(getActivity().getApplicationContext(), "ゴミ箱", Toast.LENGTH_LONG).show();
                 new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.flower_024_19)
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_delete_confirm)
                         .setMessage(R.string.dlg_msg_delete_card)
                         .setPositiveButton(
                                 R.string.delete,
