@@ -50,7 +50,7 @@ public class FolderIconPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         LogUtility.d("getPageTitle position:" + position);
-        return Constants.ICON_TAB_NAME_ARRAY[position];
+        return Constants.ICON_TAB_ARRAY[position];
     }
 
     @Override

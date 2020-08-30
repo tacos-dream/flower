@@ -6,4 +6,7 @@
 
     <color name="colorPastelPink">#FFBBDD</color>
     <color name="colorDrawerHeader">#CDDC39</color>
+
+    <color name="versionRadioButton">#FC9DB8</color>
+    <color name="slideMenuText">#FC9DB8</color>
 </resources>

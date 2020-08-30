@@ -67,35 +67,35 @@
             android:layout_width="30dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/flower_024_23" />
+            app:srcCompat="@drawable/flower_001" />
 
         <ImageView
             android:id="@+id/imageViewReserved2"
             android:layout_width="30dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/flower_024_24" />
+            app:srcCompat="@drawable/flower_002" />
 
         <ImageView
             android:id="@+id/imageViewReserved3"
             android:layout_width="30dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/flower_024_22" />
+            app:srcCompat="@drawable/flower_003" />
 
         <ImageView
             android:id="@+id/imageViewReserved4"
             android:layout_width="30dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/flower_024_19" />
+            app:srcCompat="@drawable/flower_004" />
 
         <ImageView
             android:id="@+id/imageViewReserved5"
             android:layout_width="30dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/flower_024_26" />
+            app:srcCompat="@drawable/flower_005" />
 
     </LinearLayout>
 

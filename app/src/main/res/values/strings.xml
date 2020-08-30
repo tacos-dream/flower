@@ -16,6 +16,7 @@
     <string name="import_data">データのインポート</string>
     <string name="export_data">データのバックアップ</string>
     <string name="skin_design">スキン設定</string>
+    <string name="version">Version設定</string>
     <string name="icon_design">アイコン設定</string>
     <string name="splash_design">起動画面デザイン</string>
     <string name="info">新機能／更新情報</string>
@@ -27,7 +28,7 @@
     <string name="about_icon">アイコン画像について</string>
     <string name="about_us">このアプリについて</string>
 
-    <string name="icon_description">アプリ内で使用しているアイコン画像は「ぷち☆キラJS素材集♪」に掲載、付属DVDに収録の素材データを利用しており、その著作権は\nImpress社\nPower Design社\nにあります。</string>
+    <string name="icon_description">アプリ内で使用しているアイコン画像は「ぷち☆キラJS素材集♪」に掲載、付属DVDに収録の素材データを利用しており、その著作権は、Impress社 および Power Design社 にあります。</string>
 
     <!-- 汎用マーク 関連 -->
     <string name="double_circle">◎</string>
@@ -66,6 +67,7 @@
     <string name="dlg_title_delete_confirm">削除確認</string>
     <string name="dlg_title_information">Information</string>
     <string name="dlg_title_change_skin_confirm">スキン変更確認</string>
+    <string name="dlg_title_change_version_confirm">Version変更確認</string>
     <string name="dlg_title_backup">バックアップについて</string>
 
     <!-- ダイアログメッセージ -->
@@ -77,8 +79,9 @@
     <string name="dlg_msg_save">設定を保存して一覧に戻ります。\nいいですか？</string>
     <string name="dlg_msg_first_card_now">先頭のカードを表示中です</string>
     <string name="dlg_msg_no_card_in_folder">カードが登録されていません</string>
-    <string name="dlg_msg_change_skin">スキンを変更するためにアプリケーションを再起動します。いいですか？</string>
-    <string name="dlg_msg_no_change">現在の設定と同じで変更点がありません</string>
+    <string name="dlg_msg_change_skin">スキンを変更しました</string>
+    <string name="dlg_msg_change_version">Versionを変更しました</string>
+    <string name="dlg_msg_no_change">現在の設定と同じです</string>
     <string name="dlg_msg_backup_policy">登録済みの単語帳データや設定情報は、Androidのシステムにより自動的にGoogleDriveにバックアップされます。\n
         Androidの「設定」にて、バックアップ機能がONになっていることをご確認ください。\n\n
         また、「機種変更時」や「アプリを一旦アンインストール後に再度インストールした時」は、GoogleDriveにバックアップされていたデータが自動で復元されます。</string>
@@ -89,6 +92,7 @@
     <string name="try_again">もう一度する</string>
     <string name="delete">削除</string>
     <string name="save">保存</string>
+    <string name="change">変更</string>
     <string name="change_restart">変更して再起動</string>
 
     <string name="folder_title_new">新しい単語帳</string>

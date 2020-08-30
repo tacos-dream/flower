@@ -1,94 +1,79 @@
 package net.somethingnew.kawatan.flower;
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
-import net.somethingnew.kawatan.flower.db.dao.CardDao;
-import net.somethingnew.kawatan.flower.db.dao.FolderDao;
-import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
 public class SkinSettingsDialogFragment extends DialogFragment {
 
-    GlobalManager               globalMgr = GlobalManager.getInstance();
-    private View                mView;
-    private RadioButton         mLastCheckedRadioButton = null;
-    private int                 mNewVersion;
-    private int                 mNewBaseColor;
-    private ImageView           mImageViewIconSample1;
-    private ImageView           mImageViewIconSample2;
-    private ImageView           mImageViewIconSample3;
-    private ImageView           mImageViewIconSample4;
-    private View                mRelativeLayout;
+    GlobalManager globalMgr = GlobalManager.getInstance();
+    private View mView;
+    private SkinSettingsDialogFragment.OnSkinChangeListener mListener;
+    private int mNewSkinHeaderColor;
+    private int mNewSkinBodyColor;
+    Toolbar mSampleHeader;
+    LinearLayout mSampleBody;
+
+    /**
+     * Interfaceを定義し、Activity側にoverrideでメソッドを実装させ、Adapter側からそれをCallback的に呼び出せるようにする
+     */
+    public interface OnSkinChangeListener {
+        void onSkinChange();
+    }
+
+    public void setOnSkinChangeListener(SkinSettingsDialogFragment.OnSkinChangeListener listener) {
+        mListener = listener;
+    }
 
     SkinSettingsDialogFragment() {
-        // 初期値
-        mNewVersion             = globalMgr.mCategory;
-        mNewBaseColor           = globalMgr.mBaseColor;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.dialog_skin_settings, container, false);
+        mSampleHeader = mView.findViewById(R.id.toolbarSampleHeader);
+        mSampleHeader.setBackground(new ColorDrawable(globalMgr.skinHeaderColor));
+        mSampleBody = mView.findViewById(R.id.linearLayoutSampleBody);
+        mSampleBody.setBackground(new ColorDrawable(globalMgr.skinBodyColor));
+        TextView textView = mView.findViewById(R.id.textViewSampleTitle);
+        textView.setText(Constants.CATEGORY_NAME[globalMgr.mCategory] + " Version");
+        ColorSliderView colorSliderViewHeader = mView.findViewById(R.id.colorSliderHeader);
+        colorSliderViewHeader.setListener((position, color) -> {
+            mNewSkinHeaderColor = color;
+            mSampleHeader.setBackground(new ColorDrawable(color));
+        });
+        ColorSliderView colorSliderViewBody = mView.findViewById(R.id.colorSliderBody);
+        colorSliderViewBody.setListener((position, color) -> {
+            mNewSkinBodyColor = color;
+            mSampleBody.setBackground(new ColorDrawable(color));
+        });
 
-        buildVersionEventListener();
         buildBaseColorEventListener();
         buildCloseEventListener();
-
-        // 初期表示
-        RadioButton radioButton;
-        switch (globalMgr.mCategory) {
-            case Constants.CATEGORY_INDEX_FLOWER:
-                radioButton = mView.findViewById(R.id.radioButtonFlower);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_JEWELRY:
-                radioButton = mView.findViewById(R.id.radioButtonJewelry);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_COSME:
-                radioButton = mView.findViewById(R.id.radioButtonCosme);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_HEART:
-                radioButton = mView.findViewById(R.id.radioButtonHeart);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_PARTS:
-                radioButton = mView.findViewById(R.id.radioButtonParts);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_CHARACTER:
-                radioButton = mView.findViewById(R.id.radioButtonCharacter);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_FOOD:
-                radioButton = mView.findViewById(R.id.radioButtonFood);
-                radioButton.setChecked(true);
-                break;
-        }
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(true);
@@ -128,107 +113,13 @@ public class SkinSettingsDialogFragment extends DialogFragment {
         WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int dialogWidth = (int) (metrics.widthPixels * 0.9);
-        int dialogHeight = (int) (metrics.heightPixels * 0.9);
+        int dialogWidth = (int) (metrics.widthPixels * Constants.DIALOG_FRAGMENT_WIDTH_RATIO);
+        int dialogHeight = (int) (metrics.heightPixels * Constants.DIALOG_FRAGMENT_HEIGHT_RATIO);
 
         lp.width = dialogWidth;
         lp.height = dialogHeight;
         dialog.getWindow().setAttributes(lp);
-        LogUtility.d("AboutIconImageDialogFragment: W" + dialogWidth + " x H" + dialogHeight);
-    }
-
-    /**
-     * Version選択RadioButtonのイベントリスナ
-     */
-    public void buildVersionEventListener() {
-        mImageViewIconSample1           = mView.findViewById(R.id.imageViewIconSample1);
-        mImageViewIconSample2           = mView.findViewById(R.id.imageViewIconSample2);
-        mImageViewIconSample3           = mView.findViewById(R.id.imageViewIconSample3);
-        mImageViewIconSample4           = mView.findViewById(R.id.imageViewIconSample4);
-
-        RadioGroup radioGroup1          = mView.findViewById(R.id.radioGroupVersion1);
-
-        // overrideすべき式がonCheckedChanged()の１つだけなので、lambda式でカッコよく実装可能
-        radioGroup1.setOnCheckedChangeListener((group, checkedId) -> {
-                RadioButton radioButton = mView.findViewById(checkedId);
-                switch (checkedId) {
-                    case R.id.radioButtonFlower:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_FLOWER;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                    case R.id.radioButtonJewelry:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_JEWELRY;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                    case R.id.radioButtonCosme:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_COSME;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                    case R.id.radioButtonHeart:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_HEART;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                }
-            }
-        );
-
-        RadioGroup radioGroup2 = mView.findViewById(R.id.radioGroupVersion2);
-        // こっちは従来通りの無名関数で
-        radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioButton = mView.findViewById(checkedId);
-                switch (checkedId) {
-                    case R.id.radioButtonParts:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_PARTS;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                    case R.id.radioButtonCharacter:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_CHARACTER;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                    case R.id.radioButtonFood:
-                        if (radioButton.isChecked()) {
-                            if (mLastCheckedRadioButton != null) mLastCheckedRadioButton.setChecked(false);
-                            mNewVersion                 = Constants.CATEGORY_INDEX_FOOD;
-                            mLastCheckedRadioButton     = radioButton;
-                            setImageViewIconSample(mNewVersion);
-                        }
-                        break;
-                }
-            }
-        });
-    }
-
-    private void setImageViewIconSample(int category) {
-        mImageViewIconSample1.setImageResource(IconManager.getResIdAtRandom(category));
-        mImageViewIconSample2.setImageResource(IconManager.getResIdAtRandom(category));
-        mImageViewIconSample3.setImageResource(IconManager.getResIdAtRandom(category));
-        mImageViewIconSample4.setImageResource(IconManager.getResIdAtRandom(category));
+        LogUtility.d("SkinSettingsDialogFragment: W" + dialogWidth + " x H" + dialogHeight);
     }
 
     /**
@@ -236,69 +127,89 @@ public class SkinSettingsDialogFragment extends DialogFragment {
      */
     public void buildBaseColorEventListener() {
 
-        mView.findViewById(R.id.buttonWhite).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette1A).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[0]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonPink).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette1B).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[1]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonGreen).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette1C).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[2]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonBlue).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette1D).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[3]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonViolet).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette1E).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[4]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonYellow).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette1F).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[5]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonGrey).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette2A).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[6]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
-        mView.findViewById(R.id.buttonDarkGrey).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GradientDrawable drawable   = (GradientDrawable) view.getBackground();
-                mNewBaseColor               = view.getSolidColor();
-                drawable.setStroke(2, Color.RED);
-            }
+        mView.findViewById(R.id.buttonPalette2B).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[7]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
+        });
+        mView.findViewById(R.id.buttonPalette2C).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[8]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
+        });
+        mView.findViewById(R.id.buttonPalette2D).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[9]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
+        });
+        mView.findViewById(R.id.buttonPalette2E).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[10]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
+        });
+        mView.findViewById(R.id.buttonPalette2F).setOnClickListener(view -> {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            mNewSkinBodyColor = colorDrawable.getColor();
+            mNewSkinHeaderColor = Color.parseColor(Constants.PASTEL_PALETTE_DEEP[11]);
+            mSampleBody.setBackground(colorDrawable);
+            mSampleHeader.setBackground(new ColorDrawable(mNewSkinHeaderColor));
         });
     }
 
@@ -306,76 +217,47 @@ public class SkinSettingsDialogFragment extends DialogFragment {
      * 閉じるボタンのイベントリスナ
      */
     public void buildCloseEventListener() {
-        mView.findViewById(R.id.buttonSaveClose).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mNewVersion == globalMgr.mCategory && mNewBaseColor == globalMgr.mBaseColor) {
-                    new AlertDialog.Builder(getContext())
-                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
-                            .setTitle(R.string.dlg_title_information)
-                            .setMessage(R.string.dlg_msg_no_change)
-                            .setPositiveButton(
-                                    android.R.string.ok,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // AlertDialogを閉じるのみ
-                                            return;
-                                        }
-                                    })
-                            .show();
-                    return;
-                }
-
+        mView.findViewById(R.id.buttonSaveClose).setOnClickListener(view -> {
+            if (mNewSkinBodyColor == globalMgr.skinBodyColor && mNewSkinHeaderColor == globalMgr.skinHeaderColor) {
                 new AlertDialog.Builder(getContext())
                         .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
-                        .setTitle(R.string.dlg_title_change_skin_confirm)
-                        .setMessage(R.string.dlg_msg_change_skin)
+                        .setTitle(R.string.dlg_title_information)
+                        .setMessage(R.string.dlg_msg_no_change)
                         .setPositiveButton(
-                                R.string.change_restart,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SharedPreferences mSharedPref           = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor         = mSharedPref.edit();
-                                        // 新しい設定を反映させる
-                                        if (mNewVersion != globalMgr.mCategory) {
-                                            globalMgr.mCategory         = mNewVersion;
-                                            editor.putInt(Constants.SHARED_PREF_KEY_CATEGORY, mNewVersion);
-                                            editor.apply();
-                                        }
-                                        if (mNewBaseColor != globalMgr.mBaseColor) {
-                                            globalMgr.mBaseColor        = mNewBaseColor;
-                                            editor.putInt(Constants.SHARED_PREF_KEY_BASE_COLOR, mNewBaseColor);
-                                            editor.apply();
-                                        }
-
-                                        // RestartActivity を起動（AndroidManifest.xml での宣言により別プロセスで起動し、アプリを再起動する
-                                        Intent intent = RestartActivity.createIntent(getContext());
-                                        getContext().startActivity(intent);
-                                        return;
-                                    }
-                                })
-                        .setNegativeButton(
-                                R.string.cancel,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // 何もしない。AlertDialogを閉じるのみ
-                                        return;
-                                    }
+                                android.R.string.ok,
+                                (dialog, which) -> {
+                                    // AlertDialogを閉じるのみ
+                                    return;
                                 })
                         .show();
+                return;
+            }
 
-                return;
-            }
+            SharedPreferences mSharedPref = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = mSharedPref.edit();
+            editor.putInt(Constants.SHARED_PREF_KEY_SKIN_HEADER_COLOR, mNewSkinHeaderColor);
+            editor.putInt(Constants.SHARED_PREF_KEY_SKIN_BODY_COLOR, mNewSkinBodyColor);
+            editor.apply();
+            globalMgr.skinHeaderColor = mNewSkinHeaderColor;
+            globalMgr.skinBodyColor = mNewSkinBodyColor;
+            // タイトルを再描画するためにActivity側のOverrideメソッドを呼び出す
+            mListener.onSkinChange();
+            new AlertDialog.Builder(getContext())
+                    .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                    .setTitle(R.string.dlg_title_information)
+                    .setMessage(R.string.dlg_msg_change_skin)
+                    .setPositiveButton(
+                            R.string.close,
+                            (dialog, which) -> {
+                                // AlertDialogを閉じるのみ
+                                return;
+                            })
+                    .show();
+            return;
         });
-        mView.findViewById(R.id.buttonCancelClose).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDialog().dismiss();
-                return;
-            }
+        mView.findViewById(R.id.buttonCancelClose).setOnClickListener(view -> {
+            getDialog().dismiss();
+            return;
         });
     }
 

@@ -22,19 +22,16 @@ public class IconManager {
             mIconResourceIdListArray[category]     = new ArrayList<>();
 
             // Resource名をR.drawable.名前としてintに変換してarrayに登録
-            // 先頭にはランダムアイコンをセットする
-            int imageId         = mContext.getResources().getIdentifier(Constants.DEFAULT_ICON_NAME,"drawable", mContext.getPackageName());
-            mIconResourceIdListArray[category].add(imageId);
-            for (int i = 0; i < Constants.NUM_OF_ICONS_IN_CATEGORY[category]; i++) {
+            for (int i = 0; i <= Constants.NUM_OF_ICONS_IN_CATEGORY[category]; i++) {
                 String iconName     = Constants.ICON_TAB_ARRAY[category] + "_" +  String.format("%03d", i+1);
-                imageId             = mContext.getResources().getIdentifier(iconName,"drawable", mContext.getPackageName());
+                int imageId             = mContext.getResources().getIdentifier(iconName,"drawable", mContext.getPackageName());
                 mIconResourceIdListArray[category].add(imageId);
             }
         }
     }
 
     public static int getResIdAtRandom(int category){
-        return mIconResourceIdListArray[category].get(new Random().nextInt(Constants.NUM_OF_ICONS_IN_CATEGORY[category]) + 1);
+        return mIconResourceIdListArray[category].get(new Random().nextInt(Constants.NUM_OF_ICONS_IN_CATEGORY[category] - 1) + 1);
     }
 
     public static ArrayList<Integer> getIconResourceIdList(int category){

@@ -36,14 +36,14 @@
         android:layout_width="30dp"
         android:layout_height="75dp"
         android:layout_weight="1"
-        app:srcCompat="@drawable/flower_024_22" />
+        app:srcCompat="@drawable/flower_001" />
 
     <ImageView
         android:id="@+id/imageViewReserved1"
         android:layout_width="30dp"
         android:layout_height="75dp"
         android:layout_weight="1"
-        app:srcCompat="@drawable/flower_024_23" />
+        app:srcCompat="@drawable/flower_002" />
 
     <ImageView
         android:id="@+id/imageViewHelp"

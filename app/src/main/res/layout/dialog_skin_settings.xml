@@ -1,256 +1,374 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".SplashActivity">
+    android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/textViewVersionTitle"
+        android:id="@+id/textViewSkinTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="50dp"
-        android:text="Version"
-        android:textSize="18sp"
-        android:textStyle="italic" />
-
-    <LinearLayout
-        android:id="@+id/linerLayoutVersion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_below="@+id/textViewVersionTitle"
-        android:orientation="horizontal">
-        <RadioGroup
-            android:id="@+id/radioGroupVersion1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1">
-            <RadioButton
-                android:id="@+id/radioButtonFlower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Flower" />
-            <RadioButton
-                android:id="@+id/radioButtonJewelry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jewelry" />
-            <RadioButton
-                android:id="@+id/radioButtonCosme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cosme" />
-            <RadioButton
-                android:id="@+id/radioButtonHeart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Heart" />
-        </RadioGroup>
-        <RadioGroup
-            android:id="@+id/radioGroupVersion2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <RadioButton
-                android:id="@+id/radioButtonParts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Parts" />
-            <RadioButton
-                android:id="@+id/radioButtonCharacter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Character" />
-            <RadioButton
-                android:id="@+id/radioButtonFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Food" />
-        </RadioGroup>
-    </LinearLayout>>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutIcons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linerLayoutVersion"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">>
-
-        <ImageView
-            android:id="@+id/imageViewIconSample1"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="fitCenter" />
-
-        <ImageView
-            android:id="@+id/imageViewIconSample2"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="fitCenter" />
-
-        <ImageView
-            android:id="@+id/imageViewIconSample3"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="fitCenter" />
-
-        <ImageView
-            android:id="@+id/imageViewIconSample4"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="fitCenter" />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/textViewBaseColorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="50dp"
-        android:layout_below="@+id/linearLayoutIcons"
-        android:text="ベースColor"
-        android:textSize="18sp"
-        android:textStyle="italic" />
-
-    <LinearLayout
-        android:id="@+id/linearLayoutBaseColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_below="@+id/textViewBaseColorTitle"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/linearLayoutBaseColor1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1">
-            <Button
-                android:id="@+id/buttonWhite"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_white"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonPink"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_pink"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonGreen"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_green"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonBlue"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_blue"
-                android:layout_weight="1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linearLayoutBaseColor2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1">
-            <Button
-                android:id="@+id/buttonViolet"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_violet"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonYellow"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_yellow"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonGrey"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_grey"
-                android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonDarkGrey"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@drawable/button_darkgrey"
-                android:layout_weight="1"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/linearLayoutClose"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_below="@+id/linearLayoutBaseColor"
-        android:layout_weight="1">
+        android:text="Skinの変更"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textViewSpecifiedColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="規定の色から選ぶ"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSkinTitle"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutPalette"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSpecifiedColor"
+        android:background="@drawable/shadow">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutPalette1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/buttonPalette1A"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFFFFF"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette1B"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFFFBB"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette1C"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#DDEEAA"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette1D"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFDDDD"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette1E"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFEEDD"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette1F"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#CCCCCC"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayoutPalette2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/buttonPalette2A"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFFFFF"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette2B"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFFFBB"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette2C"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#DDEEAA"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette2D"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFDDDD"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette2E"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#FFEEDD"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buttonPalette2F"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="#CCCCCC"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewFreeColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自由に組み合わせる"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutPalette"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutColorSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutColorSliderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:text="タイトル部　"
+                android:textSize="16sp" />
+            <net.somethingnew.kawatan.flower.ColorSliderView
+                android:id="@+id/colorSliderHeader"
+                android:layout_width="250dp"
+                app:cs_hsv_saturation="0.8"
+                app:cs_circle_radius="40"
+                app:cs_stroke_width="10"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/shadow"/>
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutColorSliderBody"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:text="データ領域　"
+                android:textSize="16sp" />
+            <net.somethingnew.kawatan.flower.ColorSliderView
+                android:id="@+id/colorSliderBody"
+                android:layout_width="250dp"
+                app:cs_hsv_saturation="0.2"
+                app:cs_circle_radius="40"
+                app:cs_stroke_width="10"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/shadow"/>
+            <Space
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewSample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="表事例"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutColorSlider"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/relativeLayoutSample"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSample"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:background="@drawable/simple_black_border">
+
+        <!-- ヘッダー -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarSampleHeader"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+            <TextView
+                android:id="@+id/textViewSampleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold|italic" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- コンテンツ -->
+        <LinearLayout
+            android:id="@+id/linearLayoutSampleBody"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_below="@+id/toolbarSampleHeader"
+            android:orientation="vertical">
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutSample">
+        <Space
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
         <Button
             android:id="@+id/buttonSaveClose"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_rounded_corners_10dp"
+            android:minHeight="0dp"
+            android:text="変更する"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+        <Space
             android:layout_weight="1"
-            android:text="保存して閉じる" />
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
         <Button
             android:id="@+id/buttonCancelClose"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_rounded_corners_10dp"
+            android:drawableLeft="@drawable/ic_house_36px"
+            android:drawablePadding="6dp"
+            android:drawableTint="#FFFFFF"
+            android:gravity="left|center"
+            android:minHeight="0dp"
+            android:text="一覧に戻る"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+        <Space
             android:layout_weight="1"
-            android:text="キャンセル" />
-    </LinearLayout>>
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

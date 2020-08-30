@@ -165,8 +165,8 @@ public class FolderDao extends DatabaseHelper {
 			SQLiteStatement stmt = getDBInstance().compileStatement(insertSqlStr);
 
 			// 与えられた全データを順次処理
+			int order = 1;
 			for (Iterator<FolderModel> itr = dataList.iterator(); itr.hasNext();) {
-				int order = 1;
 				int index = 1;
 
 				// １レコード分のデータを取得

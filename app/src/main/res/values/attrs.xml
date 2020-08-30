@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<declare-styleable name="ColorSliderView">
+    <attr name="cs_colors" format="reference" />
+    <attr name="cs_hex_colors" format="reference" />
+    <attr name="cs_from_color" format="color" />
+    <attr name="cs_to_color" format="color" />
+    <attr name="cs_steps" format="integer" />
+    <attr name="cs_selector_color" format="color" />
+    <attr name="cs_hsv_saturation" format="float" />
+    <attr name="cs_circle_radius" format="integer" />
+    <attr name="cs_stroke_width" format="float" />
+</declare-styleable>
+</resources>

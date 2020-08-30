@@ -66,7 +66,7 @@
                         android:tag="image_tag"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/fusen" />
+                        app:srcCompat="@drawable/fusen_00" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

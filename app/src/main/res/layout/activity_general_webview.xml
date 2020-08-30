@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ebffeb"
     tools:context=".GeneralWebViewActivity">
 
@@ -12,5 +13,23 @@
         android:layout_height="match_parent"
         android:id="@+id/webView"
         android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/buttonGoBack"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:drawableLeft="@drawable/ic_house_36px"
+        android:drawablePadding="6dp"
+        android:drawableTint="#FFFFFF"
+        android:gravity="left|center"
+        android:minHeight="0dp"
+        android:text="一覧に戻る"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

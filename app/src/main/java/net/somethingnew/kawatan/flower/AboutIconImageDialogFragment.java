@@ -46,15 +46,16 @@ public class AboutIconImageDialogFragment extends DialogFragment {
 
         View view = inflater.inflate(R.layout.dialog_about_icon_image, container, false);
 
-        view.findViewById(R.id.imageViewLogo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v){
-                Intent intent = new Intent();
-                intent.setClass(getActivity().getApplicationContext(), GeneralWebViewActivity.class);
-                intent.putExtra("target_uri", Constants.EXTERNAL_LINK_URL_JSPUCHIKIRA);
-                startActivity(intent);
-                getDialog().dismiss();
-            }
+        view.findViewById(R.id.imageViewLogo).setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(getActivity().getApplicationContext(), GeneralWebViewActivity.class);
+            intent.putExtra("target_uri", Constants.EXTERNAL_LINK_URL_JSPUCHIKIRA);
+            startActivity(intent);
+            getDialog().dismiss();
+        });
+
+        view.findViewById(R.id.buttonGoBack).setOnClickListener(v -> {
+            getDialog().dismiss();
         });
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);

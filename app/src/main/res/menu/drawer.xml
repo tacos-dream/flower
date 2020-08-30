@@ -8,16 +8,10 @@
             android:id="@+id/naviItemSkinDesign"
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/skin_design" />
-        <!--
         <item
-            android:id="@+id/naviItemIconDesign"
+            android:id="@+id/naviItemVersion"
             android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/icon_design" />
-        <item
-            android:id="@+id/naviItemSplashDesign"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/splash_design" />
-        -->
+            android:title="@string/version" />
     </group>
 
     <group
@@ -36,10 +30,6 @@
     <group
         android:id="@+id/menu_manual"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/naviItemHowToVideo"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/howto_video" />
         <item
             android:id="@+id/naviItemHowToWeb"
             android:icon="@android:drawable/ic_menu_gallery"

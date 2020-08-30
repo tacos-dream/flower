@@ -229,7 +229,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）し、
         // 初期表示設定を行う
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-            int iconImageResId              = getResources().getIdentifier(Constants.DEFAULT_ICON_NAME,"drawable", getActivity().getPackageName());
+            int iconImageResId              = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory],"drawable", getActivity().getPackageName());
             int fusenImageResId             = getResources().getIdentifier(Constants.DEFAULT_FUSEN_NAME,"drawable", getActivity().getPackageName());
             globalMgr.mTempFolder           = new FolderModel(iconImageResId, fusenImageResId);
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
