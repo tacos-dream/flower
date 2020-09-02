@@ -36,6 +36,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".BackupActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ImportDataActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RestartActivity"
             android:excludeFromRecents="true"

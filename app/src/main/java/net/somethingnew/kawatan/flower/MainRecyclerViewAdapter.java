@@ -66,57 +66,45 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             this.cardViewFolder             = itemView.findViewById(R.id.card_view);
 
             // Item全体のOnClickリスナ
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position    = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            // Activity側のリスナーをCallbackする
-                            listener.onItemClick(position);
-                        }
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position    = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        // Activity側のリスナーをCallbackする
+                        listener.onItemClick(position);
                     }
                 }
             });
 
             // アイコンのOnClickリスナ
-            this.imageViewIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            // Activity側のリスナーをCallbackする
-                            listener.onIconClick(position);
-                        }
+            this.imageViewIcon.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        // Activity側のリスナーをCallbackする
+                        listener.onIconClick(position);
                     }
                 }
             });
 
             // ExerciseボタンのOnClickリスナ
-            this.imageViewExercise.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            // Activity側のリスナーをCallbackする
-                            listener.onExerciseClick(position);
-                        }
+            this.imageViewExercise.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        // Activity側のリスナーをCallbackする
+                        listener.onExerciseClick(position);
                     }
                 }
             });
 
             // ExerciseShuffleボタンのOnClickリスナ
-            this.imageViewShuffleExercise.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            // Activity側のリスナーをCallbackする
-                            listener.onShuffleExerciseClick(position);
-                        }
+            this.imageViewShuffleExercise.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        // Activity側のリスナーをCallbackする
+                        listener.onShuffleExerciseClick(position);
                     }
                 }
             });

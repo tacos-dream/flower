@@ -590,15 +590,14 @@ public class MainActivity extends AppCompatActivity
                 versionSettingsDialogFragment.show(getSupportFragmentManager(), VersionSettingsDialogFragment.class.getSimpleName());
                 break;
             case R.id.naviItemImportData:
+                intent = new Intent();
+                intent.setClass(mContext, ImportDataActivity.class);
+                startActivity(intent);
                 break;
             case R.id.naviItemExportData:
                 showBackupPolicyDialog();
                 break;
             case R.id.naviItemHowToWeb:
-                intent = new Intent();
-                intent.setClass(mContext, GeneralWebViewActivity.class);
-                intent.putExtra("target_uri", Constants.EXTERNAL_LINK_URL_KAWATN_HOWTO);
-                startActivity(intent);
                 break;
             case R.id.naviItemInfo:
                 intent = new Intent();

@@ -4,33 +4,23 @@ package net.somethingnew.kawatan.flower;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.tabs.TabLayout;
 
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
@@ -40,59 +30,58 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class CardSettingsDialogFragment extends DialogFragment {
 
-    GlobalManager                       globalMgr = GlobalManager.getInstance();
-    View                                mView;
-    ViewPager                           mViewPager;
-    RecyclerView.Adapter                mRecyclerViewAdapter;
-    CardSettingsDialogPagerAdapter      mCardSettingsDialogPagerAdapter;
-    TabHost                             mTabHost;
-    CardModel                           mCardModel;
-    FolderModel                         mFolder;
-    LinkedList<CardModel>               mCardLinkedList;
-    LayoutInflater                      mInflater;
-    int                                 mMode;       // 新規追加 or 編集
-    int                                 mPosition;      // 選択したCardのCardの一覧内での位置
+    GlobalManager globalMgr = GlobalManager.getInstance();
+    View mView;
+    ViewPager mViewPager;
+    RecyclerView.Adapter mRecyclerViewAdapter;
+    CardSettingsDialogPagerAdapter mCardSettingsDialogPagerAdapter;
+    TabHost mTabHost;
+    CardModel mCardModel;
+    FolderModel mFolder;
+    LinkedList<CardModel> mCardLinkedList;
+    LayoutInflater mInflater;
+    int mMode;       // 新規追加 or 編集
+    int mPosition;      // 選択したCardのCardの一覧内での位置
 
     // Tab関連
     CardSettingsDialogFragment(RecyclerView.Adapter recyclerViewAdapter, CardModel cardModel, int position) {
-        this.mRecyclerViewAdapter   = recyclerViewAdapter;
-        this.mCardModel             = cardModel;
-        this.mCardLinkedList        = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
-        this.mPosition              = position;
+        this.mRecyclerViewAdapter = recyclerViewAdapter;
+        this.mCardModel = cardModel;
+        this.mCardLinkedList = globalMgr.mCardListMap.get(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
+        this.mPosition = position;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // 呼び出し側からの引数の受け取り
-        mMode       = getArguments().getInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE);
+        mMode = getArguments().getInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE);
 
-        mFolder     = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
-        mInflater   = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mView       = inflater.inflate(R.layout.dialog_card_settings, container, false);
+        mFolder = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
+        mInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mView = inflater.inflate(R.layout.dialog_card_settings, container, false);
 
-        globalMgr.mCardSettings.cardViewFront       = mView.findViewById(R.id.card_view_front);
-        globalMgr.mCardSettings.cardViewBack        = mView.findViewById(R.id.card_view_back);
-        globalMgr.mCardSettings.editTextFront       = mView.findViewById(R.id.editTextFront);
-        globalMgr.mCardSettings.editTextBack        = mView.findViewById(R.id.editTextBack);
-        globalMgr.mCardSettings.imageViewIcon       = mView.findViewById(R.id.imageViewIcon);
-        globalMgr.mCardSettings.imageViewFusen      = mView.findViewById(R.id.imageViewFusen);
-        globalMgr.mChangedCardSettings              = false;
+        globalMgr.mCardSettings.cardViewFront = mView.findViewById(R.id.card_view_front);
+        globalMgr.mCardSettings.cardViewBack = mView.findViewById(R.id.card_view_back);
+        globalMgr.mCardSettings.editTextFront = mView.findViewById(R.id.editTextFront);
+        globalMgr.mCardSettings.editTextBack = mView.findViewById(R.id.editTextBack);
+        globalMgr.mCardSettings.imageViewIcon = mView.findViewById(R.id.imageViewIcon);
+        globalMgr.mCardSettings.imageViewFusen = mView.findViewById(R.id.imageViewFusen);
+        globalMgr.mChangedCardSettings = false;
 
         mCardSettingsDialogPagerAdapter = new CardSettingsDialogPagerAdapter(getChildFragmentManager());
-        mViewPager             = mView.findViewById(R.id.viewPager);
+        mViewPager = mView.findViewById(R.id.viewPager);
         mViewPager.setAdapter(mCardSettingsDialogPagerAdapter);
         mViewPager.setOffscreenPageLimit(Constants.NUM_OF_ICON_TAB);
 
         buildTabMenu();
         buildEventListener();
 
-        ImageView imageView1                        = mView.findViewById(R.id.imageViewReserved1);
-        ImageView imageView2                        = mView.findViewById(R.id.imageViewReserved2);
+        ImageView imageView1 = mView.findViewById(R.id.imageViewReserved1);
+        ImageView imageView2 = mView.findViewById(R.id.imageViewReserved2);
         imageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
         imageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
 
@@ -148,7 +137,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
         // 戻る
         mView.findViewById(R.id.imageViewGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View v){
+            public void onClick(View v) {
                 //Toast.makeText(getActivity().getApplicationContext(), "キャンセル", Toast.LENGTH_LONG).show();
                 if (mMode == Constants.FOLDER_SETTINGS_FOR_NEW) {
                     getDialog().dismiss();      // 一覧に戻る
@@ -189,7 +178,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
         // 保存
         mView.findViewById(R.id.imageViewSave).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View v){
+            public void onClick(View v) {
                 if (globalMgr.mChangedCardSettings) {
                     // ユーザーによる設定情報の変更をmCardLinkedListに反映する
                     new AlertDialog.Builder(getContext())
@@ -251,7 +240,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
         // ゴミ箱（破棄）
         mView.findViewById(R.id.imageViewTrash).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View v){
+            public void onClick(View v) {
                 if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
                     getDialog().dismiss();      // 一覧に戻る
                     return;
@@ -273,11 +262,12 @@ public class CardSettingsDialogFragment extends DialogFragment {
 
                                         // Folderで管理しているカード数などを更新
                                         globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfAllCards();
-                                        if (globalMgr.mTempCard.isLearned()) globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
+                                        if (globalMgr.mTempCard.isLearned())
+                                            globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
 
                                         // DBに反映
-                                        FolderDao   folderDao   = new FolderDao(getActivity().getApplicationContext());
-                                        CardDao     cardDao     = new CardDao(getActivity().getApplicationContext());
+                                        FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                        CardDao cardDao = new CardDao(getActivity().getApplicationContext());
                                         folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
                                         cardDao.deleteByCardId(globalMgr.mTempCard.getId());
 
@@ -382,8 +372,8 @@ public class CardSettingsDialogFragment extends DialogFragment {
         mTabHost.setup();
 
 
-        for(int i = 0; i < mCardSettingsDialogPagerAdapter.getCount(); i++){
-            int imageId = getResources().getIdentifier(Constants.ICON_TAB_IMAGE_ID[i],"drawable", getActivity().getPackageName());
+        for (int i = 0; i < mCardSettingsDialogPagerAdapter.getCount(); i++) {
+            int imageId = getResources().getIdentifier(Constants.ICON_TAB_IMAGE_ID[i], "drawable", getActivity().getPackageName());
             View tabView = new CustomTabView(getActivity(), "dummy", imageId);
             mTabHost.addTab(mTabHost
                     .newTabSpec(Constants.ICON_TAB_ARRAY[i])
@@ -405,7 +395,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
 
         // 以下の実装は、Page側のスワイプに合わせてタブもスライドさせるためのもの
         // 非推奨だが他の方法が不明なのでとりあえず。
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 LogUtility.d("onPageSelected  position: " + position);

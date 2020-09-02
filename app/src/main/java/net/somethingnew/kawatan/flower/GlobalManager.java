@@ -9,12 +9,15 @@ import android.widget.ImageView;
 import androidx.cardview.widget.CardView;
 
 import net.somethingnew.kawatan.flower.db.DatabaseHelper;
+import net.somethingnew.kawatan.flower.model.AvailableBookInfo;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 全体管理クラス
@@ -95,6 +98,8 @@ public class GlobalManager {
 
     ArrayList<Integer>[] mIconResourceIdListArray;
 
+    public List<AvailableBookInfo> availableBookInfoList;
+
     public DatabaseHelper mDbHelper;
 
     public UserSettings mUserSettings;
@@ -130,6 +135,7 @@ public class GlobalManager {
         this.mFolderSettings = new FolderSettings();
         this.mCardSettings = new CardSettings();
         this.mUserSettings = new UserSettings();
+        this.availableBookInfoList = new ArrayList<>();
     }
 
     static void onCreateApplication(Context applicationContext) {

@@ -3,7 +3,6 @@ package net.somethingnew.kawatan.flower;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -229,9 +227,9 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）し、
         // 初期表示設定を行う
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-            int iconImageResId              = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory],"drawable", getActivity().getPackageName());
-            int fusenImageResId             = getResources().getIdentifier(Constants.DEFAULT_FUSEN_NAME,"drawable", getActivity().getPackageName());
-            globalMgr.mTempFolder           = new FolderModel(iconImageResId, fusenImageResId);
+            int iconImageResId = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
+            int fusenImageResId = getResources().getIdentifier(Constants.DEFAULT_FUSEN_NAME, "drawable", getActivity().getPackageName());
+            globalMgr.mTempFolder = new FolderModel(iconImageResId, fusenImageResId);
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
         } else {
             // 選択されたFolderの内容の表示

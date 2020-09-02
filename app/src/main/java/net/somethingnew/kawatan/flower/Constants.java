@@ -91,6 +91,10 @@ public final class Constants {
     public static final String YOUTUBE_TUTRIAL_URI = "https://line.me/S/sticker/9712792";
     public static final String NOTE_TERMS_URI = "https://line.me/S/sticker/9712792";
 
+    /**
+     * インポートデータ関連
+     */
+    public static final String AVAILABLE_BOOK_LIST_URI = "https://dl.dropboxusercontent.com/s/tm9zhbtbsqz9oi1/available_books.json?dl=0";
 
     /**
      * FolderSettingsのダイアログ関連

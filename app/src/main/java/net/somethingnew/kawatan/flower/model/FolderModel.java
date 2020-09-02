@@ -207,3 +207,4 @@ public class FolderModel implements Cloneable {
 		this.iconCategory = iconCategory;
 	}
 }
+

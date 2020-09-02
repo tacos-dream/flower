@@ -41,10 +41,10 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/btn_cache_clear"
+                android:id="@+id/btn_delete_db"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="キャッシュクリア"
+                android:text="DB削除"
                 android:textSize="10sp"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="70dp" />
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="サムネイル画像ディスクキャッシュのクリア"
+                android:text="SQLightの全データ削除"
                 android:textSize="12sp" />
         </TableRow>
 
