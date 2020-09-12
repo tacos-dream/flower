@@ -7,24 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import net.somethingnew.kawatan.flower.util.LogUtility;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PastelColorGridAdapter extends BaseAdapter {
 
-    GlobalManager                               globalMgr = GlobalManager.getInstance();
+    GlobalManager globalMgr = GlobalManager.getInstance();
 
     class ViewHolder {
-        TextView    textView;
+        TextView textView;
     }
 
     private List<String> pastelColorArray;
@@ -34,9 +26,9 @@ public class PastelColorGridAdapter extends BaseAdapter {
     PastelColorGridAdapter(Context context, int layoutId, List<String> pastelColorArray) {
 
         super();
-        this.inflater                   = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.layoutId                   = layoutId;
-        this.pastelColorArray           = pastelColorArray;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.layoutId = layoutId;
+        this.pastelColorArray = pastelColorArray;
     }
 
     @Override
@@ -51,17 +43,19 @@ public class PastelColorGridAdapter extends BaseAdapter {
             holder.textView = convertView.findViewById(R.id.textViewColorHex);
 
             convertView.setTag(holder);
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        // 色を表す文字列（#000000など）をTextとしてセットする
+        // その文字列を文字列→数値→Drawable型に変換してTextViewの背景色としてセットする
+        // ForeとBackを同色にしてColorHex文字列がUserには見えないようにする
         holder.textView.setText(pastelColorArray.get(position));
-
-        // ForeとBackを同色にしてColorHexのTextが見えないようにする
         int pastelColor = Color.parseColor(pastelColorArray.get(position));
+        int textColor = Color.parseColor("#000000");
         holder.textView.setBackground(new ColorDrawable(pastelColor));
-        holder.textView.setTextColor(pastelColor);
+//        holder.textView.setTextColor(pastelColor);
+        holder.textView.setTextColor(textColor);
 
         return convertView;
     }

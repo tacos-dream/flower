@@ -37,4 +37,10 @@
         <item name="colorPrimary">@android:color/holo_orange_dark</item>
         <item name="colorOnSurface">@android:color/black</item>
     </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>

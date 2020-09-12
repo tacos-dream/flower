@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_home"-->
+<!--        android:icon="@drawable/cosme_001"-->
+<!--        android:title="Delete" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_sms"-->
+<!--        android:icon="@android:drawable/ic_media_next"-->
+<!--        android:title="Next" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_notifications"-->
+<!--        android:icon="@android:drawable/ic_menu_share"-->
+<!--        android:title="Share" />-->
+<!--</menu>-->
+
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_flower"-->
+<!--        android:icon="@drawable/flower_001"-->
+<!--        android:title="flower" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_jewelry"-->
+<!--        android:icon="@drawable/jewelry_001"-->
+<!--        android:title="jewelry" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_cosme"-->
+<!--        android:icon="@drawable/cosme_001"-->
+<!--        android:title="cosme" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_fashion"-->
+<!--        android:icon="@drawable/fashion_001"-->
+<!--        android:title="fashion" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_food"-->
+<!--        android:icon="@drawable/food_001"-->
+<!--        android:title="food" />-->
+<!--    <item-->
+<!--        android:id="@+id/navigation_others"-->
+<!--        android:icon="@drawable/others_001"-->
+<!--        android:title="others" />-->
+<!--</menu>-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_flower"
+        android:icon="@drawable/flower_001"
+        android:title="flower" />
+    <item
+        android:id="@+id/navigation_jewelry"
+        android:icon="@drawable/jewelry_001"
+        android:title="jewelry" />
+    <item
+        android:id="@+id/navigation_fashion"
+        android:icon="@drawable/fashion_001"
+        android:title="fashion" />
+    <item
+        android:id="@+id/navigation_food"
+        android:icon="@drawable/food_001"
+        android:title="food" />
+    <item
+        android:id="@+id/navigation_others"
+        android:icon="@drawable/others_001"
+        android:title="others" />
+</menu>
+

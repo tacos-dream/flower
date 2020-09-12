@@ -27,6 +27,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ShareCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -590,9 +592,12 @@ public class MainActivity extends AppCompatActivity
                 versionSettingsDialogFragment.show(getSupportFragmentManager(), VersionSettingsDialogFragment.class.getSimpleName());
                 break;
             case R.id.naviItemImportData:
-                intent = new Intent();
-                intent.setClass(mContext, ImportDataActivity.class);
-                startActivity(intent);
+                ImportDataDialogFragment importDataDialogFragment = new ImportDataDialogFragment();
+                importDataDialogFragment.setOnDataImportedListener(() -> {
+                    // We are going to reflect imported data as new folder in folder list.
+                    mRecyclerViewAdapter.notifyDataSetChanged();
+                });
+                importDataDialogFragment.show(getSupportFragmentManager(), SkinSettingsDialogFragment.class.getSimpleName());
                 break;
             case R.id.naviItemExportData:
                 showBackupPolicyDialog();

@@ -110,7 +110,7 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            downloadAvailableBookList();
+//            downloadAvailableBookList();
 
             startRotation();
 

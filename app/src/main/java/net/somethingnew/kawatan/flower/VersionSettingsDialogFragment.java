@@ -39,10 +39,6 @@ public class VersionSettingsDialogFragment extends DialogFragment {
     private ImageView mImageViewIconJewelry2;
     private ImageView mImageViewIconJewelry3;
     private ImageView mImageViewIconJewelry4;
-    private ImageView mImageViewIconCosme1;
-    private ImageView mImageViewIconCosme2;
-    private ImageView mImageViewIconCosme3;
-    private ImageView mImageViewIconCosme4;
     private ImageView mImageViewIconFashion1;
     private ImageView mImageViewIconFashion2;
     private ImageView mImageViewIconFashion3;
@@ -90,10 +86,6 @@ public class VersionSettingsDialogFragment extends DialogFragment {
                 break;
             case Constants.CATEGORY_INDEX_JEWELRY:
                 radioButton = mView.findViewById(R.id.radioButtonJewelry);
-                radioButton.setChecked(true);
-                break;
-            case Constants.CATEGORY_INDEX_COSME:
-                radioButton = mView.findViewById(R.id.radioButtonCosme);
                 radioButton.setChecked(true);
                 break;
             case Constants.CATEGORY_INDEX_FASHION:
@@ -169,10 +161,6 @@ public class VersionSettingsDialogFragment extends DialogFragment {
         mImageViewIconJewelry2 = mView.findViewById(R.id.imageViewIconJewelry2);
         mImageViewIconJewelry3 = mView.findViewById(R.id.imageViewIconJewelry3);
         mImageViewIconJewelry4 = mView.findViewById(R.id.imageViewIconJewelry4);
-        mImageViewIconCosme1 = mView.findViewById(R.id.imageViewIconCosme1);
-        mImageViewIconCosme2 = mView.findViewById(R.id.imageViewIconCosme2);
-        mImageViewIconCosme3 = mView.findViewById(R.id.imageViewIconCosme3);
-        mImageViewIconCosme4 = mView.findViewById(R.id.imageViewIconCosme4);
         mImageViewIconFashion1 = mView.findViewById(R.id.imageViewIconFashion1);
         mImageViewIconFashion2 = mView.findViewById(R.id.imageViewIconFashion2);
         mImageViewIconFashion3 = mView.findViewById(R.id.imageViewIconFashion3);
@@ -194,10 +182,6 @@ public class VersionSettingsDialogFragment extends DialogFragment {
         mImageViewIconJewelry2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
         mImageViewIconJewelry3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
         mImageViewIconJewelry4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
-        mImageViewIconCosme1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_COSME));
-        mImageViewIconCosme2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_COSME));
-        mImageViewIconCosme3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_COSME));
-        mImageViewIconCosme4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_COSME));
         mImageViewIconFashion1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
         mImageViewIconFashion2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
         mImageViewIconFashion3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
@@ -230,14 +214,6 @@ public class VersionSettingsDialogFragment extends DialogFragment {
                                 if (mLastCheckedRadioButton != null)
                                     mLastCheckedRadioButton.setChecked(false);
                                 mNewVersion = Constants.CATEGORY_INDEX_JEWELRY;
-                                mLastCheckedRadioButton = radioButton;
-                            }
-                            break;
-                        case R.id.radioButtonCosme:
-                            if (radioButton.isChecked()) {
-                                if (mLastCheckedRadioButton != null)
-                                    mLastCheckedRadioButton.setChecked(false);
-                                mNewVersion = Constants.CATEGORY_INDEX_COSME;
                                 mLastCheckedRadioButton = radioButton;
                             }
                             break;

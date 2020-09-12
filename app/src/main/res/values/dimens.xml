@@ -1,3 +1,8 @@
-<resources>
-    <dimen name="fab_margin">16dp</dimen>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="fab_margin">5dp</dimen>
+    <dimen name="icon_size">50sp</dimen>
+    <dimen name="design_bottom_navigation_height" tools:override="true">70dp</dimen>
+    <dimen name="design_bottom_navigation_margin" tools:override="true">1dp</dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">18sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">14sp</dimen>
 </resources>

@@ -1,38 +1,28 @@
 package net.somethingnew.kawatan.flower;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TabHost;
-
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import com.jaredrummler.android.colorpicker.ColorPickerView;
-
+import androidx.fragment.app.FragmentTransaction;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import net.somethingnew.kawatan.flower.util.LogUtility;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class FolderIconFragment extends Fragment {
 
-    GlobalManager                       globalMgr = GlobalManager.getInstance();
-    View                                mView;
-    FolderIconPagerAdapter              mFolderIconPagerAdapter;
-    ViewPager                           mViewPager;
-    RecyclerView.Adapter                mRecyclerViewAdapter;
-    TabHost                             mTabHost;
-    int                                 mCurrentPosition;
+    GlobalManager globalMgr = GlobalManager.getInstance();
+    View mView;
+    SparseArray<Fragment> mRegisteredFragments = new SparseArray<>();
 
     public FolderIconFragment() {
         //LogUtility.d("FolderFrontFragment: ");
+        for (int category = 0; category < Constants.NUM_OF_CATEGORY; category++) {
+            Fragment fragment = new CategoryIconFragment(category, Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS);
+            mRegisteredFragments.put(category, fragment);
+        }
+//        LogUtility.d("registeredFragments.size: " + registeredFragments.size());
     }
 
     @Override
@@ -40,20 +30,52 @@ public class FolderIconFragment extends Fragment {
         LogUtility.d("onCreateView: ");
         mView = inflater.inflate(R.layout.fragment_folder_icon, container, false);
 
-        mFolderIconPagerAdapter         = new FolderIconPagerAdapter(getChildFragmentManager());
-        mViewPager                      = mView.findViewById(R.id.viewPager);
-        mViewPager.setAdapter(mFolderIconPagerAdapter);
-        mViewPager.setOffscreenPageLimit(Constants.NUM_OF_ICON_TAB);
+        // BottomNavigationで切り替える５つのアイコンカテゴリーのFragmentを作成
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) mView.findViewById(R.id.icon_bottom_navigation);
+        bottomNavigationView.setItemIconTintList(null);
+        bottomNavigationView.setBackgroundColor(globalMgr.skinHeaderColor);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_flower:
+                    globalMgr.currentCategoryPosition = Constants.CATEGORY_INDEX_FLOWER;
+                    showFragment(mRegisteredFragments.get(Constants.CATEGORY_INDEX_FLOWER));
+                    break;
+                case R.id.navigation_jewelry:
+                    globalMgr.currentCategoryPosition = Constants.CATEGORY_INDEX_JEWELRY;
+                    showFragment(mRegisteredFragments.get(Constants.CATEGORY_INDEX_JEWELRY));
+                    break;
+                case R.id.navigation_fashion:
+                    globalMgr.currentCategoryPosition = Constants.CATEGORY_INDEX_FASHION;
+                    showFragment(mRegisteredFragments.get(Constants.CATEGORY_INDEX_FASHION));
+                    break;
+                case R.id.navigation_food:
+                    globalMgr.currentCategoryPosition = Constants.CATEGORY_INDEX_FOOD;
+                    showFragment(mRegisteredFragments.get(Constants.CATEGORY_INDEX_FOOD));
+                    break;
+                case R.id.navigation_others:
+                    globalMgr.currentCategoryPosition = Constants.CATEGORY_INDEX_OTHERS;
+                    showFragment(mRegisteredFragments.get(Constants.CATEGORY_INDEX_OTHERS));
+                    break;
+            }
+            return true;
+        });
 
-        // 8つのアイコンカテゴリーのタブを作成
-        buildTabMenu();
+        // 初期表示
+        showFragment(mRegisteredFragments.get(globalMgr.currentCategoryPosition));
 
         // CardViewの初期表示
         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
         globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
-        globalMgr.mFolderSettings.imageViewFusen.setVisibility(View.INVISIBLE);
 
         return mView;
+    }
+
+    public void showFragment(Fragment fragment) {
+//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.addToBackStack(null)
+                .replace(R.id.icon_container, fragment)
+                .commit();
     }
 
     @Override
@@ -63,63 +85,12 @@ public class FolderIconFragment extends Fragment {
     }
 
     /**
-     * Tabメニュー部分の構築とリスナー登録
-     */
-    public void buildTabMenu() {
-        LogUtility.d("buildTabMenu: ");
-
-        mTabHost = mView.findViewById(android.R.id.tabhost);
-        mTabHost.setup();
-
-        for(int i = 0; i < mFolderIconPagerAdapter.getCount(); i++){
-            int imageId = getResources().getIdentifier(Constants.ICON_TAB_IMAGE_ID[i],"drawable", getActivity().getPackageName());
-            View tabView = new CustomTabView(getActivity(), "dummy", imageId);
-            mTabHost.addTab(mTabHost
-                    .newTabSpec(Constants.ICON_TAB_ARRAY[i])
-                    .setIndicator(tabView)
-                    .setContent(android.R.id.tabcontent));
-        }
-
-        // Tabのイベントリスナ
-        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                int position = Arrays.asList(Constants.ICON_TAB_ARRAY).indexOf(tabId);
-                LogUtility.d("mTabHost onTabChanged: " + tabId + " position: " + position);
-                // Pagerに表示を指示
-                mViewPager.setCurrentItem(position);
-                mCurrentPosition = position;
-
-                CategoryIconFragment categoryIconFragment = (CategoryIconFragment) mFolderIconPagerAdapter.getRegisteredFragment(position);
-                categoryIconFragment.mGridViewIcon.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
-            }
-        });
-
-        // 以下の実装は、Page側のスワイプに合わせてタブもスライドさせるためのもの
-        // 非推奨だが他の方法が不明なのでとりあえず。
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-            @Override
-            public void onPageSelected(int position) {
-                LogUtility.d("mViewPager setOnPageChangeListener position: " + position);
-                super.onPageSelected(position);
-
-                // 以下の呼び出しで、上記のonTabChanged()がinvokeされる
-                mTabHost.setCurrentTab(position);
-            }
-        });
-
-        // 初期表示のタブ設定
-        mCurrentPosition = 0;
-        mTabHost.setCurrentTab(mCurrentPosition);
-    }
-
-    /**
      * 表紙のタブで色を変えた後にICONタブに戻ってきたときに、アイコンのGridViewの背景色をその表紙色に変えてあげる処理
      * ICONタブに戻ってきたときに当クラス内では何もイベントが起きないので、FolderSettingsDialogFragment側からこの関数を
      * 明示的に呼び出さなければならない
      */
     public void refreshCategoryIconFragment() {
-        CategoryIconFragment categoryIconFragment = (CategoryIconFragment) mFolderIconPagerAdapter.getRegisteredFragment(mCurrentPosition);
+        CategoryIconFragment categoryIconFragment = (CategoryIconFragment) mRegisteredFragments.get(globalMgr.currentCategoryPosition);
         categoryIconFragment.mGridViewIcon.setBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
     }
 

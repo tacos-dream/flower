@@ -21,19 +21,19 @@ import java.util.ArrayList;
  */
 public class CategoryIconFragment extends Fragment {
 
-    GlobalManager                   globalMgr = GlobalManager.getInstance();
-    View                            mView;
-    GridView                        mGridViewIcon;
-    IconGridAdapter                 mIconGridAdapter;
-    int                             mCategory;
-    int                             mHost;                  // FolderSettings内かCardSettings内での表示かの識別
-    ArrayList<Integer>              mIconResourceIdList;
+    GlobalManager globalMgr = GlobalManager.getInstance();
+    View mView;
+    GridView mGridViewIcon;
+    IconGridAdapter mIconGridAdapter;
+    int mCategory;
+    int mHost;                  // FolderSettings内かCardSettings内での表示かの識別
+    ArrayList<Integer> mIconResourceIdList;
 
     public CategoryIconFragment(int category, int host) {
         LogUtility.d("constructor: category: " + category);
-        mCategory               = category;
-        mHost                   = host;
-        mIconResourceIdList     = IconManager.getIconResourceIdList(category);
+        mCategory = category;
+        mHost = host;
+        mIconResourceIdList = IconManager.getIconResourceIdList(category);
     }
 
     @Override
@@ -42,30 +42,29 @@ public class CategoryIconFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_category_icon, container, false);
 
         // アイコンのGridView
-        mIconGridAdapter        = new IconGridAdapter(getActivity().getApplicationContext(), R.layout.gridview_item_icon, mIconResourceIdList, mHost);
-        mGridViewIcon           = mView.findViewById(R.id.gridViewIcon);
+        mIconGridAdapter = new IconGridAdapter(getActivity().getApplicationContext(), R.layout.gridview_item_icon, mIconResourceIdList, mHost);
+        mGridViewIcon = mView.findViewById(R.id.gridViewIcon);
         mGridViewIcon.setAdapter(mIconGridAdapter);
 
         // FolderSettingsDialog上か、CardSettingsDialog上かでセットする内容を変える
         mGridViewIcon.setBackgroundColor(
                 (mHost == Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS) ?
                         globalMgr.mTempFolder.getCoverBackgroundColor() : globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getFrontBackgroundColor()
-                );
+        );
         mGridViewIcon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mHost == Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS) {
                     // FolderSettingsの場合　→　表紙のアイコン表示に反映
                     globalMgr.mFolderSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
                     globalMgr.mTempFolder.setImageIconResId(mIconResourceIdList.get(position));
-                    globalMgr.mTempFolder.setIconAutoDisplay((position == 0)? true : false);
+                    globalMgr.mTempFolder.setIconAutoDisplay((position == 0) ? true : false);
                     globalMgr.mTempFolder.setIconCategory(mCategory);
                     globalMgr.mChangedFolderSettings = true;
-                }
-                else {
+                } else {
                     // CardSettingsの場合　→　おもてのアイコン表示に反映
                     globalMgr.mCardSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
                     globalMgr.mTempCard.setImageIconResId(mIconResourceIdList.get(position));
-                    globalMgr.mTempCard.setIconAutoDisplay((position == 0)? true : false);
+                    globalMgr.mTempCard.setIconAutoDisplay((position == 0) ? true : false);
                     globalMgr.mTempCard.setIconCategory(mCategory);
                     globalMgr.mChangedCardSettings = true;
                 }

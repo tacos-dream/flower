@@ -104,15 +104,12 @@ public final class Constants {
     public static final int FOLDER_SETTINGS_FOR_NEW = 1;
     public static final int FOLDER_SETTINGS_FOR_EDIT = 2;
 
-    public static final int FOLDER_SETTINGS_NUM_OF_TABS = 5;
+    public static final int FOLDER_SETTINGS_NUM_OF_TABS = 4;
 
     public static final int FOLDER_SETTINGS_TAB_ICON = 0;
     public static final int FOLDER_SETTINGS_TAB_COVER = 1;
-    public static final int FOLDER_SETTINGS_TAB_SURFACE = 2;
+    public static final int FOLDER_SETTINGS_TAB_FRONT = 2;
     public static final int FOLDER_SETTINGS_TAB_BACK = 3;
-    public static final int FOLDER_SETTINGS_TAB_FUSEN = 4;
-    public static final int FOLDER_SETTINGS_TAB_OTHERS = 5;
-
 
     /**
      * CardSettingsのダイアログ関連
@@ -167,23 +164,24 @@ public final class Constants {
     /**
      * アイコン関連
      */
-    public static final int NUM_OF_ICON_TAB = 6;
-    public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 49, 42, 50, 86};
-    public static final String[] ICON_TAB_ARRAY = {"flower", "jewelry", "cosme", "fashion", "food", "others"};
-    public static final String[] ICON_TAB_IMAGE_ID = {"flower_001", "jewelry_001", "cosme_001", "fashion_001", "food_001", "others_001"};
-    public static final String[] AUTO_ICON_IMAGE_ID = {"flower_000", "jewelry_000", "cosme_000", "fashion_000", "food_000", "others_000"};
+    public static final int NUM_OF_ICON_TAB = 5;
+//    public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 49, 42, 50, 86};
+    public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 42, 50, 86};
+    public static final String[] ICON_TAB_ARRAY = {"flower", "jewelry", "fashion", "food", "others"};
+    public static final String[] ICON_TAB_IMAGE_ID = {"flower_001", "jewelry_001", "fashion_001", "food_001", "others_001"};
+    public static final String[] AUTO_ICON_IMAGE_ID = {"flower_000", "jewelry_000", "fashion_000", "food_000", "others_000"};
 
     /**
      * カテゴリー
      * 注意注意注意注意注意注意注意注意　　上記のICONの設定と合わせること　　注意注意注意注意注意注意注意注意
      */
-    public static final String[] CATEGORY_NAME = {"Flower", "Jewelry", "Cosme", "Fashion", "Food", "Others"};
+    public static final String[] CATEGORY_NAME = {"Flower", "Jewelry", "Fashion", "Food", "Others"};
     public static final int CATEGORY_INDEX_FLOWER = 0;
     public static final int CATEGORY_INDEX_JEWELRY = 1;
-    public static final int CATEGORY_INDEX_COSME = 2;
-    public static final int CATEGORY_INDEX_FASHION = 3;
-    public static final int CATEGORY_INDEX_FOOD = 4;
-    public static final int CATEGORY_INDEX_OTHERS = 5;
+    public static final int CATEGORY_INDEX_FASHION = 2;
+    public static final int CATEGORY_INDEX_FOOD = 3;
+    public static final int CATEGORY_INDEX_OTHERS = 4;
+    public static final int NUM_OF_CATEGORY = 5;
 
     /**
      * COLOR関連
@@ -192,14 +190,18 @@ public final class Constants {
             "#FFFFFF", "#FFFFBB", "#DDEEAA", "#FFDDDD", "#FFEEDD", "#CCCCCC"};
     public static final String[] PASTEL_PALETTE_DEEP = {"#FC9DB8", "#FC9DB8", "#FC9DB8", "#FC9DB8", "#FC9DB8", "#FC9DB8",
             "#DDEEAA", "#FFDD33", "#93B447", "#B68BC4", "#A7B39B", "#B3B3B3"};
+    public static final String[] PASTEL_PALETTE_LIGHT_BASE = {"#FFFFFF", "#FFFFBB", "#DDEEAA", "#FFDDDD", "#FFEEDD", "#CCCCCC"};
+    public static final String[] TEXT_COLOR = {"#000000","#808080","#FFFFFF","#FF00FF","#008000","#0000FF"};
     public static final String DEFAULT_SKIN_HEADER_COLOR = "#FC9DB8";
     public static final String DEFAULT_SKIN_BODY_COLOR = "#FFFFBB";
+    public static final int[] TEXT_COLOR_BUTTON_RESOURCE_ID = {R.id.buttonTextColor1, R.id.buttonTextColor2,R.id.buttonTextColor3,
+            R.id.buttonTextColor4,R.id.buttonTextColor5,R.id.buttonTextColor6};
 
     /**
      * FRAME SIZE etc.
      */
-    public static final double DIALOG_FRAGMENT_WIDTH_RATIO = 0.99;
-    public static final double DIALOG_FRAGMENT_HEIGHT_RATIO = 0.95;
+    public static final double DIALOG_FRAGMENT_WIDTH_RATIO = 1;
+    public static final double DIALOG_FRAGMENT_HEIGHT_RATIO = 1;
 
 }
 

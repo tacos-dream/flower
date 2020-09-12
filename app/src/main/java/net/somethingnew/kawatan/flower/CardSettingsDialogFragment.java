@@ -355,8 +355,8 @@ public class CardSettingsDialogFragment extends DialogFragment {
         WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int dialogWidth = (int) (metrics.widthPixels * 0.9);
-        int dialogHeight = (int) (metrics.heightPixels * 0.9);
+        int dialogWidth = (int) (metrics.widthPixels * Constants.DIALOG_FRAGMENT_WIDTH_RATIO);
+        int dialogHeight = (int) (metrics.heightPixels * Constants.DIALOG_FRAGMENT_HEIGHT_RATIO);
 
         lp.width = dialogWidth;
         lp.height = dialogHeight;

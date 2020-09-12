@@ -62,8 +62,8 @@ public class GlobalManager {
     /**
      * FolderSettingsDialog内のCardViewに表示する背景色と文字色
      * および
-     * ViewPagerの各Fragmentの文字色GridView
-     * のIDを保持しておき、パステルカラーGridや色パレットでの色選択時にに動的に背景色や文字色を変更するために利用
+     * ViewPagerの各Fragmentの文字色GridViewのIDを保持しておき、
+     * パステルカラーGridや色パレットでの色選択時に動的に背景色や文字色を変更するために利用
      */
     public FolderSettings mFolderSettings;
 
@@ -96,7 +96,7 @@ public class GlobalManager {
      */
     public boolean mCardStatsChanged;
 
-    ArrayList<Integer>[] mIconResourceIdListArray;
+    public int currentCategoryPosition;
 
     public List<AvailableBookInfo> availableBookInfoList;
 
@@ -104,12 +104,13 @@ public class GlobalManager {
 
     public UserSettings mUserSettings;
 
+    // FolderSettingsやCardSettingsでユーザーの色選択や入力文字操作変更を動的に表示に反映させるため、
+    // 表示に関連するViewのリソースIDを保持しておく
+    // 領域はカバー、おもて、うらで共用で、切り替えて使う（ImageViewを使うのはカバーのみ）
     class FolderSettings {
         CardView cardView;
-        View cardLayout; // 動的なLayoutの変更はやめたので未使用
         EditText editTextTitle;
         ImageView imageViewIcon;
-        ImageView imageViewFusen;
     }
 
     class CardSettings {
@@ -136,6 +137,7 @@ public class GlobalManager {
         this.mCardSettings = new CardSettings();
         this.mUserSettings = new UserSettings();
         this.availableBookInfoList = new ArrayList<>();
+        this.currentCategoryPosition = Constants.CATEGORY_INDEX_FLOWER;
     }
 
     static void onCreateApplication(Context applicationContext) {
