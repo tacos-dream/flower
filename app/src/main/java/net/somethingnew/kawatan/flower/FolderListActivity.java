@@ -1,7 +1,6 @@
 package net.somethingnew.kawatan.flower;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,8 +26,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ShareCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,16 +44,13 @@ import com.google.android.material.navigation.NavigationView;
 
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
-import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
-
-import java.util.LinkedList;
 
 /**
  * Main画面：主なコンテンツはFolder一覧
  */
-public class MainActivity extends AppCompatActivity
+public class FolderListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Context mContext;
     private Activity mActivity;
@@ -84,22 +78,21 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         LogUtility.d("onCreate");
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_folder_list);
 
         // Get the application context
         mContext = getApplicationContext();
-        mActivity = MainActivity.this;
+        mActivity = FolderListActivity.this;
 
         mInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // 標準のActionBarの代わりにToolbarをActionBarとしてセットして利用する
         mToolbar = findViewById(R.id.main_toolbar);
-        mCoordinatorLayout = findViewById(R.id.cordinatorLayoutMain);
-        mTitle = findViewById(R.id.toolbar_title);
         mToolbar.setBackground(new ColorDrawable(globalMgr.skinHeaderColor));
+        mCoordinatorLayout = findViewById(R.id.coordinatorLayout);
         mCoordinatorLayout.setBackground(new ColorDrawable(globalMgr.skinBodyColor));
+        mTitle = findViewById(R.id.toolbar_title);
         mTitle.setText(Constants.CATEGORY_NAME[globalMgr.mCategory] + " Version");
-
         setSupportActionBar(mToolbar);
 
         // ハンバーガーメニューの準備
@@ -118,9 +111,6 @@ public class MainActivity extends AppCompatActivity
                         FolderSettingsDialogFragment.class.getSimpleName());
             }
         });
-
-        // テストデータ投入
-        //createExampleList();
 
         MobileAds.initialize(mContext, BuildConfig.ADMOB_APPLICATION_ID);
 
@@ -177,46 +167,40 @@ public class MainActivity extends AppCompatActivity
                                 .setMessage(R.string.dlg_msg_delete_folder)
                                 .setPositiveButton(
                                         R.string.delete,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                LogUtility.d("[削除]が選択されました");
+                                        (dialog, which) -> {
+                                            LogUtility.d("[削除]が選択されました");
 
-                                                // Card関連
-                                                //   LinkedList自体の削除
-                                                //   管理しているmapから削除
-                                                //   CARD_TBLからの削除
-                                                String folderId = globalMgr.mFolderLinkedList.get(swipedPosition).getId();
-                                                globalMgr.mCardListMap.get(folderId).clear();
-                                                globalMgr.mCardListMap.remove(folderId);
-                                                CardDao cardDao = new CardDao(getApplicationContext());
-                                                cardDao.deleteByFolderId(folderId);
+                                            // Card関連
+                                            //   LinkedList自体の削除
+                                            //   管理しているmapから削除
+                                            //   CARD_TBLからの削除
+                                            String folderId = globalMgr.mFolderLinkedList.get(swipedPosition).getId();
+                                            globalMgr.mCardListMap.get(folderId).clear();
+                                            globalMgr.mCardListMap.remove(folderId);
+                                            CardDao cardDao = new CardDao(getApplicationContext());
+                                            cardDao.deleteByFolderId(folderId);
 
-                                                // FolderのLinkedListから削除
-                                                globalMgr.mFolderLinkedList.remove(swipedPosition);
-                                                FolderDao folderDao = new FolderDao(getApplicationContext());
-                                                folderDao.deleteByFolderId(folderId);
+                                            // FolderのLinkedListから削除
+                                            globalMgr.mFolderLinkedList.remove(swipedPosition);
+                                            FolderDao folderDao = new FolderDao(getApplicationContext());
+                                            folderDao.deleteByFolderId(folderId);
 
-                                                // 削除したFolderの後ろのorderを更新する
-                                                for (int index = swipedPosition; index < globalMgr.mFolderLinkedList.size(); index++) {
-                                                    FolderModel folder = globalMgr.mFolderLinkedList.get(index);
-                                                    folder.setOrder(index);
-                                                    folderDao.update(folder);
-                                                }
-
-                                                // 再表示の通知
-                                                mRecyclerViewAdapter.notifyDataSetChanged();
+                                            // 削除したFolderの後ろのorderを更新する
+                                            for (int index = swipedPosition; index < globalMgr.mFolderLinkedList.size(); index++) {
+                                                FolderModel folder = globalMgr.mFolderLinkedList.get(index);
+                                                folder.setOrder(index);
+                                                folderDao.update(folder);
                                             }
+
+                                            // 再表示の通知
+                                            mRecyclerViewAdapter.notifyDataSetChanged();
                                         })
                                 .setNegativeButton(
-                                        R.string.cancel,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                LogUtility.d("[キャンセル]が選択されました");
-                                                // Swipeで消えたものを再描画するため
-                                                mRecyclerViewAdapter.notifyDataSetChanged();
-                                            }
+                                        R.string.no_delete,
+                                        (dialog, which) -> {
+                                            LogUtility.d("[キャンセル]が選択されました");
+                                            // Swipeで消えたものを再描画するため
+                                            mRecyclerViewAdapter.notifyDataSetChanged();
                                         })
                                 .show();
                     }
@@ -255,6 +239,51 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         LogUtility.d("onDestroy");
         mBannerRecyclerAdapterWrapper.release();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_bar_search_help, menu);
+        MenuItem myActionMenuItem = menu.findItem(R.id.action_menu_search);
+        mSearchView = (SearchView) myActionMenuItem.getActionView();
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String searchWord) {
+                // なぜか2回呼ばれてしまうことへの回避策
+                mSearchView.clearFocus();
+
+                if (searchWord != null && !searchWord.equals("")) {
+                    LogUtility.d("onQueryTextSubmit searchWord: " + searchWord);
+                    Intent intent = new Intent();
+                    intent.putExtra(Constants.SEARCH_WORD_KEY_NAME, searchWord);
+                    intent.setClass(mContext, FolderSearchResultActivity.class);
+                    startActivity(intent);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //LogUtility.d("onQueryTextChange : " + s);
+                return true;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        // ActionBar（ToolBar）内のボタンのイベント処理
+        switch(item.getItemId()) {
+            case R.id.action_menu_help:
+                FolderListHelpDialogFragment folderListHelpDialogFragment = new FolderListHelpDialogFragment();
+                folderListHelpDialogFragment.show(getSupportFragmentManager(),
+                        FolderSettingsDialogFragment.class.getSimpleName());
+                return true;
+        }
+        return true;
     }
 
     /**
@@ -309,61 +338,6 @@ public class MainActivity extends AppCompatActivity
             public void onAdClosed() {
                 LogUtility.d("Code to be executed when when the user is about to return to the app after tapping on an ad.");
             }
-        });
-    }
-
-    /**
-     * RecyclerView関連準備
-     * AdMobを入れないRecyclerViewの場合
-     */
-    public void buildRecyclerView() {
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerViewAdapter = new MainRecyclerViewAdapter(globalMgr.mFolderLinkedList);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
-
-        mRecyclerViewAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                globalMgr.mCurrentFolderIndex = position;
-                Intent intent = new Intent();
-                intent.setClass(mContext, FolderActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onIconClick(int position) {
-                globalMgr.mCurrentFolderIndex = position;
-
-                // ダイアログ表示（ダイアログ内の操作でItemの変更が発生するのでAdapterを渡しておき、notifyDataSetChanged()を呼べるようにする
-                FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
-                Bundle args = new Bundle();
-                args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_EDIT);
-                folderSettingsDialogFragment.setArguments(args);
-                folderSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
-            }
-
-            @Override
-            public void onExerciseClick(int position) {
-                globalMgr.mCurrentFolderIndex = position;
-                Intent intent = new Intent();
-                intent.putExtra(Constants.EXERCISE_MODE_KEY_NAME, Constants.EXERCISE_MODE_NORMAL);
-                intent.setClass(mContext, ExerciseActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onShuffleExerciseClick(int position) {
-                globalMgr.mCurrentFolderIndex = position;
-                Intent intent = new Intent();
-                intent.putExtra("EXERCISE_MODE", Constants.EXERCISE_MODE_SHUFFLE);
-                intent.setClass(mContext, ExerciseActivity.class);
-                startActivity(intent);
-            }
-
         });
     }
 
@@ -433,7 +407,7 @@ public class MainActivity extends AppCompatActivity
                 LogUtility.d("onItemClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
 
                 Intent intent = new Intent();
-                intent.setClass(mContext, FolderActivity.class);
+                intent.setClass(mContext, CardListActivity.class);
                 startActivity(intent);
             }
 
@@ -479,42 +453,6 @@ public class MainActivity extends AppCompatActivity
             }
 
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
-        MenuItem myActionMenuItem = menu.findItem(R.id.menu_search);
-        mSearchView = (SearchView) myActionMenuItem.getActionView();
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String searchWord) {
-                // なぜか2回呼ばれてしまうことへの回避策
-                mSearchView.clearFocus();
-
-                if (searchWord != null && !searchWord.equals("")) {
-                    LogUtility.d("onQueryTextSubmit searchWord: " + searchWord);
-                    Intent intent = new Intent();
-                    intent.putExtra(Constants.SEARCH_WORD_KEY_NAME, searchWord);
-                    intent.setClass(mContext, FolderSearchResultActivity.class);
-                    startActivity(intent);
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                //LogUtility.d("onQueryTextChange : " + s);
-                return true;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        return true;
     }
 
     /**
@@ -679,6 +617,65 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
+    // 以下は、開発途中の残骸だが、色々と実装ノウハウが入っているので、コメント行にして残しておく
+
+    /**
+     * RecyclerView関連準備
+     * AdMobを入れないRecyclerViewの場合
+     */
+    /*
+    public void buildRecyclerView() {
+        mRecyclerView = findViewById(R.id.my_recycler_view);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerViewAdapter = new MainRecyclerViewAdapter(globalMgr.mFolderLinkedList);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+        mRecyclerViewAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                globalMgr.mCurrentFolderIndex = position;
+                Intent intent = new Intent();
+                intent.setClass(mContext, CardListActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onIconClick(int position) {
+                globalMgr.mCurrentFolderIndex = position;
+
+                // ダイアログ表示（ダイアログ内の操作でItemの変更が発生するのでAdapterを渡しておき、notifyDataSetChanged()を呼べるようにする
+                FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
+                Bundle args = new Bundle();
+                args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_EDIT);
+                folderSettingsDialogFragment.setArguments(args);
+                folderSettingsDialogFragment.show(getSupportFragmentManager(), FolderSettingsDialogFragment.class.getSimpleName());
+            }
+
+            @Override
+            public void onExerciseClick(int position) {
+                globalMgr.mCurrentFolderIndex = position;
+                Intent intent = new Intent();
+                intent.putExtra(Constants.EXERCISE_MODE_KEY_NAME, Constants.EXERCISE_MODE_NORMAL);
+                intent.setClass(mContext, ExerciseActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onShuffleExerciseClick(int position) {
+                globalMgr.mCurrentFolderIndex = position;
+                Intent intent = new Intent();
+                intent.putExtra("EXERCISE_MODE", Constants.EXERCISE_MODE_SHUFFLE);
+                intent.setClass(mContext, ExerciseActivity.class);
+                startActivity(intent);
+            }
+
+        });
+    }
+    */
+
     /**
      * RecyclerView内の各CardViewをクリックしたときのハンドラ
      * （ただし、CardView内の画像アイコンのクリック時は別のIconOnClickListenerで処理する）
@@ -752,7 +749,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
       */
 
 }

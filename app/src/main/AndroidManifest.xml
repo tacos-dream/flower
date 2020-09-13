@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".FolderListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".FolderActivity"
+        <activity android:name=".CardListActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -35,8 +35,6 @@
         <activity android:name=".TestActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".BackupActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ImportDataActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RestartActivity"

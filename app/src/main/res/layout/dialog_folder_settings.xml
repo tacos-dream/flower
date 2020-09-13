@@ -126,17 +126,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageViewIcon"
                         app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imageViewFusen"
-                        android:layout_width="75dp"
-                        android:layout_height="30dp"
-                        android:scaleType="fitCenter"
-                        android:tag="image_tag"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/fusen_00" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -152,11 +141,11 @@
             app:tabTextAppearance="@style/TabLayoutTextStyle">
         </com.google.android.material.tabs.TabLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <net.somethingnew.kawatan.flower.HoldableViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </androidx.viewpager.widget.ViewPager>
+        </net.somethingnew.kawatan.flower.HoldableViewPager>
 
     </LinearLayout>
 

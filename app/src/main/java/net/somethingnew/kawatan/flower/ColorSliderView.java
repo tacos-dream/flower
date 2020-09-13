@@ -383,7 +383,7 @@ public class ColorSliderView extends View {
             updateView(event.getX(), event.getY());
             return true;
         }
-        return false;
+        return true;
     }
 
     private void updateView(float x, float y) {

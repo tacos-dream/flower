@@ -90,7 +90,8 @@
     <!-- ダイアログボタン -->
     <string name="go_back_list">一覧に戻る</string>
     <string name="try_again">もう一度する</string>
-    <string name="delete">削除</string>
+    <string name="delete">削除する</string>
+    <string name="no_delete">削除しない</string>
     <string name="save">保存</string>
     <string name="change">変更</string>
     <string name="change_restart">変更して再起動</string>

@@ -156,21 +156,15 @@ public class CardSettingsDialogFragment extends DialogFragment {
                         .setMessage(R.string.dlg_msg_go_back_to_list)
                         .setPositiveButton(
                                 R.string.go_back_list,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        LogUtility.d("[一覧に戻る]が選択されました");
-                                        getDialog().dismiss();      // 親も消す
-                                    }
+                                (dialog, which) -> {
+                                    LogUtility.d("[一覧に戻る]が選択されました");
+                                    getDialog().dismiss();      // 親も消す
                                 })
                         .setNegativeButton(
                                 R.string.cancel,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        LogUtility.d("[キャンセル]が選択されました");
-                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
-                                    }
+                                (dialog, which) -> {
+                                    LogUtility.d("[キャンセル]が選択されました");
+                                    // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
                                 })
                         .show();
             }
@@ -187,49 +181,43 @@ public class CardSettingsDialogFragment extends DialogFragment {
                             .setMessage(R.string.dlg_msg_save)
                             .setPositiveButton(
                                     R.string.save,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            LogUtility.d("[保存]が選択されました");
-                                            CardDao cardDao = new CardDao(getActivity().getApplicationContext());
-                                            if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
-                                                // 先頭に追加
-                                                mCardLinkedList.add(0, globalMgr.mTempCard);
-                                                cardDao.insert(globalMgr.mTempCard);        // DB上は特に順番は意識しない
+                                    (dialog, which) -> {
+                                        LogUtility.d("[保存]が選択されました");
+                                        CardDao cardDao = new CardDao(getActivity().getApplicationContext());
+                                        if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
+                                            // 先頭に追加
+                                            mCardLinkedList.add(0, globalMgr.mTempCard);
+                                            cardDao.insert(globalMgr.mTempCard);        // DB上は特に順番は意識しない
 
-                                                // カード数更新
-                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
-                                                FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                                folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+                                            // カード数更新
+                                            globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
+                                            FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                            folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
 
-                                                globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
+                                            globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
 
-                                            } else {
-                                                // 上書き
-                                                mCardLinkedList.set(mPosition, globalMgr.mTempCard);
-                                                cardDao.update(globalMgr.mTempCard);
+                                        } else {
+                                            // 上書き
+                                            mCardLinkedList.set(mPosition, globalMgr.mTempCard);
+                                            cardDao.update(globalMgr.mTempCard);
 
-                                                // TODO カード数や習得済み数に変更があった場合に、FOLDER_TBLへの反映
-                                                // ここの保存が呼ばれるまではtempFolderに反映しておいて、最後に更新した方がいいが・・・
-                                                // その「最後」というのがどのタイミングにすべきかが明確にできない・・・
-                                                // とりあえず、ここで反映
-                                                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
-                                                FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                                folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
-                                            }
-
-                                            mRecyclerViewAdapter.notifyDataSetChanged();
-                                            getDialog().dismiss();      // 親も消す
+                                            // TODO カード数や習得済み数に変更があった場合に、FOLDER_TBLへの反映
+                                            // ここの保存が呼ばれるまではtempFolderに反映しておいて、最後に更新した方がいいが・・・
+                                            // その「最後」というのがどのタイミングにすべきかが明確にできない・・・
+                                            // とりあえず、ここで反映
+                                            globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
+                                            FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                            folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
                                         }
+
+                                        mRecyclerViewAdapter.notifyDataSetChanged();
+                                        getDialog().dismiss();      // 親も消す
                                     })
                             .setNegativeButton(
                                     R.string.cancel,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            LogUtility.d("[キャンセル]が選択されました");
-                                            // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
-                                        }
+                                    (dialog, which) -> {
+                                        LogUtility.d("[キャンセル]が選択されました");
+                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
                                     })
                             .show();
                 } else {
@@ -252,39 +240,33 @@ public class CardSettingsDialogFragment extends DialogFragment {
                         .setMessage(R.string.dlg_msg_delete_card)
                         .setPositiveButton(
                                 R.string.delete,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        LogUtility.d("[削除]が選択されました");
+                                (dialog, which) -> {
+                                    LogUtility.d("[削除]が選択されました");
 
-                                        // LinkedListから削除
-                                        mCardLinkedList.remove(mPosition);
+                                    // LinkedListから削除
+                                    mCardLinkedList.remove(mPosition);
 
-                                        // Folderで管理しているカード数などを更新
-                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfAllCards();
-                                        if (globalMgr.mTempCard.isLearned())
-                                            globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
+                                    // Folderで管理しているカード数などを更新
+                                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfAllCards();
+                                    if (globalMgr.mTempCard.isLearned())
+                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).decrementNumOfLearnedCards();
 
-                                        // DBに反映
-                                        FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                        CardDao cardDao = new CardDao(getActivity().getApplicationContext());
-                                        folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
-                                        cardDao.deleteByCardId(globalMgr.mTempCard.getId());
+                                    // DBに反映
+                                    FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                    CardDao cardDao = new CardDao(getActivity().getApplicationContext());
+                                    folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+                                    cardDao.deleteByCardId(globalMgr.mTempCard.getId());
 
-                                        globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
+                                    globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
 
-                                        mRecyclerViewAdapter.notifyItemRemoved(mPosition);
-                                        getDialog().dismiss();
-                                    }
+                                    mRecyclerViewAdapter.notifyItemRemoved(mPosition);
+                                    getDialog().dismiss();
                                 })
                         .setNegativeButton(
-                                R.string.cancel,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        LogUtility.d("[キャンセル]が選択されました");
-                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
-                                    }
+                                R.string.no_delete,
+                                (dialog, which) -> {
+                                    LogUtility.d("[キャンセル]が選択されました");
+                                    // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
                                 })
                         .show();
             }

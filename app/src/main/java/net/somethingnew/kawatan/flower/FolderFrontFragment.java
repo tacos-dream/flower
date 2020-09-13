@@ -21,7 +21,6 @@ public class FolderFrontFragment extends Fragment {
     GlobalManager globalMgr = GlobalManager.getInstance();
     View mView;
     ArrayList<String> pastelColorArrayList = new ArrayList<>(Arrays.asList(Constants.PASTEL_PALETTE_LIGHT_BASE));
-    GridView gridViewText;
     ArrayList<Button> textColorButtonArray = new ArrayList<>();
 
     public FolderFrontFragment() {
@@ -32,7 +31,7 @@ public class FolderFrontFragment extends Fragment {
         LogUtility.d("onCreateView: ");
         mView = inflater.inflate(R.layout.fragment_foldersetting_color, container, false);
 
-        // 文字色の
+        // 文字色変更用ボタン群
         for (int resourceId: Constants.TEXT_COLOR_BUTTON_RESOURCE_ID) {
             Button btn = mView.findViewById(resourceId);
             textColorButtonArray.add(btn);

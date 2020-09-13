@@ -170,6 +170,8 @@ public final class Constants {
     public static final String[] ICON_TAB_ARRAY = {"flower", "jewelry", "fashion", "food", "others"};
     public static final String[] ICON_TAB_IMAGE_ID = {"flower_001", "jewelry_001", "fashion_001", "food_001", "others_001"};
     public static final String[] AUTO_ICON_IMAGE_ID = {"flower_000", "jewelry_000", "fashion_000", "food_000", "others_000"};
+    public static final int[] FUSEN_RESOURCE_ID_ARRAY = {R.drawable.fusen_00, R.drawable.fusen_01, R.drawable.fusen_02,
+            R.drawable.fusen_03, R.drawable.fusen_04, R.drawable.fusen_05, R.drawable.fusen_06};
 
     /**
      * カテゴリー

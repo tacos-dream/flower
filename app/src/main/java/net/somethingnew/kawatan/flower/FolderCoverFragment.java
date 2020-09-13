@@ -1,5 +1,6 @@
 package net.somethingnew.kawatan.flower;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
@@ -7,6 +8,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,17 +26,18 @@ public class FolderCoverFragment extends Fragment {
     GlobalManager globalMgr = GlobalManager.getInstance();
     View mView;
     ArrayList<String> pastelColorArrayList = new ArrayList<>(Arrays.asList(Constants.PASTEL_PALETTE_LIGHT_BASE));
-    GridView gridViewText;
     ArrayList<Button> textColorButtonArray = new ArrayList<>();
 
     public FolderCoverFragment() {
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtility.d("onCreateView: ");
         mView = inflater.inflate(R.layout.fragment_foldersetting_color, container, false);
 
+        // 文字色変更用ボタン群
         for (int resourceId: Constants.TEXT_COLOR_BUTTON_RESOURCE_ID) {
             Button btn = mView.findViewById(resourceId);
             textColorButtonArray.add(btn);

@@ -14,30 +14,29 @@ import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * FolderActivityのリスト表示用RecyclerViewer（リスト内に表示するのはCard群）
  */
 public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecyclerViewAdapter.MyViewHolder> {
 
-    private GlobalManager           globalMgr = GlobalManager.getInstance();
-    private OnItemClickListener     mListener;
+    private GlobalManager globalMgr = GlobalManager.getInstance();
+    private OnItemClickListener mListener;
 
-    private FolderModel             mFolder;
-    private LinkedList<CardModel>   mCardLinkedList;
+    private FolderModel mFolder;
+    private LinkedList<CardModel> mCardLinkedList;
 
     /**
      * Interfaceを定義し、Activity側にoverrideでonItemClick()を実装させ、Adapter側からそれをCallback的に呼び出せるようにする
      */
     public interface OnItemClickListener {
         void onFrontClick(int position);
+
         void onLearnedClick(int position);
+
         void onFusenClick(int position);
+
         void onTrashClick(int position);
     }
 
@@ -52,28 +51,28 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView    textViewFront;
-        ImageView   imageViewIcon;
-        ImageView   imageViewLearned;
-        ImageView   imageViewFusen;
-        ImageView   imageViewTrash;
-        CardView    cardViewFront;
+        TextView textViewFront;
+        ImageView imageViewIcon;
+        ImageView imageViewLearned;
+        ImageView imageViewFusen;
+        ImageView imageViewTrash;
+        CardView cardViewFront;
 
         public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            cardViewFront           = itemView.findViewById(R.id.card_view_front);
-            imageViewIcon           = itemView.findViewById(R.id.imageViewIcon);
-            textViewFront           = itemView.findViewById(R.id.textViewFront);
-            imageViewLearned        = itemView.findViewById(R.id.imageViewLearned);
-            imageViewFusen          = itemView.findViewById(R.id.imageViewFusen);
-            imageViewTrash          = itemView.findViewById(R.id.imageViewTrash);
+            cardViewFront = itemView.findViewById(R.id.cardViewFront);
+            imageViewIcon = itemView.findViewById(R.id.imageViewIcon);
+            textViewFront = itemView.findViewById(R.id.textViewFront);
+            imageViewLearned = itemView.findViewById(R.id.imageViewLearned);
+            imageViewFusen = itemView.findViewById(R.id.imageViewFusen);
+            imageViewTrash = itemView.findViewById(R.id.imageViewTrash);
 
             textViewFront.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int position    = getAdapterPosition();
+                        int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             // Activity側のリスナーをCallbackする
                             listener.onFrontClick(position);
@@ -86,7 +85,7 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int position    = getAdapterPosition();
+                        int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             // Activity側のリスナーをCallbackする
                             listener.onLearnedClick(position);
@@ -99,7 +98,7 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int position    = getAdapterPosition();
+                        int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             // Activity側のリスナーをCallbackする
                             listener.onFusenClick(position);
@@ -112,7 +111,7 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int position    = getAdapterPosition();
+                        int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             // Activity側のリスナーをCallbackする
                             listener.onTrashClick(position);
@@ -124,12 +123,12 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
     }
 
     public FolderRecyclerViewAdapter(LinkedList<CardModel> linkedList) {
-        mFolder                     = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
-        mCardLinkedList             = linkedList;
+        mFolder = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
+        mCardLinkedList = linkedList;
     }
 
     public void changeDataSet(LinkedList<CardModel> linkedList) {
-        mCardLinkedList             = linkedList;
+        mCardLinkedList = linkedList;
     }
 
     /**
@@ -165,21 +164,21 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int listPosition) {
         LogUtility.d("onBindViewHolder listPosition: " + listPosition);
-        TextView    textViewFront                   = holder.textViewFront;
-        ImageView   imageViewIcon                   = holder.imageViewIcon;
-        ImageView   imageViewLearned                = holder.imageViewLearned;
-        ImageView   imageViewFusen                  = holder.imageViewFusen;
-        CardView    cardViewFront                   = holder.cardViewFront;
+        TextView textViewFront = holder.textViewFront;
+        ImageView imageViewIcon = holder.imageViewIcon;
+        ImageView imageViewLearned = holder.imageViewLearned;
+        ImageView imageViewFusen = holder.imageViewFusen;
+        CardView cardViewFront = holder.cardViewFront;
 
         /**
          * このPositionのView(Card)に表示する
          */
-        CardModel card                              = mCardLinkedList.get(listPosition);
+        CardModel card = mCardLinkedList.get(listPosition);
         imageViewIcon.setImageResource(card.isIconAutoDisplay() ?
                 IconManager.getResIdAtRandom(card.getIconCategory()) :
                 card.getImageIconResId());
         imageViewLearned.setImageResource(card.isLearned() ? R.drawable.heart_on : R.drawable.heart_off_grey);
-        imageViewFusen.setImageResource(card.isFusenTag() ? mFolder.getImageFusenResId() : R.drawable.fusen_00);
+        imageViewFusen.setImageResource(card.getImageFusenResId());
         textViewFront.setText(card.getFrontText());
         cardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
         textViewFront.setBackgroundColor(mFolder.getFrontBackgroundColor());

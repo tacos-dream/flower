@@ -114,7 +114,6 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindLong(index++, data.getCoverTextColor());
 			stmt.bindLong(index++, data.getFrontTextColor());
 			stmt.bindLong(index++, data.getBackTextColor());
-			stmt.bindLong(index++, data.getImageFusenResId());
 			stmt.bindLong(index++, order);
 			stmt.bindLong(index++, data.getIconCategory());
 			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
@@ -186,7 +185,6 @@ public class FolderDao extends DatabaseHelper {
 				stmt.bindLong(index++, folder.getCoverTextColor());
 				stmt.bindLong(index++, folder.getFrontTextColor());
 				stmt.bindLong(index++, folder.getBackTextColor());
-				stmt.bindLong(index++, folder.getImageFusenResId());
 				stmt.bindLong(index++, order++);
 				stmt.bindLong(index++, folder.getIconCategory());
 				stmt.bindLong(index++, (folder.isIconAutoDisplay()) ? 1 : 0);
@@ -254,7 +252,6 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindLong(index++, data.getCoverTextColor());
 			stmt.bindLong(index++, data.getFrontTextColor());
 			stmt.bindLong(index++, data.getBackTextColor());
-			stmt.bindLong(index++, data.getImageFusenResId());
 			stmt.bindLong(index++, data.getOrder());
 			stmt.bindLong(index++, data.getIconCategory());
 			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
@@ -353,8 +350,7 @@ public class FolderDao extends DatabaseHelper {
                 folder.setBackBackgroundColor(cursor.getInt(index++)); 
                 folder.setCoverTextColor(cursor.getInt(index++)); 
                 folder.setFrontTextColor(cursor.getInt(index++)); 
-                folder.setBackTextColor(cursor.getInt(index++)); 
-                folder.setImageFusenResId(cursor.getInt(index++));
+                folder.setBackTextColor(cursor.getInt(index++));
 				folder.setOrder(cursor.getInt(index++));
 				folder.setIconCategory(cursor.getInt(index++));
 				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
@@ -412,7 +408,6 @@ public class FolderDao extends DatabaseHelper {
 				folder.setCoverTextColor(cursor.getInt(index++));
 				folder.setFrontTextColor(cursor.getInt(index++));
 				folder.setBackTextColor(cursor.getInt(index++));
-				folder.setImageFusenResId(cursor.getInt(index++));
 				folder.setOrder(cursor.getInt(index++));
 				folder.setIconCategory(cursor.getInt(index++));
 				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);

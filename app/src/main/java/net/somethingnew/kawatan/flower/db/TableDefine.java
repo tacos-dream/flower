@@ -32,7 +32,6 @@ public final class TableDefine {
 				+ "COVER_TXT_COLOR			INTEGER, "
 				+ "FRONT_TXT_COLOR			INTEGER, "
 				+ "BACK_TXT_COLOR			INTEGER, "
-				+ "FUSEN_RES_ID				INTEGER, "
 				+ "DISPLAY_ORDER			INTEGER, "
 				+ "ICON_CATEGORY			INTEGER, "
 				+ "ICON_AUTO_DISPLAY		INTEGER, "
@@ -52,7 +51,8 @@ public final class TableDefine {
 				+ "FUSEN_TAG				INTEGER, "
 				+ "ICON_AUTO_DISPLAY		INTEGER, "
 				+ "ICON_CATEGORY			INTEGER, "
-				+ "ICON_RES_ID				INTEGER "
+				+ "ICON_RES_ID				INTEGER, "
+				+ "FUSEN_RES_ID				INTEGER"
 				+ ")"
 		);
 

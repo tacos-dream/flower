@@ -12,6 +12,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- FolderSettingsなどのTablayout用 -->
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- 半透明背景設定 -->
+    <drawable name="TranslucentDialogTheme">#7f000000</drawable>
+    <style name="TranslucentBackground" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/TranslucentDialogTheme</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="RankingTabText" parent="TextAppearance.AppCompat.Button">
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
@@ -38,9 +54,4 @@
         <item name="colorOnSurface">@android:color/black</item>
     </style>
 
-    <style name="TabLayoutTextStyle">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/black</item>
-    </style>
 </resources>

@@ -5,118 +5,98 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:tag="cards main container">
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/cardViewFront"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        card_view:cardBackgroundColor="#DEBDD8"
+        card_view:cardBackgroundColor="#FFFFFF"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_front"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                card_view:cardBackgroundColor="#FFFFFF"
-                card_view:cardCornerRadius="10dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageViewIcon"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
-                        android:tag="image_tag"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@mipmap/ic_launcher" />
-
-                    <TextView
-                        android:id="@+id/textViewFront"
-                        android:layout_width="0dp"
-                        android:layout_height="75dp"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="3"
-                        android:background="#FFFFBB"
-                        android:gravity="center"
-                        android:text="おもて"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="75dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="2"
-                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imageViewIcon"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:tag="image_tag"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/textViewFront"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="おもて"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
                     android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/imageViewFusen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_weight="1"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/fusen_00" />
-
-                    <ImageView
-                        android:id="@+id/imageViewLearned"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/heart_on" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-
+                    <ImageView
+                        android:id="@+id/imageViewLearned"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/heart_on" />
                     <ImageView
                         android:id="@+id/imageViewTrash"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
                         app:srcCompat="@android:drawable/ic_menu_delete" />
 
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

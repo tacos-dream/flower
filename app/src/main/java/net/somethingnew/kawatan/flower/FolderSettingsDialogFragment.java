@@ -71,7 +71,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
 
         // Pagerでのスワイプなどの操作をTabレイアウトに連動する（伝える）ため、TabレイアウトのリスナーをViewPagerに登録しておく
         tabLayout = view.findViewById(R.id.tabLayout);
-        ViewPager viewPager = view.findViewById(R.id.viewPager);
+        HoldableViewPager viewPager = view.findViewById(R.id.viewPager);
+        viewPager.setSwipeHold(true);           // スワイプなしのViewPager
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setBackgroundColor(globalMgr.skinHeaderColor);
 

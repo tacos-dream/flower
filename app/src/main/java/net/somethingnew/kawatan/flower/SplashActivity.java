@@ -3,11 +3,9 @@ package net.somethingnew.kawatan.flower;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -27,15 +25,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -110,7 +105,7 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            downloadAvailableBookList();
+            downloadAvailableBookList();
 
             startRotation();
 
@@ -145,7 +140,7 @@ public class SplashActivity extends AppCompatActivity {
      */
     public void doPostSplash() {
         Intent intent = new Intent();
-        intent.setClass(SplashActivity.this, MainActivity.class);
+        intent.setClass(SplashActivity.this, FolderListActivity.class);
         //intent.setClass(SplashActivity.this, TestActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -184,8 +179,8 @@ public class SplashActivity extends AppCompatActivity {
 
     // AsyncTaskがdeprecatedなので、とりあえずバックグラウンドは無しでやってみる
     public void downloadAvailableBookList() {
-        final int CONNECTION_TIMEOUT = 30 * 1000;
-        final int READ_TIMEOUT = 30 * 1000;
+        final int CONNECTION_TIMEOUT = 10 * 1000;
+        final int READ_TIMEOUT = 10 * 1000;
 
         HttpURLConnection conn = null;
         try {

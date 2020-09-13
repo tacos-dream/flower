@@ -8,6 +8,9 @@ import android.os.Bundle;
 /**
  * プロセス再起動用Activity
  * https://qiita.com/Shiozawa/items/85f078ed57aed46f6b69
+ *
+ * 当初、SkinやVersjion変更時にアプリリスタートをさせて新しい設定の反映を行おうとしてこの処理が必要だったが、
+ * 動的に反映する方法を実現できたので、現在はこの機能を使っているところはなく未使用
  */
 public class RestartActivity extends Activity {
     public static final String EXTRA_MAIN_PID = "RestartActivity.main_pid";

@@ -441,14 +441,14 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LogUtility.d("imageViewFusen");
-                if (mCard.isFusenTag()) {
-                    mCard.setFusenTag(false);
-                    mImageViewFusen.setImageResource(R.drawable.fusen_00);
-                }
-                else {
-                    mCard.setFusenTag(true);
-                    mImageViewFusen.setImageResource(mFolder.getImageFusenResId());
-                }
+//                if (mCard.isFusenTag()) {
+//                    mCard.setFusenTag(false);
+//                    mImageViewFusen.setImageResource(R.drawable.fusen_00);
+//                }
+//                else {
+//                    mCard.setFusenTag(true);
+//                    mImageViewFusen.setImageResource(mFolder.getImageFusenResId());
+//                }
             }
         });
     }
@@ -491,44 +491,44 @@ public class ExerciseActivity extends AppCompatActivity {
                 // フィルターが習得済のみの場合
                 if (mCard.isLearned()) {
                     // 習得フィルターは「習得済」で一致したので、付箋フィルターをチェック
-                    if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
-                        if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
-                    }
-                    else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
-                        if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
-                    }
-                    else {
-                        break;      // 付箋あり・なしすべてなので対象
-                    }
+//                    if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
+//                        if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
+//                    }
+//                    else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
+//                        if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
+//                    }
+//                    else {
+//                        break;      // 付箋あり・なしすべてなので対象
+//                    }
                 }
             }
             else if (mLearnedFilterState == Constants.FILTER_STATE_NOT_LEARNED) {
                 // フィルターが未習得のみの場合
                 if (!mCard.isLearned()) {
                     // 習得フィルターは「未習得」で一致したので、付箋フィルターをチェック
-                    if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
-                        if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
-                    }
-                    else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
-                        if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
-                    }
-                    else {
-                        break;      // 付箋あり・なしすべてなので対象
-                    }
+//                    if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
+//                        if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
+//                    }
+//                    else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
+//                        if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
+//                    }
+//                    else {
+//                        break;      // 付箋あり・なしすべてなので対象
+//                    }
                 }
             }
             else {
                 // 習得済・未習得すべて
                 // 付箋フィルターをチェックする
-                if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
-                    if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
-                }
-                else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
-                    if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
-                }
-                else {
-                    break;      // 付箋あり・なしすべてなので対象
-                }
+//                if (mFusenFilterState == Constants.FILTER_STATE_FUSEN) {
+//                    if (mCard.isFusenTag()) break;  // 付箋フィルターが「付箋あり」で一致したので対象
+//                }
+//                else if (mFusenFilterState == Constants.FILTER_STATE_NO_FUSEN) {
+//                    if (!mCard.isFusenTag()) break; // 付箋フィルターが「付箋なし」で一致したので対象
+//                }
+//                else {
+//                    break;      // 付箋あり・なしすべてなので対象
+//                }
             }
 
             // 上記でフィルターにかからなかったのでスキップして次をチェックする
@@ -578,8 +578,8 @@ public class ExerciseActivity extends AppCompatActivity {
         if (mCard.isLearned())  mImageViewLearned.setImageResource(R.drawable.heart_on);
         else                    mImageViewLearned.setImageResource(R.drawable.heart_off_grey);
 
-        if (mCard.isFusenTag()) mImageViewFusen.setImageResource(mFolder.getImageFusenResId());
-        else                    mImageViewFusen.setImageResource(R.drawable.fusen_00);
+//        if (mCard.isFusenTag()) mImageViewFusen.setImageResource(mFolder.getImageFusenResId());
+//        else                    mImageViewFusen.setImageResource(R.drawable.fusen_00);
 
         mBackTextWasDisplayed       = false;            // 新しいカードに移ったので裏面表示のステータスを「未表示」にする
         return;

@@ -5,29 +5,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.navigation.NavigationView;
-
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
-import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
@@ -180,7 +171,7 @@ public class FolderSearchResultActivity extends AppCompatActivity
                 // クリックされたItemのpositionはSearch結果だけのLinkedList上のpositionなので、全LinkedList上の位置に変換する
                 globalMgr.mCurrentFolderIndex       = globalMgr.mSearchedFolderLinkedList.get(position).getOrder();
                 Intent intent = new Intent();
-                intent.setClass(mContext, FolderActivity.class);
+                intent.setClass(mContext, CardListActivity.class);
                 startActivity(intent);
             }
 
