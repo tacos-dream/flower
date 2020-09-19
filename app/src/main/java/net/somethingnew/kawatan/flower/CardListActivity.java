@@ -44,7 +44,7 @@ public class CardListActivity extends AppCompatActivity {
     private GlobalManager globalMgr = GlobalManager.getInstance();
     private SearchView mSearchView;
     private RecyclerView mRecyclerView;
-    private FolderRecyclerViewAdapter mRecyclerViewAdapter;
+    private CardListRecyclerViewAdapter mRecyclerViewAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private AdmobBannerRecyclerAdapterWrapper mBannerRecyclerAdapterWrapper;
     private AdmobAdapterCalculator mAdapterCalc;
@@ -84,17 +84,14 @@ public class CardListActivity extends AppCompatActivity {
 
         buildRecyclerViewWithBannerRecyclerWrapper();
 
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 新規登録モードでダイアログを開く（Positionの-1は使われることはないので特に意味はなし）
-                CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment(mRecyclerViewAdapter, null, -1);
-                Bundle args = new Bundle();
-                args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_NEW);
-                cardSettingsDialogFragment.setArguments(args);
-                cardSettingsDialogFragment.show(getSupportFragmentManager(),
-                        FolderSettingsDialogFragment.class.getSimpleName());
-            }
+        findViewById(R.id.fab).setOnClickListener(v -> {
+            // 新規登録モードでダイアログを開く（Positionの-1は使われることはないので特に意味はなし）
+            CardSettingsDialogFragment cardSettingsDialogFragment = new CardSettingsDialogFragment(mRecyclerViewAdapter, null, -1);
+            Bundle args = new Bundle();
+            args.putInt(Constants.CARD_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.CARD_SETTINGS_FOR_NEW);
+            cardSettingsDialogFragment.setArguments(args);
+            cardSettingsDialogFragment.show(getSupportFragmentManager(),
+                    FolderSettingsDialogFragment.class.getSimpleName());
         });
     }
 
@@ -165,7 +162,7 @@ public class CardListActivity extends AppCompatActivity {
     public void buildRecyclerViewWithBannerRecyclerWrapper() {
         mRecyclerView = findViewById(R.id.my_recycler_view);
         mLayoutManager = new LinearLayoutManager(this);        //RecyclerView内の表示形式にLinearLayoutを指定
-        mRecyclerViewAdapter = new FolderRecyclerViewAdapter(mCardLinkedList);
+        mRecyclerViewAdapter = new CardListRecyclerViewAdapter(mCardLinkedList);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -217,7 +214,7 @@ public class CardListActivity extends AppCompatActivity {
         mAdapterCalc = mBannerRecyclerAdapterWrapper.getAdapterCalculator();
 
         // リスナーの実装
-        mRecyclerViewAdapter.setOnItemClickListener(new FolderRecyclerViewAdapter.OnItemClickListener() {
+        mRecyclerViewAdapter.setOnItemClickListener(new CardListRecyclerViewAdapter.OnItemClickListener() {
             CardModel card;
 
             @Override
@@ -275,7 +272,6 @@ public class CardListActivity extends AppCompatActivity {
                     card.setImageFusenResId(newFusenResId);
                     mRecyclerViewAdapter.notifyItemChanged(globalMgr.mCurrentCardIndex);        // 変更を表示に反映させる
                 });
-
                 fusenListDialogFragment.show(getSupportFragmentManager(), FusenListDialogFragment.class.getSimpleName());
             }
 

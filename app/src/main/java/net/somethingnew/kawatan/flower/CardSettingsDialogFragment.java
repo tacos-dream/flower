@@ -101,7 +101,7 @@ public class CardSettingsDialogFragment extends DialogFragment {
         globalMgr.mCardSettings.editTextBack.setText(globalMgr.mTempCard.getBackText());
         globalMgr.mCardSettings.editTextBack.setTextColor(mFolder.getBackTextColor());
         globalMgr.mCardSettings.imageViewIcon.setImageResource(globalMgr.mTempCard.getImageIconResId());
-        globalMgr.mCardSettings.imageViewFusen.setImageResource(mFolder.getImageFusenResId());
+        globalMgr.mCardSettings.imageViewFusen.setImageResource(globalMgr.mTempCard.getImageFusenResId());
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(true);

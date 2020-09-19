@@ -34,7 +34,6 @@ public class FolderDao extends DatabaseHelper {
 	 */
 	public FolderDao(Context context) {
 		super(context);
-		LogUtility.d("constructor");
 	}
 
 	/**
@@ -74,7 +73,7 @@ public class FolderDao extends DatabaseHelper {
 	 * データ挿入
 	 * @param data FolderModel 対象データ
 	 */
-	public void insert(FolderModel data, int order) {
+	public void insert(FolderModel data) {
 		// トランザクション開始
 		LogUtility.d("insert");
 		getDBInstance().beginTransaction();
@@ -114,7 +113,6 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindLong(index++, data.getCoverTextColor());
 			stmt.bindLong(index++, data.getFrontTextColor());
 			stmt.bindLong(index++, data.getBackTextColor());
-			stmt.bindLong(index++, order);
 			stmt.bindLong(index++, data.getIconCategory());
 			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
 
@@ -164,7 +162,6 @@ public class FolderDao extends DatabaseHelper {
 			SQLiteStatement stmt = getDBInstance().compileStatement(insertSqlStr);
 
 			// 与えられた全データを順次処理
-			int order = 1;
 			for (Iterator<FolderModel> itr = dataList.iterator(); itr.hasNext();) {
 				int index = 1;
 
@@ -185,10 +182,9 @@ public class FolderDao extends DatabaseHelper {
 				stmt.bindLong(index++, folder.getCoverTextColor());
 				stmt.bindLong(index++, folder.getFrontTextColor());
 				stmt.bindLong(index++, folder.getBackTextColor());
-				stmt.bindLong(index++, order++);
 				stmt.bindLong(index++, folder.getIconCategory());
 				stmt.bindLong(index++, (folder.isIconAutoDisplay()) ? 1 : 0);
-				
+
 				// SQL実行
 				stmt.executeInsert();
 			}
@@ -252,7 +248,6 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindLong(index++, data.getCoverTextColor());
 			stmt.bindLong(index++, data.getFrontTextColor());
 			stmt.bindLong(index++, data.getBackTextColor());
-			stmt.bindLong(index++, data.getOrder());
 			stmt.bindLong(index++, data.getIconCategory());
 			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
 
@@ -260,7 +255,7 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindString(index++, data.getId());
 
 			// SQL実行
-			stmt.executeInsert();
+			stmt.executeUpdateDelete();
 
 			// ステートメントをクローズ
 			stmt.close();
@@ -323,7 +318,7 @@ public class FolderDao extends DatabaseHelper {
 			// SQL文生成
 			if (selectAllSqlStr == null) {
 				selectAllSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_FOLDER, Constants.COLUMN_NAMES_FOLDER, null, null,
-						null, "DISPLAY_ORDER", null);
+						null, null, null);
 			}
 
 			// カーソルを取得
@@ -351,7 +346,6 @@ public class FolderDao extends DatabaseHelper {
                 folder.setCoverTextColor(cursor.getInt(index++)); 
                 folder.setFrontTextColor(cursor.getInt(index++)); 
                 folder.setBackTextColor(cursor.getInt(index++));
-				folder.setOrder(cursor.getInt(index++));
 				folder.setIconCategory(cursor.getInt(index++));
 				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
 
@@ -379,7 +373,7 @@ public class FolderDao extends DatabaseHelper {
 			// SQL文生成
 			if (selectByTitleSqlStr == null) {
 				selectByTitleSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_FOLDER, Constants.COLUMN_NAMES_FOLDER, "TITLE_NAME LIKE ?", null,
-						null, "DISPLAY_ORDER", null);
+						null, null, null);
 			}
 
 			// 変数をバインドしカーソルを取得
@@ -408,7 +402,6 @@ public class FolderDao extends DatabaseHelper {
 				folder.setCoverTextColor(cursor.getInt(index++));
 				folder.setFrontTextColor(cursor.getInt(index++));
 				folder.setBackTextColor(cursor.getInt(index++));
-				folder.setOrder(cursor.getInt(index++));
 				folder.setIconCategory(cursor.getInt(index++));
 				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
 

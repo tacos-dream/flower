@@ -6,54 +6,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/textViewImportData"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="単語帳のインポート"
+        android:text="Exerciseヘルプ"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/textViewResultMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        app:autoSizeMaxTextSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewImportData"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@+id/textViewResultMsg"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TableLayout
-            android:id="@+id/tableLayoutImportData"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="30dp"
-            android:stretchColumns="1">
-        </TableLayout>
     </ScrollView>
     <Button
         android:id="@+id/buttonGoBack"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:background="@drawable/shape_rounded_corners_10dp"
-        android:drawableLeft="@drawable/ic_house_36px"
-        android:drawablePadding="6dp"
         android:drawableTint="#FFFFFF"
-        android:gravity="left|center"
         android:minHeight="0dp"
-        android:text="一覧に戻る"
+        android:text="閉じる"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"

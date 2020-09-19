@@ -19,7 +19,7 @@ import java.util.LinkedList;
 /**
  * FolderActivityのリスト表示用RecyclerViewer（リスト内に表示するのはCard群）
  */
-public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecyclerViewAdapter.MyViewHolder> {
+public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRecyclerViewAdapter.MyViewHolder> {
 
     private GlobalManager globalMgr = GlobalManager.getInstance();
     private OnItemClickListener mListener;
@@ -122,7 +122,7 @@ public class FolderRecyclerViewAdapter extends RecyclerView.Adapter<FolderRecycl
         }
     }
 
-    public FolderRecyclerViewAdapter(LinkedList<CardModel> linkedList) {
+    public CardListRecyclerViewAdapter(LinkedList<CardModel> linkedList) {
         mFolder = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex);
         mCardLinkedList = linkedList;
     }

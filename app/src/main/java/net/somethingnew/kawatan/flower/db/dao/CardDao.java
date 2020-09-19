@@ -34,7 +34,6 @@ public class CardDao extends DatabaseHelper {
 	 */
 	public CardDao(Context context) {
 		super(context);
-		LogUtility.d("constructor");
 	}
 
 	/**
@@ -177,7 +176,7 @@ public class CardDao extends DatabaseHelper {
 				stmt.bindLong(index++, card.getIconCategory());
 				stmt.bindLong(index++, card.getImageIconResId());
 				stmt.bindLong(index++, card.getImageFusenResId());
-				
+
 				// SQL実行
 				stmt.executeInsert();
 			}
@@ -244,7 +243,7 @@ public class CardDao extends DatabaseHelper {
 			stmt.bindString(index++, data.getId());
 
 			// SQL実行
-			stmt.executeInsert();
+			stmt.executeUpdateDelete();
 
 			// ステートメントをクローズ
 			stmt.close();

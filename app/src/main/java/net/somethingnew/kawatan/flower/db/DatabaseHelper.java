@@ -59,6 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * テーブル定義更新（使用しない）.<BR>
+	 *     データベースをバージョンアップした時に実行される処理
 	 * @param db SQLiteDatabase　DBインスタンス
 	 * @param oldVersion int　旧データベースバージョン
 	 * @param newVersion int　新データベースバージョン
@@ -66,12 +67,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		LogUtility.d("onUpgrade oldVersion:" + oldVersion + "  newVersion:" + newVersion);
+		/**
+		 * テーブルを削除する
+		 */
+		db.execSQL("DROP TABLE IF EXISTS FOOD_TABLE");
+
+		// 新しくテーブルを作成する
+		onCreate(db);
 	}
 
 	/**
 	 * DBインスタンス取得.<BR>
 	 */
-	protected SQLiteDatabase getDBInstance() {
+	public SQLiteDatabase getDBInstance() {
 		// DBインスタンスを取得
 		if (database == null || !database.isOpen()) {
 			database = super.getWritableDatabase();

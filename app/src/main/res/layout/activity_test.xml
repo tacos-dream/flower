@@ -3,30 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FC9DB8"
     android:orientation="vertical">
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="30dp">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <Button
                 android:id="@+id/btn_pref_reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
-                android:text="リセット"
+                android:text="Prefリセット"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="16dp" />
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -42,10 +38,10 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/btn_delete_db"
+                android:id="@+id/btn_delete_tables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DB削除"
+                android:text="Delete all records"
                 android:textSize="10sp"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="70dp" />
@@ -55,116 +51,70 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="SQLightの全データ削除"
+                android:text="SQLightの全レコード削除"
                 android:textSize="12sp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <Button
-                android:id="@+id/btn_goto_main"
+                android:id="@+id/btn_drop_tables"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="メイン画面" />
-
+                android:text="Drop all tables"
+                android:textSize="10sp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="70dp" />
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="ログインなしでメイン画面へ遷移"
+                android:text="SQLightの全テーブル削除"
                 android:textSize="12sp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <Button
-                android:id="@+id/btn_image_upload"
+                android:id="@+id/btn_delete_db"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="画像Upload" />
-
+                android:text="Delete DB"
+                android:textSize="10sp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="70dp" />
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="プロフィール画像のアップロード"
+                android:text="SQLight DB 削除"
                 android:textSize="12sp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <Button
-                android:id="@+id/btn_update_preference"
+                android:id="@+id/btn_restart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pref更新" />
-
+                android:text="Restart AP"
+                android:textSize="10sp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="70dp" />
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="下記のKey、ValueでPreferenceを更新"
-                android:textSize="12sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="---"
-                android:textSize="12sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_open_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="---"
+                android:text="アプリを再起動"
                 android:textSize="12sp" />
         </TableRow>
 
     </TableLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/icon_bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/black"
-        app:menu="@menu/icon_bottom_navigation_menu"
-        />
 </LinearLayout>

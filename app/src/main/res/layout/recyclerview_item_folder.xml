@@ -39,24 +39,24 @@
                 android:layout_weight="9"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textViewTitleName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_weight="4"
-                    android:autoSizeTextType="uniform"
-                    android:gravity="center_vertical"
-                    android:maxWidth="120dp"
-                    android:text="英単語"
-                    app:autoSizeMaxTextSize="12sp"
-                    app:autoSizeMinTextSize="12sp" />
-
+                    android:layout_weight="4">
+                    <TextView
+                        android:id="@+id/textViewTitleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:autoSizeTextType="uniform"
+                        android:text="英単語"
+                        app:autoSizeMaxTextSize="20sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
-
                     <TextView
                         android:id="@+id/textViewNumOfCards"
                         android:layout_width="0dp"

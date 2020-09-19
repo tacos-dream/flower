@@ -40,14 +40,13 @@
                 <TextView
                     android:id="@+id/textViewFront"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_horizontal|center_vertical"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:autoSizeTextType="uniform"
+                    app:autoSizeMaxTextSize="20sp"
                     android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="おもて"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:text="おもて" />
             </LinearLayout>
 
             <LinearLayout

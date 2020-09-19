@@ -68,11 +68,11 @@ public final class Constants {
     public static final String[] COLUMN_NAMES_FOLDER = {"FOLDER_ID", "TITLE_NAME", "CREATED_DATE", "UPDATED_DATE", "LAST_USED_DATE",
             "NUM_OF_ALL_CARDS", "NUM_OF_LEARNED_CARDS", "ICON_RES_ID", "COVER_BG_COLOR",
             "FRONT_BG_COLOR", "BACK_BG_COLOR", "COVER_TXT_COLOR", "FRONT_TXT_COLOR", "BACK_TXT_COLOR",
-            "FUSEN_RES_ID", "DISPLAY_ORDER", "ICON_CATEGORY", "ICON_AUTO_DISPLAY"
+            "ICON_CATEGORY", "ICON_AUTO_DISPLAY"
     };
     public static final String[] COLUMN_NAMES_CARD = {"CARD_ID", "FOLDER_ID", "FRONT_TEXT", "BACK_TEXT", "CREATED_DATE",
-            "UPDATED_DATE", "LAST_USED_DATE", "LEARNED", "FUSEN_TAG", "ICON_AUTO_DISPLAY",
-            "ICON_CATEGORY", "ICON_RES_ID"
+            "UPDATED_DATE", "LAST_USED_DATE", "LEARNED", "ICON_AUTO_DISPLAY",
+            "ICON_CATEGORY", "ICON_RES_ID", "FUSEN_RES_ID"
     };
 
     /**
@@ -122,14 +122,10 @@ public final class Constants {
 
     /**
      * フィルターステート
-     * ビットフラグの考えで制御する
-     * ex.)  LEARNED(1) + NOT_LEARNED(2) = ALL(3)
      */
-    public static final int FILTER_STATE_LEARNED = 1;
-    public static final int FILTER_STATE_NOT_LEARNED = 2;
-    public static final int FILTER_STATE_FUSEN = 1;
-    public static final int FILTER_STATE_NO_FUSEN = 2;
-    public static final int FILTER_STATE_ALL = 3;
+    public static final int EXERCISE_FILTER_ALL_CARDS = 0;
+    public static final int EXERCISE_FILTER_NOT_LEARNED_ONLY = 1;
+    public static final int EXERCISE_FILTER_FUSEN_ONLY = 2;
 
     /**
      * Exerciseのモード
@@ -165,8 +161,7 @@ public final class Constants {
      * アイコン関連
      */
     public static final int NUM_OF_ICON_TAB = 5;
-//    public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 49, 42, 50, 86};
-    public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 42, 50, 86};
+    public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 89, 50, 86};
     public static final String[] ICON_TAB_ARRAY = {"flower", "jewelry", "fashion", "food", "others"};
     public static final String[] ICON_TAB_IMAGE_ID = {"flower_001", "jewelry_001", "fashion_001", "food_001", "others_001"};
     public static final String[] AUTO_ICON_IMAGE_ID = {"flower_000", "jewelry_000", "fashion_000", "food_000", "others_000"};

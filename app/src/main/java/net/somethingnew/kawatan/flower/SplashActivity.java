@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -231,15 +232,20 @@ public class SplashActivity extends AppCompatActivity {
         } finally {
             conn.disconnect();
         }
-        
 
-        for(int i = 0; i < globalMgr.availableBookInfoList.size(); i++) {
-            LogUtility.d("title:" + globalMgr.availableBookInfoList.get(i).getTitle() + ", url:" + globalMgr.availableBookInfoList.get(i).getUrl());
-        }
+//        for(int i = 0; i < globalMgr.availableBookInfoList.size(); i++) {
+//            LogUtility.d("title:" + globalMgr.availableBookInfoList.get(i).getTitle() + ", url:" + globalMgr.availableBookInfoList.get(i).getUrl());
+//        }
 
         return;
     }
 
+    /**
+     * タイトルを回転させるアニメーション表示
+     * この関数はタイマースレッドの中から呼ばれているので、メインスレッドでは無い。
+     * よって、直接Viewを操作しようとすると「Only the original thread that created a view hierarchy can touch its views」のエラーになるので
+     * メインスレッドのLooperに処理をPostして、メインスレッドで処理が行われるようにする
+     */
     private void startRotation() {
         float toDegrees = new Random(1000).nextInt() % 2 == 0 ? 360.0f : -360.0f;
         // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
@@ -255,6 +261,15 @@ public class SplashActivity extends AppCompatActivity {
         rotate.setFillAfter(true);
 
         //アニメーションの開始
-        mTextViewTitle.startAnimation(rotate);
+//        mTextViewTitle.startAnimation(rotate);
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        try {
+            /* 処理 */
+            mainHandler.post(() -> {
+                mTextViewTitle.startAnimation(rotate);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

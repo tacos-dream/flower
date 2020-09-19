@@ -2,7 +2,6 @@ package net.somethingnew.kawatan.flower;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -59,7 +58,7 @@ public class FolderListActivity extends AppCompatActivity
     private SearchView mSearchView;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MainRecyclerViewAdapter mRecyclerViewAdapter;
+    private FolderListRecyclerViewAdapter mRecyclerViewAdapter;
     private AdmobRecyclerAdapterWrapper mAdapterWrapper;
     private AdmobBannerRecyclerAdapterWrapper mBannerRecyclerAdapterWrapper;
     private AdmobAdapterCalculator mAdapterCalc;
@@ -112,7 +111,8 @@ public class FolderListActivity extends AppCompatActivity
             }
         });
 
-        MobileAds.initialize(mContext, BuildConfig.ADMOB_APPLICATION_ID);
+//        MobileAds.initialize(mContext, BuildConfig.ADMOB_APPLICATION_ID);
+        MobileAds.initialize(mContext);
 
         //buildRecyclerView();
         //buildRecyclerViewWithAdWrapper();
@@ -178,19 +178,18 @@ public class FolderListActivity extends AppCompatActivity
                                             globalMgr.mCardListMap.get(folderId).clear();
                                             globalMgr.mCardListMap.remove(folderId);
                                             CardDao cardDao = new CardDao(getApplicationContext());
+                                            long countBefore = cardDao.selectCountAll();
                                             cardDao.deleteByFolderId(folderId);
+                                            long countAfter = cardDao.selectCountAll();
+                                            LogUtility.d("Cards were deleted. CARD_TBL's count: " + countBefore + " ---> " + countAfter);
 
-                                            // FolderのLinkedListから削除
+                                            // Folder関連
                                             globalMgr.mFolderLinkedList.remove(swipedPosition);
                                             FolderDao folderDao = new FolderDao(getApplicationContext());
+                                            countBefore = folderDao.selectCountAll();
                                             folderDao.deleteByFolderId(folderId);
-
-                                            // 削除したFolderの後ろのorderを更新する
-                                            for (int index = swipedPosition; index < globalMgr.mFolderLinkedList.size(); index++) {
-                                                FolderModel folder = globalMgr.mFolderLinkedList.get(index);
-                                                folder.setOrder(index);
-                                                folderDao.update(folder);
-                                            }
+                                            countAfter = folderDao.selectCountAll();
+                                            LogUtility.d("Folder was deleted. FOLDER_TBL's count: " + countBefore + " ---> " + countAfter);
 
                                             // 再表示の通知
                                             mRecyclerViewAdapter.notifyDataSetChanged();
@@ -348,7 +347,7 @@ public class FolderListActivity extends AppCompatActivity
     public void buildRecyclerViewWithBannerRecyclerWrapper() {
         mRecyclerView = findViewById(R.id.my_recycler_view);
         mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerViewAdapter = new MainRecyclerViewAdapter(globalMgr.mFolderLinkedList);
+        mRecyclerViewAdapter = new FolderListRecyclerViewAdapter(globalMgr.mFolderLinkedList);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -398,7 +397,7 @@ public class FolderListActivity extends AppCompatActivity
 
         mRecyclerView.setAdapter(mBannerRecyclerAdapterWrapper);
         mAdapterCalc = mBannerRecyclerAdapterWrapper.getAdapterCalculator();
-        mRecyclerViewAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
+        mRecyclerViewAdapter.setOnItemClickListener(new FolderListRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 int fetchedAdsCnt = mBannerRecyclerAdapterWrapper.getFetchedAdsCount();
@@ -431,8 +430,21 @@ public class FolderListActivity extends AppCompatActivity
                 int fetchedAdsCnt = mBannerRecyclerAdapterWrapper.getFetchedAdsCount();
                 int sourceCnt = mBannerRecyclerAdapterWrapper.getAdapter().getItemCount();
                 globalMgr.mCurrentFolderIndex = mAdapterCalc.getOriginalContentPosition(position, fetchedAdsCnt, sourceCnt);
-                LogUtility.d("onExerciseClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
-
+//                LogUtility.d("onExerciseClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
+                if (globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getNumOfAllCards() == 0) {
+                    new AlertDialog.Builder(mActivity)
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_information)
+                            .setMessage(R.string.dlg_msg_no_card_in_folder)
+                            .setPositiveButton(
+                                    android.R.string.ok,
+                                    (dialog, which) -> {
+                                        LogUtility.d("[OK]が選択されました");
+                                        // 単にダイアログが消えて何もしない
+                                    })
+                            .show();
+                    return;
+                }
                 Intent intent = new Intent();
                 intent.putExtra(Constants.EXERCISE_MODE_KEY_NAME, Constants.EXERCISE_MODE_NORMAL);
                 intent.setClass(mContext, ExerciseActivity.class);
@@ -444,8 +456,21 @@ public class FolderListActivity extends AppCompatActivity
                 int fetchedAdsCnt = mBannerRecyclerAdapterWrapper.getFetchedAdsCount();
                 int sourceCnt = mBannerRecyclerAdapterWrapper.getAdapter().getItemCount();
                 globalMgr.mCurrentFolderIndex = mAdapterCalc.getOriginalContentPosition(position, fetchedAdsCnt, sourceCnt);
-                LogUtility.d("onShuffleExerciseClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
-
+//                LogUtility.d("onShuffleExerciseClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
+                if (globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getNumOfAllCards() == 0) {
+                    new AlertDialog.Builder(mActivity)
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_information)
+                            .setMessage(R.string.dlg_msg_no_card_in_folder)
+                            .setPositiveButton(
+                                    android.R.string.ok,
+                                    (dialog, which) -> {
+                                        LogUtility.d("[OK]が選択されました");
+                                        // 単にダイアログが消えて何もしない
+                                    })
+                            .show();
+                    return;
+                }
                 Intent intent = new Intent();
                 intent.putExtra("EXERCISE_MODE", Constants.EXERCISE_MODE_SHUFFLE);
                 intent.setClass(mContext, ExerciseActivity.class);

@@ -85,7 +85,7 @@
     <string name="dlg_msg_backup_policy">登録済みの単語帳データや設定情報は、Androidのシステムにより自動的にGoogleDriveにバックアップされます。\n
         Androidの「設定」にて、バックアップ機能がONになっていることをご確認ください。\n\n
         また、「機種変更時」や「アプリを一旦アンインストール後に再度インストールした時」は、GoogleDriveにバックアップされていたデータが自動で復元されます。</string>
-
+    <string name="dlg_msg_force_all_card_exercise">選択したカードは存在しないため全てのカードを対象にします。</string>
 
     <!-- ダイアログボタン -->
     <string name="go_back_list">一覧に戻る</string>
@@ -100,7 +100,7 @@
     <string name="card_front">カードのおもて</string>
     <string name="card_back">カードのうら</string>
 
-    <string name="back_mask">♡♠♧♦</string>
+    <string name="back_mask">♦️♣️❤️♠️️</string>
 
     <!-- 警告系汎用メッセージ -->
     <string name="warn_001">警告メッセージ</string>

@@ -327,16 +327,9 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                     (dialog, which) -> {
                                         FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                                            // 既存Folderの順序を繰り下げる
-                                            int i = 1;
-                                            for (FolderModel folder : globalMgr.mFolderLinkedList) {
-                                                folder.setOrder(i++);
-                                                folderDao.update(folder);
-                                            }
-
                                             // 先頭に追加
                                             globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
-                                            folderDao.insert(globalMgr.mTempFolder, 0);
+                                            folderDao.insert(globalMgr.mTempFolder);
 
                                             // CardListMapに入れ物だけ作っておく
                                             LinkedList<CardModel> cardLinkedList = new LinkedList<>();
@@ -390,19 +383,10 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                     CardDao cardDao = new CardDao(getActivity().getApplicationContext());
                                     cardDao.deleteByFolderId(folderId);
 
-                                    // Folderのorderの付け替え処理は不要（Drag&Dropをやめたので）
-
                                     // FolderのLinkedListから削除
                                     globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
                                     FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
                                     folderDao.deleteByFolderId(folderId);
-
-                                    // 削除したFolderの後ろのorderを更新する
-                                    for (int index = globalMgr.mCurrentFolderIndex; index < globalMgr.mFolderLinkedList.size(); index++) {
-                                        FolderModel folder = globalMgr.mFolderLinkedList.get(index);
-                                        folder.setOrder(index);
-                                        folderDao.update(folder);
-                                    }
 
                                     getDialog().dismiss();
 

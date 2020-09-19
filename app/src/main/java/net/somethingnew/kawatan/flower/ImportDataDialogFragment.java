@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutorService;
@@ -148,9 +149,9 @@ public class ImportDataDialogFragment extends DialogFragment {
             // do something in background
             final String resultMessage;
             if (downloadCsvAndImport(availableBookInfo)) {
-                resultMessage = "インポートが完了しました。";
+                resultMessage = "[" + availableBookInfo.getTitle() + "]のインポートが完了しました";
             } else {
-                resultMessage = "インポートに失敗しました。";
+                resultMessage = "[" + availableBookInfo.getTitle() + "]のインポートに失敗しました";
             }
 
             // update UI
@@ -183,7 +184,7 @@ public class ImportDataDialogFragment extends DialogFragment {
                 //responseの読み込み
                 final InputStream in = conn.getInputStream();
 //            final String encoding = conn.getContentEncoding();
-                final InputStreamReader inReader = new InputStreamReader(in, "UTF-8");
+                final InputStreamReader inReader = new InputStreamReader(in, "SJIS");
                 final BufferedReader bufferedReader = new BufferedReader(inReader);
                 String line = null;
 
@@ -202,7 +203,7 @@ public class ImportDataDialogFragment extends DialogFragment {
                     cardModel.setBackText(stringTokenizer.nextToken());
                     cardLinkedList.add(cardModel);
                     cardDao.insert(cardModel);        // DB上は特に順番は意識しない
-                    LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(cardModel));
+//                    LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(cardModel));
                 }
                 bufferedReader.close();
                 inReader.close();
@@ -212,8 +213,8 @@ public class ImportDataDialogFragment extends DialogFragment {
                 folderModel.setNumOfAllCards(cardLinkedList.size());
                 globalMgr.mFolderLinkedList.add(0, folderModel);
                 FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                folderDao.insert(folderModel, 0);
-                LogUtility.d("FolderModel: " + mObjectMapper.writeValueAsString(folderModel));
+                folderDao.insert(folderModel);
+//                LogUtility.d("FolderModel: " + mObjectMapper.writeValueAsString(folderModel));
             }
 
         } catch (Exception e) {

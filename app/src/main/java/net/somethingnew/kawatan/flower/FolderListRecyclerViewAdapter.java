@@ -14,12 +14,11 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
-import java.util.Random;
 
 /**
  * MainActivityのリスト表示用RecyclerViewer（リスト内に表示するのはFolder群）
  */
-public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
+public class FolderListRecyclerViewAdapter extends RecyclerView.Adapter<FolderListRecyclerViewAdapter.MyViewHolder> {
 
     private GlobalManager                       globalMgr = GlobalManager.getInstance();
     private OnItemClickListener                 mListener;
@@ -111,7 +110,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         }
     }
 
-    public MainRecyclerViewAdapter(LinkedList<FolderModel> folderModelLinkedList) {
+    public FolderListRecyclerViewAdapter(LinkedList<FolderModel> folderModelLinkedList) {
         mFolderLinkedList = folderModelLinkedList;
     }
 
