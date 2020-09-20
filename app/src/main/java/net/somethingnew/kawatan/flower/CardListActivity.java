@@ -154,7 +154,6 @@ public class CardListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
      * RecyclerView関連準備
      * AdmobBannerRecyclerAdapterWrapper()を使ってのNativeAdの表示

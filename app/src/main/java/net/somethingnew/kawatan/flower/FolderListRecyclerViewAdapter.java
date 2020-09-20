@@ -1,13 +1,14 @@
 package net.somethingnew.kawatan.flower;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
@@ -20,17 +21,20 @@ import java.util.LinkedList;
  */
 public class FolderListRecyclerViewAdapter extends RecyclerView.Adapter<FolderListRecyclerViewAdapter.MyViewHolder> {
 
-    private GlobalManager                       globalMgr = GlobalManager.getInstance();
-    private OnItemClickListener                 mListener;
-    private LinkedList<FolderModel>             mFolderLinkedList;
+    private GlobalManager globalMgr = GlobalManager.getInstance();
+    private OnItemClickListener mListener;
+    private LinkedList<FolderModel> mFolderLinkedList;
 
     /**
      * Interfaceを定義し、Activity側にoverrideでonItemClick()を実装させ、Adapter側からそれをCallback的に呼び出せるようにする
      */
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onIconClick(int position);
+
         void onExerciseClick(int position);
+
         void onShuffleExerciseClick(int position);
     }
 
@@ -46,28 +50,28 @@ public class FolderListRecyclerViewAdapter extends RecyclerView.Adapter<FolderLi
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView    textViewTitleName;
-        TextView    textViewNumOfCards;
-        TextView    textViewLastUsedDate;
-        ImageView   imageViewIcon;
-        ImageView   imageViewExercise;
-        ImageView   imageViewShuffleExercise;
-        CardView    cardViewFolder;
+        TextView textViewTitleName;
+        TextView textViewNumOfCards;
+        TextView textViewLastUsedDate;
+        ImageView imageViewIcon;
+        ImageView imageViewExercise;
+        ImageView imageViewShuffleExercise;
+        CardView cardViewFolder;
 
         public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            this.textViewTitleName          = itemView.findViewById(R.id.textViewTitleName);
-            this.textViewNumOfCards         = itemView.findViewById(R.id.textViewNumOfCards);
-            this.textViewLastUsedDate       = itemView.findViewById(R.id.textViewLastUsedDate);
-            this.imageViewIcon              = itemView.findViewById(R.id.imageViewIcon);
-            this.imageViewExercise          = itemView.findViewById(R.id.imageViewExercise);
-            this.imageViewShuffleExercise   = itemView.findViewById(R.id.imageViewShuffleExercise);
-            this.cardViewFolder             = itemView.findViewById(R.id.card_view);
+            this.textViewTitleName = itemView.findViewById(R.id.textViewTitleName);
+            this.textViewNumOfCards = itemView.findViewById(R.id.textViewNumOfCards);
+            this.textViewLastUsedDate = itemView.findViewById(R.id.textViewLastUsedDate);
+            this.imageViewIcon = itemView.findViewById(R.id.imageViewIcon);
+            this.imageViewExercise = itemView.findViewById(R.id.imageViewExercise);
+            this.imageViewShuffleExercise = itemView.findViewById(R.id.imageViewShuffleExercise);
+            this.cardViewFolder = itemView.findViewById(R.id.card_view);
 
             // Item全体のOnClickリスナ
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
-                    int position    = getAdapterPosition();
+                    int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         // Activity側のリスナーをCallbackする
                         listener.onItemClick(position);
@@ -140,18 +144,18 @@ public class FolderListRecyclerViewAdapter extends RecyclerView.Adapter<FolderLi
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int listPosition) {
         LogUtility.d("onBindViewHolder listPosition: " + listPosition + "(" + mFolderLinkedList.get(listPosition).getTitleName() + ")");
-        TextView    textViewTitleName           = holder.textViewTitleName;
-        TextView    textViewLastUsedDate        = holder.textViewLastUsedDate;
-        TextView    textViewNumOfCards          = holder.textViewNumOfCards;
-        ImageView   imageViewIcon               = holder.imageViewIcon;
-        CardView    cardViewFolder              = holder.cardViewFolder;
+        TextView textViewTitleName = holder.textViewTitleName;
+        TextView textViewLastUsedDate = holder.textViewLastUsedDate;
+        TextView textViewNumOfCards = holder.textViewNumOfCards;
+        ImageView imageViewIcon = holder.imageViewIcon;
+        CardView cardViewFolder = holder.cardViewFolder;
 
         textViewTitleName.setText(mFolderLinkedList.get(listPosition).getTitleName());
         textViewLastUsedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(mFolderLinkedList.get(listPosition).getLastUsedDate()));
         textViewNumOfCards.setText(mFolderLinkedList.get(listPosition).getNumOfLearnedCards() + " / " + mFolderLinkedList.get(listPosition).getNumOfAllCards());
         cardViewFolder.setCardBackgroundColor(mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
-        int category                = mFolderLinkedList.get(listPosition).getIconCategory();
-        FolderModel folderModel     = mFolderLinkedList.get(listPosition);
+        int category = mFolderLinkedList.get(listPosition).getIconCategory();
+        FolderModel folderModel = mFolderLinkedList.get(listPosition);
         imageViewIcon.setImageResource(folderModel.isIconAutoDisplay() ?
                 IconManager.getResIdAtRandom(category) :
                 folderModel.getImageIconResId()

@@ -118,8 +118,8 @@ public class GlobalManager {
         CardView cardViewBack;
         EditText editTextFront;
         EditText editTextBack;
-        ImageView imageViewIcon;
-        ImageView imageViewFusen;
+        ImageView imageViewIconFront;
+        ImageView imageViewIconBack;
     }
 
     class UserSettings {

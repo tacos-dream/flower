@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <!-- height=0 weight=1を指定しないと、BottomNavigationViewが下に表示されない -->
     <LinearLayout
+        android:id="@+id/icon_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <!-- Main content -->
-        <LinearLayout
-            android:id="@+id/icon_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-        </LinearLayout>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/icon_bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="bottom"
-            android:background="@android:color/holo_blue_dark"
-            app:itemTextColor="@android:color/black"
-            app:menu="@menu/icon_bottom_navigation_menu"
-            app:itemIconSize="@dimen/icon_size"
-            />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/icon_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/holo_blue_dark"
+        app:itemTextColor="@android:color/black"
+        app:menu="@menu/icon_bottom_navigation_menu"
+        app:itemIconSize="@dimen/icon_size"
+        />
+</LinearLayout>

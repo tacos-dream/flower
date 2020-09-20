@@ -70,6 +70,7 @@ public class FolderIconFragment extends Fragment {
         return mView;
     }
 
+    // レイアウトのicon_container部分(LinearLayout)を引数のfragmentで入れ替え表示する
     public void showFragment(Fragment fragment) {
 //        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

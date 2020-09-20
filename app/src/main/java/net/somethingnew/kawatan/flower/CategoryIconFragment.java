@@ -57,14 +57,15 @@ public class CategoryIconFragment extends Fragment {
                     // FolderSettingsの場合　→　表紙のアイコン表示に反映
                     globalMgr.mFolderSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
                     globalMgr.mTempFolder.setImageIconResId(mIconResourceIdList.get(position));
-                    globalMgr.mTempFolder.setIconAutoDisplay((position == 0) ? true : false);
+                    globalMgr.mTempFolder.setIconAutoDisplay(position == 0);
                     globalMgr.mTempFolder.setIconCategory(mCategory);
                     globalMgr.mChangedFolderSettings = true;
                 } else {
-                    // CardSettingsの場合　→　おもてのアイコン表示に反映
-                    globalMgr.mCardSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
+                    // CardSettingsの場合　→　アイコン表示に反映
+                    globalMgr.mCardSettings.imageViewIconFront.setImageResource(mIconResourceIdList.get(position));
+                    globalMgr.mCardSettings.imageViewIconBack.setImageResource(mIconResourceIdList.get(position));
                     globalMgr.mTempCard.setImageIconResId(mIconResourceIdList.get(position));
-                    globalMgr.mTempCard.setIconAutoDisplay((position == 0) ? true : false);
+                    globalMgr.mTempCard.setIconAutoDisplay(position == 0);
                     globalMgr.mTempCard.setIconCategory(mCategory);
                     globalMgr.mChangedCardSettings = true;
                 }

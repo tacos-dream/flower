@@ -42,7 +42,7 @@ public class FolderModel implements Cloneable {
 	public FolderModel() {
 	}
 
-	public FolderModel(int imageIconResId, int imageFusenResId) {
+	public FolderModel(int imageIconResId) {
 		this.id                     = UUID.randomUUID().toString();
 		this.titleName              = "";
 		this.createdDate            = new Date();

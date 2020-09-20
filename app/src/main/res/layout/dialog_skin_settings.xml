@@ -8,23 +8,13 @@
     android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/textViewSkinTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Skinの変更"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
         android:id="@+id/textViewSpecifiedColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="規定の色から選ぶ"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSkinTitle"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -42,12 +32,10 @@
         <LinearLayout
             android:id="@+id/linearLayoutPalette1"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1">
+            android:layout_marginHorizontal="10dp">
 
             <Button
                 android:id="@+id/buttonPalette1A"
@@ -113,12 +101,10 @@
         <LinearLayout
             android:id="@+id/linearLayoutPalette2"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1">
+            android:layout_marginHorizontal="10dp">
 
             <Button
                 android:id="@+id/buttonPalette2A"
@@ -207,68 +193,52 @@
         <LinearLayout
             android:id="@+id/linearLayoutColorSliderTitle"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal">
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:gravity="center_vertical"
                 android:text="タイトル部　"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderHeader"
                 android:layout_width="250dp"
                 app:cs_hsv_saturation="0.8"
-                app:cs_circle_radius="40"
+                app:cs_circle_radius="30"
                 app:cs_stroke_width="10"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/shadow"/>
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayoutColorSliderBody"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal">
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:gravity="center_vertical"
                 android:text="データ領域　"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderBody"
                 android:layout_width="250dp"
                 app:cs_hsv_saturation="0.2"
-                app:cs_circle_radius="40"
+                app:cs_circle_radius="30"
                 app:cs_stroke_width="10"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/shadow"/>
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -276,7 +246,7 @@
         android:id="@+id/textViewSample"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="表事例"
+        android:text="変更後のイメージ"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutColorSlider"
         android:layout_marginTop="20dp"
@@ -284,7 +254,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
-        android:id="@+id/relativeLayoutSample"
+        android:id="@+id/linearLayoutSample"
         android:layout_width="250dp"
         android:layout_height="120dp"
         app:layout_constraintTop_toBottomOf="@+id/textViewSample"
@@ -322,7 +292,6 @@
             android:layout_marginBottom="1dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
-            android:layout_below="@+id/toolbarSampleHeader"
             android:orientation="vertical">
         </LinearLayout>
     </LinearLayout>
@@ -333,39 +302,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutSample">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSample">
         <Space
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
         <Button
             android:id="@+id/buttonSaveClose"
-            android:layout_width="170dp"
+            android:layout_width="130dp"
             android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/shape_rounded_corners_10dp"
             android:minHeight="0dp"
             android:text="変更する"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         <Space
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"/>
         <Button
             android:id="@+id/buttonCancelClose"
-            android:layout_width="170dp"
+            android:layout_width="130dp"
             android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/shape_rounded_corners_10dp"
-            android:drawableLeft="@drawable/ic_house_36px"
-            android:drawablePadding="6dp"
-            android:drawableTint="#FFFFFF"
-            android:gravity="left|center"
             android:minHeight="0dp"
             android:text="一覧に戻る"
             android:textColor="#FFFFFF"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         <Space
             android:layout_weight="1"
             android:layout_height="wrap_content"

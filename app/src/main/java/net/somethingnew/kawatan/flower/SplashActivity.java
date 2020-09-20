@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.somethingnew.kawatan.flower.db.DatabaseHelper;
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
@@ -33,9 +36,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * スプラッシュ画面Activity.<br>
@@ -101,14 +101,14 @@ public class SplashActivity extends AppCompatActivity {
 
             try {
                 loadDb();
-            }
-            catch (JsonProcessingException e) {
+            } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
 
             downloadAvailableBookList();
 
-            startRotation();
+            // タイトル回転アニメーションは重いの一旦でやめる
+//            startRotation();
 
             while (true) {
                 if (stopTimer) {
@@ -173,7 +173,7 @@ public class SplashActivity extends AppCompatActivity {
     public void loadSharedPreference() {
         // Preferenceから設定情報を取得しglobalMgrに保持
         mSharedPref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        globalMgr.mCategory = mSharedPref.getInt(Constants.SHARED_PREF_KEY_CATEGORY, Constants.CATEGORY_INDEX_JEWELRY);
+        globalMgr.mCategory = mSharedPref.getInt(Constants.SHARED_PREF_KEY_CATEGORY, Constants.CATEGORY_INDEX_FLOWER);
         globalMgr.skinHeaderColor = mSharedPref.getInt(Constants.SHARED_PREF_KEY_SKIN_HEADER_COLOR, Color.parseColor(Constants.DEFAULT_SKIN_HEADER_COLOR));
         globalMgr.skinBodyColor = mSharedPref.getInt(Constants.SHARED_PREF_KEY_SKIN_BODY_COLOR, Color.parseColor(Constants.DEFAULT_SKIN_BODY_COLOR));
     }
@@ -195,7 +195,7 @@ public class SplashActivity extends AppCompatActivity {
             int statusCode = conn.getResponseCode();
 
             StringBuilder result = new StringBuilder();
-            if(statusCode == HttpURLConnection.HTTP_OK){
+            if (statusCode == HttpURLConnection.HTTP_OK) {
                 //responseの読み込み
                 final InputStream in = conn.getInputStream();
 //            final String encoding = conn.getContentEncoding();
@@ -203,7 +203,7 @@ public class SplashActivity extends AppCompatActivity {
                 final BufferedReader bufferedReader = new BufferedReader(inReader);
                 String line = null;
                 // データは改行の無い１行データなので、whileループは１回しか回らない
-                while((line = bufferedReader.readLine()) != null) {
+                while ((line = bufferedReader.readLine()) != null) {
 //                LogUtility.d(line);
                     result.append(line);
                 }
@@ -216,7 +216,7 @@ public class SplashActivity extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray(json);
 
             // パースした内容からListオブジェクトを作成
-            for(int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 AvailableBookInfo availableBookInfo = new AvailableBookInfo();
                 availableBookInfo.setCourseId((String) jsonObject.get("courseId"));
@@ -247,7 +247,7 @@ public class SplashActivity extends AppCompatActivity {
      * メインスレッドのLooperに処理をPostして、メインスレッドで処理が行われるようにする
      */
     private void startRotation() {
-        float toDegrees = new Random(1000).nextInt() % 2 == 0 ? 360.0f : -360.0f;
+        float toDegrees = new Random().nextInt(100) % 2 == 0 ? 360.0f : -360.0f;
         // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
         RotateAnimation rotate = new RotateAnimation(0.0f, toDegrees,
                 Animation.RELATIVE_TO_SELF, 0.5f,

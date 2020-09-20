@@ -138,8 +138,13 @@ public final class Constants {
      * 検索関連
      */
     public static final String SEARCH_WORD_KEY_NAME = "SEARCH_WORD";
+    public static final String SEARCH_LIMIT_COUNTS_PER_QUERY = "25";
+    public static final String HIGHLIGHT_START_ATTRIBUTE = "<font color=\"Red\">";
+    public static final String HIGHLIGHT_END_ATTRIBUTE = "</font>";
+//    public static final String HIGHLIGHT_START_ATTRIBUTE = "&amp;lt;font color=\\\"red\\\"&amp;gt;";
+//    public static final String HIGHLIGHT_END_ATTRIBUTE = "&amp;lt;/font&amp;gt;";
 
-    /**
+    /*
      * OnClickListenerの種類
      */
     public static final int ONCLICK_LISTENER_TYPE_CARD = 1;

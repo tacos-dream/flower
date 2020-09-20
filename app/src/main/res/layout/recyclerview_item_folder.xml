@@ -19,7 +19,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -43,6 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="4">
+
+                    <!--autoSizeTextTypeはAPI26からなので、それ以下はtextSize 20spの固定値にする-->
                     <TextView
                         android:id="@+id/textViewTitleName"
                         android:layout_width="match_parent"
@@ -51,7 +53,8 @@
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:autoSizeTextType="uniform"
                         android:text="英単語"
-                        app:autoSizeMaxTextSize="20sp" />
+                        android:textSize="22sp"
+                        app:autoSizeMaxTextSize="22sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,7 +66,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="100" />
+                        android:text="0 / 50" />
 
                     <TextView
                         android:id="@+id/textViewLastUsedDate"
@@ -79,6 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:layout_margin="5dp"
                 android:orientation="vertical">
 
                 <ImageView

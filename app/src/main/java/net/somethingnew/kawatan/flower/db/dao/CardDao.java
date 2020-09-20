@@ -363,8 +363,8 @@ public class CardDao extends DatabaseHelper {
 				card.setCreatedDate(dateFormat.parse(cursor.getString(index++)));
 				card.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
 				card.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
-				card.setLearned((cursor.getInt(index++) == 1)? true : false);
-				card.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
+				card.setLearned(cursor.getInt(index++) == 1);
+				card.setIconAutoDisplay(cursor.getInt(index++) == 1);
 				card.setIconCategory(cursor.getInt(index++));
 				card.setImageIconResId(cursor.getInt(index++));
 				card.setImageFusenResId(cursor.getInt(index++));
@@ -405,7 +405,54 @@ public class CardDao extends DatabaseHelper {
 			stmt.close();
 		} catch (Exception e) {
 
+		}
+		return result;
 	}
+
+	/**
+	 * Search用select
+	 * @return
+	 */
+	public ArrayList<CardModel> selectByText(String searchWord) {
+		LogUtility.d("selectByText");
+		ArrayList<CardModel> result = new ArrayList<>();
+
+		try {
+			// SQLを実行しカーソルを取得
+			String likeWord = "%" + searchWord + "%";
+			Cursor cursor = getDBInstance().query(Constants.TABLE_NAME_CARD, Constants.COLUMN_NAMES_CARD,
+					"FRONT_TEXT like ? or BACK_TEXT like ?", new String[]{likeWord, likeWord}, null, null,
+					"LAST_USED_DATE", Constants.SEARCH_LIMIT_COUNTS_PER_QUERY);
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+
+			// カーソルが終わるまで繰り返し
+			while (cursor.moveToNext()) {
+				int index = 0;
+
+				CardModel card = new CardModel();
+
+				card.setId(cursor.getString(index++));
+				card.setFolderId(cursor.getString(index++));
+				card.setFrontText(cursor.getString(index++));
+				card.setBackText(cursor.getString(index++));
+				card.setCreatedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setLearned(cursor.getInt(index++) == 1);
+				card.setIconAutoDisplay(cursor.getInt(index++) == 1);
+				card.setIconCategory(cursor.getInt(index++));
+				card.setImageIconResId(cursor.getInt(index++));
+				card.setImageFusenResId(cursor.getInt(index++));
+
+				result.add(card);
+			}
+
+			// カーソルをクローズ
+			cursor.close();
+		} catch (Exception e) {
+
+		}
 
 		return result;
 	}

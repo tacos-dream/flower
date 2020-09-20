@@ -25,7 +25,7 @@ public class IconManager {
 
             // Resource名をR.drawable.名前としてintに変換してarrayに登録
             for (int i = 0; i <= Constants.NUM_OF_ICONS_IN_CATEGORY[category]; i++) {
-                String iconName = Constants.ICON_TAB_ARRAY[category] + "_" + String.format("%03d", i + 1);
+                String iconName = Constants.ICON_TAB_ARRAY[category] + "_" + String.format("%03d", i);
                 int imageId = mContext.getResources().getIdentifier(iconName, "drawable", mContext.getPackageName());
                 mIconResourceIdListArray[category].add(imageId);
             }

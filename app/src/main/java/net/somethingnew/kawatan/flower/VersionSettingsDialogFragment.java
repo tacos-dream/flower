@@ -137,44 +137,34 @@ public class VersionSettingsDialogFragment extends DialogFragment {
         ImageView imageViewIconFlower1 = mView.findViewById(R.id.imageViewIconFlower1);
         ImageView imageViewIconFlower2 = mView.findViewById(R.id.imageViewIconFlower2);
         ImageView imageViewIconFlower3 = mView.findViewById(R.id.imageViewIconFlower3);
-        ImageView imageViewIconFlower4 = mView.findViewById(R.id.imageViewIconFlower4);
         ImageView imageViewIconJewelry1 = mView.findViewById(R.id.imageViewIconJewelry1);
         ImageView imageViewIconJewelry2 = mView.findViewById(R.id.imageViewIconJewelry2);
         ImageView imageViewIconJewelry3 = mView.findViewById(R.id.imageViewIconJewelry3);
-        ImageView imageViewIconJewelry4 = mView.findViewById(R.id.imageViewIconJewelry4);
         ImageView imageViewIconFashion1 = mView.findViewById(R.id.imageViewIconFashion1);
         ImageView imageViewIconFashion2 = mView.findViewById(R.id.imageViewIconFashion2);
         ImageView imageViewIconFashion3 = mView.findViewById(R.id.imageViewIconFashion3);
-        ImageView imageViewIconFashion4 = mView.findViewById(R.id.imageViewIconFashion4);
         ImageView imageViewIconFood1 = mView.findViewById(R.id.imageViewIconFood1);
         ImageView imageViewIconFood2 = mView.findViewById(R.id.imageViewIconFood2);
         ImageView imageViewIconFood3 = mView.findViewById(R.id.imageViewIconFood3);
-        ImageView imageViewIconFood4 = mView.findViewById(R.id.imageViewIconFood4);
         ImageView imageViewIconOthers1 = mView.findViewById(R.id.imageViewIconOthers1);
         ImageView imageViewIconOthers2 = mView.findViewById(R.id.imageViewIconOthers2);
         ImageView imageViewIconOthers3 = mView.findViewById(R.id.imageViewIconOthers3);
-        ImageView imageViewIconOthers4 = mView.findViewById(R.id.imageViewIconOthers4);
 
         imageViewIconFlower1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FLOWER));
         imageViewIconFlower2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FLOWER));
         imageViewIconFlower3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FLOWER));
-        imageViewIconFlower4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FLOWER));
         imageViewIconJewelry1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
         imageViewIconJewelry2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
         imageViewIconJewelry3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
-        imageViewIconJewelry4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_JEWELRY));
         imageViewIconFashion1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
         imageViewIconFashion2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
         imageViewIconFashion3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
-        imageViewIconFashion4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FASHION));
         imageViewIconFood1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FOOD));
         imageViewIconFood2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FOOD));
         imageViewIconFood3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FOOD));
-        imageViewIconFood4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_FOOD));
         imageViewIconOthers1.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_OTHERS));
         imageViewIconOthers2.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_OTHERS));
         imageViewIconOthers3.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_OTHERS));
-        imageViewIconOthers4.setImageResource(IconManager.getResIdAtRandom(Constants.CATEGORY_INDEX_OTHERS));
 
         RadioGroup radioGroup = mView.findViewById(R.id.radioGroupVersion);
 

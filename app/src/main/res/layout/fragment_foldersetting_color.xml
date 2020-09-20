@@ -9,9 +9,9 @@
         android:id="@+id/textViewBgColorTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="♣️❤️️ 背景色の設定 ♦️️♠️️️️️"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,7 @@
         android:text="規定の色から選ぶ"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/textViewBgColorTitle"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -78,68 +78,52 @@
         <LinearLayout
             android:id="@+id/linearLayoutColorSliderDeep"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal">
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:gravity="center_vertical"
                 android:text="濃いめ色　"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderDeep"
                 android:layout_width="250dp"
                 app:cs_hsv_saturation="0.8"
-                app:cs_circle_radius="40"
+                app:cs_circle_radius="30"
                 app:cs_stroke_width="10"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/shadow"/>
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayoutColorSliderLight"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal">
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:gravity="center_vertical"
                 android:text="パステル　"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderLight"
                 android:layout_width="250dp"
                 app:cs_hsv_saturation="0.2"
-                app:cs_circle_radius="40"
+                app:cs_circle_radius="30"
                 app:cs_stroke_width="10"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewFreeColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/shadow"/>
-            <Space
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -149,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="♣️❤️️ 文字色の設定 ♦️️♠️️️️️"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutColorSlider" />

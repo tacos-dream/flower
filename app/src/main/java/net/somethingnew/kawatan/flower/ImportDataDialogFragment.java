@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -41,8 +42,7 @@ public class ImportDataDialogFragment extends DialogFragment {
 
     GlobalManager globalMgr = GlobalManager.getInstance();
     private View mView;
-    TextView mTextViewResultMessage;
-    ObjectMapper mObjectMapper = new ObjectMapper();
+    TextView mTextViewStatusMessage;
     private ImportDataDialogFragment.OnDataImportedListener mListener;
 
     /**
@@ -65,7 +65,7 @@ public class ImportDataDialogFragment extends DialogFragment {
 
         mView = inflater.inflate(R.layout.dialog_import_data, container, false);
 
-        mTextViewResultMessage = mView.findViewById(R.id.textViewResultMsg);
+        mTextViewStatusMessage = mView.findViewById(R.id.textViewStatusMsg);
         mView.findViewById(R.id.buttonGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,9 +85,10 @@ public class ImportDataDialogFragment extends DialogFragment {
             TableRow tr = (TableRow) vg.getChildAt(i);
             LinearLayout linearLayout = (LinearLayout) (tr.getChildAt(0));
             ((TextView) (linearLayout.getChildAt(0))).setText(globalMgr.availableBookInfoList.get(i).getTitle());
-            Button btn = ((Button) (linearLayout.getChildAt(1)));
-            btn.setTag(i);
-            btn.setOnClickListener(view -> {
+            ImageView imageView = ((ImageView) (linearLayout.getChildAt(1)));
+            imageView.setTag(i);
+            imageView.setOnClickListener(view -> {
+                mTextViewStatusMessage.setText("インポート中...");
                 executeByConcurrentExecutor(globalMgr.availableBookInfoList.get((int) view.getTag()));
             });
         }
@@ -158,7 +159,7 @@ public class ImportDataDialogFragment extends DialogFragment {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mTextViewResultMessage.setText(resultMessage);
+                    mTextViewStatusMessage.setText(resultMessage);
                     mListener.onDataImported();
                 }
             });
@@ -183,14 +184,12 @@ public class ImportDataDialogFragment extends DialogFragment {
             if (statusCode == HttpURLConnection.HTTP_OK) {
                 //responseの読み込み
                 final InputStream in = conn.getInputStream();
-//            final String encoding = conn.getContentEncoding();
                 final InputStreamReader inReader = new InputStreamReader(in, "SJIS");
                 final BufferedReader bufferedReader = new BufferedReader(inReader);
                 String line = null;
 
                 int iconImageResId = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
-                int fusenImageResId = getResources().getIdentifier(Constants.DEFAULT_FUSEN_NAME, "drawable", getActivity().getPackageName());
-                FolderModel folderModel = new FolderModel(iconImageResId, fusenImageResId);
+                FolderModel folderModel = new FolderModel(iconImageResId);
                 folderModel.setTitleName(availableBookInfo.getTitle());
                 globalMgr.mCardListMap.put(folderModel.getId(), new LinkedList<>());
                 LinkedList<CardModel> cardLinkedList = globalMgr.mCardListMap.get(folderModel.getId());
@@ -201,6 +200,8 @@ public class ImportDataDialogFragment extends DialogFragment {
                     CardDao cardDao = new CardDao(getActivity().getApplicationContext());
                     cardModel.setFrontText(stringTokenizer.nextToken());
                     cardModel.setBackText(stringTokenizer.nextToken());
+                    cardModel.setImageIconResId(iconImageResId);
+                    cardModel.setImageFusenResId(R.drawable.fusen_00);
                     cardLinkedList.add(cardModel);
                     cardDao.insert(cardModel);        // DB上は特に順番は意識しない
 //                    LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(cardModel));

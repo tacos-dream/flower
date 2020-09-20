@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -14,9 +13,7 @@ import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -42,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Random;
 
 public class ExerciseActivity extends AppCompatActivity
         implements TextToSpeech.OnInitListener {
@@ -151,7 +148,7 @@ public class ExerciseActivity extends AppCompatActivity
         });
 
         mCardViewFront = findViewById(R.id.cardViewFront);
-        mCardViewBack = findViewById(R.id.cardViewFront);
+        mCardViewBack = findViewById(R.id.cardViewBack);
         mTextViewFront = findViewById(R.id.textViewFront);
         mTextViewBack = findViewById(R.id.textViewBack);
         mImageViewIconFront = findViewById(R.id.imageViewIconFront);
@@ -160,17 +157,17 @@ public class ExerciseActivity extends AppCompatActivity
         mImageViewLearned.setOnClickListener(view -> {
             if (mCard.isLearned()) {
                 mCard.setLearned(false);
-                ((ImageView)view).setImageResource(R.drawable.heart_off_grey);
+                ((ImageView) view).setImageResource(R.drawable.heart_off_grey);
             } else {
                 mCard.setLearned(true);
-                ((ImageView)view).setImageResource(R.drawable.heart_on);
+                ((ImageView) view).setImageResource(R.drawable.heart_on);
             }
         });
         mImageViewFusen = findViewById(R.id.imageViewFusen);
         mImageViewFusen.setOnClickListener(view -> {
             FusenListDialogFragment fusenListDialogFragment = new FusenListDialogFragment(mCard.getImageFusenResId());
             fusenListDialogFragment.setOnChangeListener(newFusenResId -> {
-                ((ImageView)view).setImageResource(newFusenResId);
+                ((ImageView) view).setImageResource(newFusenResId);
                 mCard.setImageFusenResId(newFusenResId);
             });
             fusenListDialogFragment.show(getSupportFragmentManager(), FusenListDialogFragment.class.getSimpleName());
@@ -223,10 +220,11 @@ public class ExerciseActivity extends AppCompatActivity
             LogUtility.d("onInit");
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtility.d("onDestroy");
+//        LogUtility.d("onDestroy");
     }
 
     @Override
@@ -240,9 +238,14 @@ public class ExerciseActivity extends AppCompatActivity
         super.onOptionsItemSelected(item);
 
         // ActionBar（ToolBar）内のボタンのイベン処理
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if (new Random().nextInt(100) % 3 == 0 && mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+                else {
+                    finish();
+                }
                 return true;
             case R.id.action_menu_help:
                 ExerciseHelpDialogFragment exerciseHelpDialogFragment = new ExerciseHelpDialogFragment();
@@ -252,6 +255,7 @@ public class ExerciseActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
     /**
      * @param event
      * @return
@@ -358,15 +362,14 @@ public class ExerciseActivity extends AppCompatActivity
             setSpeechRate(1.0f);
             setSpeechPitch(1.0f);
 
-            if (Build.VERSION.SDK_INT >= 21){
+            if (Build.VERSION.SDK_INT >= 21) {
                 // SDK 21 以上
                 mTextToSpeech.speak(string, TextToSpeech.QUEUE_FLUSH, null, "messageID");
-            }
-            else{
+            } else {
                 // mTextToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null) に
                 // KEY_PARAM_UTTERANCE_ID を HasMap で設定
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"messageID");
+                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "messageID");
                 mTextToSpeech.speak(string, TextToSpeech.QUEUE_FLUSH, map);
             }
 
@@ -375,23 +378,23 @@ public class ExerciseActivity extends AppCompatActivity
     }
 
     // 読み上げのスピード
-    private void setSpeechRate(float rate){
+    private void setSpeechRate(float rate) {
         if (null != mTextToSpeech) {
             mTextToSpeech.setSpeechRate(rate);
         }
     }
 
     // 読み上げのピッチ
-    private void setSpeechPitch(float pitch){
+    private void setSpeechPitch(float pitch) {
         if (null != mTextToSpeech) {
             mTextToSpeech.setPitch(pitch);
         }
     }
 
     // 読み上げの始まりと終わりを取得
-    private void setmTextToSpeechListener(){
+    private void setmTextToSpeechListener() {
         // android version more than 15th
-        if (Build.VERSION.SDK_INT >= 15){
+        if (Build.VERSION.SDK_INT >= 15) {
             int listenerResult =
                     mTextToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                         @Override
@@ -413,17 +416,15 @@ public class ExerciseActivity extends AppCompatActivity
             if (listenerResult != TextToSpeech.SUCCESS) {
 //                Log.e(TAG, "failed to add utterance progress listener");
             }
-        }
-        else {
+        } else {
 //            Log.e(TAG, "Build VERSION is less than API 15");
         }
     }
+
     /**
      * 画面下部のバナー広告
      */
     private void setBottomBannerAdView() {
-        LogUtility.d("setBottomBannerAdView...");
-
         // バナー広告
         RelativeLayout mRelativeLayout = findViewById(R.id.relativeLayoutWhole);
         AdView adView = new AdView(this);
@@ -478,9 +479,10 @@ public class ExerciseActivity extends AppCompatActivity
      * 読み込んでおくが表示はしない
      */
     public void prepareInterstitialAd() {
-        LogUtility.d("prepareInterstitialAd...");
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(BuildConfig.ADMOB_INTERSTITIAL_UNIT_ID);
+        // Release版では同じIDがセットされ、AdMob側で自動で静止画・動画が選択される
+        String unitId = new Random().nextInt(100) % 2 == 0 ? BuildConfig.ADMOB_INTERSTITIAL_MOVIE_UNIT_ID : BuildConfig.ADMOB_INTERSTITIAL_UNIT_ID;
+        mInterstitialAd.setAdUnitId(unitId);
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -529,20 +531,34 @@ public class ExerciseActivity extends AppCompatActivity
         mCardNumToExercise = mCardModelLinkedList.size();
         mExercisedCardNum = -1;
 
-        for (CardModel card: mCardModelLinkedList) {
-            if (!card.isLearned()) { mNotLearnedCardNum++; }
-            if (card.getImageFusenResId() != R.drawable.fusen_00) { mFusenCardNum++; }
+        for (CardModel card : mCardModelLinkedList) {
+            if (!card.isLearned()) {
+                mNotLearnedCardNum++;
+            }
+            if (card.getImageFusenResId() != R.drawable.fusen_00) {
+                mFusenCardNum++;
+            }
         }
 
-        if (mFilter == Constants.EXERCISE_FILTER_ALL_CARDS) { mCardNumToExercise = mCardModelLinkedList.size(); }
-        else if (mFilter == Constants.EXERCISE_FILTER_NOT_LEARNED_ONLY) { mCardNumToExercise = mNotLearnedCardNum; }
-        else if (mFilter == Constants.EXERCISE_FILTER_FUSEN_ONLY) { mCardNumToExercise = mFusenCardNum; }
+        if (mFilter == Constants.EXERCISE_FILTER_ALL_CARDS) {
+            mCardNumToExercise = mCardModelLinkedList.size();
+        } else if (mFilter == Constants.EXERCISE_FILTER_NOT_LEARNED_ONLY) {
+            mCardNumToExercise = mNotLearnedCardNum;
+        } else if (mFilter == Constants.EXERCISE_FILTER_FUSEN_ONLY) {
+            mCardNumToExercise = mFusenCardNum;
+        }
 
         // 練習開始するが、対象カード数をチェックし0だったら、アラートダイアログを表示し、FilterをAllに強制的に変更する。
         if (mFilter == Constants.EXERCISE_FILTER_NOT_LEARNED_ONLY && mNotLearnedCardNum == 0 ||
-            mFilter == Constants.EXERCISE_FILTER_FUSEN_ONLY && mFusenCardNum == 0) {
+                mFilter == Constants.EXERCISE_FILTER_FUSEN_ONLY && mFusenCardNum == 0) {
             mFilter = Constants.EXERCISE_FILTER_ALL_CARDS;
             showCardContents(true);
+            mButtonFilterAll.setBackgroundColor(globalMgr.skinHeaderColor);
+            mButtonFilterAll.setTextColor(Color.WHITE);
+            mButtonFilterNotLearnedOnly.setBackgroundColor(Color.WHITE);
+            mButtonFilterNotLearnedOnly.setTextColor(Color.GRAY);
+            mButtonFilterFusenOnly.setBackgroundColor(Color.WHITE);
+            mButtonFilterFusenOnly.setTextColor(Color.GRAY);
             new AlertDialog.Builder(mActivity)
                     .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
                     .setTitle(R.string.dlg_title_information)
@@ -554,8 +570,7 @@ public class ExerciseActivity extends AppCompatActivity
                                 // 単にダイアログが消えて何もしない
                             })
                     .show();
-        }
-        else {
+        } else {
             showCardContents(true);
         }
     }
@@ -594,13 +609,11 @@ public class ExerciseActivity extends AppCompatActivity
             // フィルターチェック
             if (mFilter == Constants.EXERCISE_FILTER_ALL_CARDS) {
                 break;
-            }
-            else if (mFilter == Constants.EXERCISE_FILTER_NOT_LEARNED_ONLY) {
+            } else if (mFilter == Constants.EXERCISE_FILTER_NOT_LEARNED_ONLY) {
                 if (!mCard.isLearned()) {
                     break;
                 }
-            }
-            else if (mFilter == Constants.EXERCISE_FILTER_FUSEN_ONLY) {
+            } else if (mFilter == Constants.EXERCISE_FILTER_FUSEN_ONLY) {
                 if (mCard.getImageFusenResId() != R.drawable.fusen_00) {
                     break;
                 }
@@ -650,7 +663,11 @@ public class ExerciseActivity extends AppCompatActivity
         if (mCard.isLearned()) mImageViewLearned.setImageResource(R.drawable.heart_on);
         else mImageViewLearned.setImageResource(R.drawable.heart_off_grey);
         mImageViewFusen.setImageResource(mCard.getImageFusenResId());
-        if (next) { mExercisedCardNum++; } else { mExercisedCardNum--; }
+        if (next) {
+            mExercisedCardNum++;
+        } else {
+            mExercisedCardNum--;
+        }
         mTextViewProgress.setText(String.format("%d問中 %d問目", mCardNumToExercise, mExercisedCardNum + 1));
 
         mBackTextWasDisplayed = false;            // 新しいカードに移ったので裏面表示のステータスを「未表示」にする

@@ -15,7 +15,8 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${adMobApplicationId}"/>
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ExerciseActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".FolderSearchResultActivity"
+        <activity android:name=".SearchResultActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".GeneralWebViewActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

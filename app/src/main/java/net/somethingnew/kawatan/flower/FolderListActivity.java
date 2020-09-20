@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.clockbyte.admobadapter.AdmobAdapterCalculator;
-import com.clockbyte.admobadapter.AdmobRecyclerAdapterWrapper;
 import com.clockbyte.admobadapter.bannerads.AdmobBannerRecyclerAdapterWrapper;
 import com.clockbyte.admobadapter.bannerads.BannerAdViewWrappingStrategyBase;
 import com.google.android.gms.ads.AdListener;
@@ -43,7 +42,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
-import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
 /**
@@ -59,7 +57,6 @@ public class FolderListActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private FolderListRecyclerViewAdapter mRecyclerViewAdapter;
-    private AdmobRecyclerAdapterWrapper mAdapterWrapper;
     private AdmobBannerRecyclerAdapterWrapper mBannerRecyclerAdapterWrapper;
     private AdmobAdapterCalculator mAdapterCalc;
 
@@ -255,7 +252,7 @@ public class FolderListActivity extends AppCompatActivity
                     LogUtility.d("onQueryTextSubmit searchWord: " + searchWord);
                     Intent intent = new Intent();
                     intent.putExtra(Constants.SEARCH_WORD_KEY_NAME, searchWord);
-                    intent.setClass(mContext, FolderSearchResultActivity.class);
+                    intent.setClass(mContext, SearchResultActivity.class);
                     startActivity(intent);
                 }
                 return false;
@@ -491,15 +488,15 @@ public class FolderListActivity extends AppCompatActivity
 
             public void onDrawerOpened(View drawerView) {
                 if (mDrawerHeaderImageView1 == null) {
-                    mDrawerHeaderImageView1 = findViewById(R.id.igvFlower1);
-                    mDrawerHeaderImageView2 = findViewById(R.id.igvFlower2);
-                    mDrawerHeaderImageView3 = findViewById(R.id.igvFlower3);
-                    mDrawerHeaderImageView4 = findViewById(R.id.igvFlower4);
-
+                    mDrawerHeaderImageView1 = findViewById(R.id.imageView1);
+                    mDrawerHeaderImageView2 = findViewById(R.id.imageView2);
+                    mDrawerHeaderImageView3 = findViewById(R.id.imageView3);
+                    mDrawerHeaderImageView4 = findViewById(R.id.imageView4);
                     mDrawerHeaderImageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
                     mDrawerHeaderImageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
                     mDrawerHeaderImageView3.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
                     mDrawerHeaderImageView4.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+                    findViewById(R.id.linearLayoutWhole).setBackgroundColor(globalMgr.skinBodyColor);
                 }
 
                 // 描画指示

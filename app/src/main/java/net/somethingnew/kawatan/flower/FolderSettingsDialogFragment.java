@@ -2,7 +2,6 @@ package net.somethingnew.kawatan.flower;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,21 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.tabs.TabLayout;
+
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
+
 import java.util.LinkedList;
 
 public class FolderSettingsDialogFragment extends DialogFragment {
@@ -94,7 +93,6 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                 //LogUtility.d("OnTabSelectedListener onTabSelected position: " + tab.getPosition());
                 // カードのLayoutを該当のものに切り替える
                 currentTabPosition = selectedTab.getPosition();
-                FolderFrontFragment folderFrontFragment;
                 switch (currentTabPosition) {
                     case Constants.FOLDER_SETTINGS_TAB_ICON:
                         // ICONのGridViewの背景色とCardViewの背景色をCoverの背景色で表示する。CardViewに該当アイコンを表示する
@@ -120,7 +118,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         break;
                     case Constants.FOLDER_SETTINGS_TAB_FRONT:
                         // TextのGridViewの背景色とCardViewの背景色をFrontの背景色で表示する。
-                        folderFrontFragment = (FolderFrontFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
+                        FolderFrontFragment folderFrontFragment = (FolderFrontFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
                         folderFrontFragment.changeTextColorButtonsBackground(globalMgr.mTempFolder.getFrontBackgroundColor());
                         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getFrontBackgroundColor());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.INVISIBLE);
@@ -188,8 +186,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // 初期表示設定を行う
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
             int iconImageResId = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
-            int fusenImageResId = getResources().getIdentifier(Constants.DEFAULT_FUSEN_NAME, "drawable", getActivity().getPackageName());
-            globalMgr.mTempFolder = new FolderModel(iconImageResId, fusenImageResId);
+            globalMgr.mTempFolder = new FolderModel(iconImageResId);
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
         } else {
             // 選択されたFolderの内容の表示

@@ -369,7 +369,6 @@ public class FolderDao extends DatabaseHelper {
 		ArrayList<FolderModel> result = new ArrayList<>();
 
 		try {
-
 			// SQL文生成
 			if (selectByTitleSqlStr == null) {
 				selectByTitleSqlStr = SQLiteQueryBuilder.buildQueryString(false, Constants.TABLE_NAME_FOLDER, Constants.COLUMN_NAMES_FOLDER, "TITLE_NAME LIKE ?", null,
