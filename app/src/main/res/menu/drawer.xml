@@ -12,6 +12,10 @@
             android:id="@+id/naviItemVersion"
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/version" />
+        <item
+            android:id="@+id/naviItemIconAuto"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/icon_auto" />
     </group>
 
     <group

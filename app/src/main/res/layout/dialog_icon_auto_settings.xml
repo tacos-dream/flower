@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="アイコン自動表示設定"
+            android:textSize="18sp" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchIconAuto"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutSwitch"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textViewDescription1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[自動ONの場合]"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textViewDescription2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="全てのアイコン画像が現在のVersionに関連するアイコンでランダムに表示されます。"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textViewDescription3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="[自動OFFの場合]"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textViewDescription4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="単語帳カバーや単語カードのアイコン表示で、過去にアイコンを設定していた場合はそのアイコンが表示されます。過去に設定したことが無い場合は各Versionでのデフォルトのアイコンが一旦設定されます。単語帳カバー設定や単語カード設定で自由に変更できます。メニューなどのアイコンは自動表示のままです。"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonGoBack"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:drawableLeft="@drawable/ic_house_36px"
+        android:drawablePadding="6dp"
+        android:drawableTint="#FFFFFF"
+        android:gravity="left|center"
+        android:minHeight="0dp"
+        android:text="一覧に戻る"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

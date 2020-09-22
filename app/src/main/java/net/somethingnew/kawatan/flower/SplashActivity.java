@@ -176,6 +176,7 @@ public class SplashActivity extends AppCompatActivity {
         globalMgr.mCategory = mSharedPref.getInt(Constants.SHARED_PREF_KEY_CATEGORY, Constants.CATEGORY_INDEX_FLOWER);
         globalMgr.skinHeaderColor = mSharedPref.getInt(Constants.SHARED_PREF_KEY_SKIN_HEADER_COLOR, Color.parseColor(Constants.DEFAULT_SKIN_HEADER_COLOR));
         globalMgr.skinBodyColor = mSharedPref.getInt(Constants.SHARED_PREF_KEY_SKIN_BODY_COLOR, Color.parseColor(Constants.DEFAULT_SKIN_BODY_COLOR));
+        globalMgr.isIconAuto = mSharedPref.getBoolean(Constants.SHARED_PREF_KEY_AUTO_ICON, true);
     }
 
     // AsyncTaskがdeprecatedなので、とりあえずバックグラウンドは無しでやってみる

@@ -66,12 +66,9 @@ public class ImportDataDialogFragment extends DialogFragment {
         mView = inflater.inflate(R.layout.dialog_import_data, container, false);
 
         mTextViewStatusMessage = mView.findViewById(R.id.textViewStatusMsg);
-        mView.findViewById(R.id.buttonGoBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDialog().dismiss();
-                return;
-            }
+        mView.findViewById(R.id.buttonGoBack).setOnClickListener(view -> {
+            getDialog().dismiss();
+            return;
         });
 
         // TableLayoutのグループを取得
@@ -188,7 +185,7 @@ public class ImportDataDialogFragment extends DialogFragment {
                 final BufferedReader bufferedReader = new BufferedReader(inReader);
                 String line = null;
 
-                int iconImageResId = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
+                int iconImageResId = getResources().getIdentifier(Constants.ICON_DEFAULT_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
                 FolderModel folderModel = new FolderModel(iconImageResId);
                 folderModel.setTitleName(availableBookInfo.getTitle());
                 globalMgr.mCardListMap.put(folderModel.getId(), new LinkedList<>());
@@ -196,7 +193,8 @@ public class ImportDataDialogFragment extends DialogFragment {
 
                 while ((line = bufferedReader.readLine()) != null) {
                     StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
-                    CardModel cardModel = new CardModel(folderModel.getId());
+                    CardModel cardModel = new CardModel(folderModel.getId(),
+                            globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : IconManager.getDefaultIconResId(globalMgr.mCategory));
                     CardDao cardDao = new CardDao(getActivity().getApplicationContext());
                     cardModel.setFrontText(stringTokenizer.nextToken());
                     cardModel.setBackText(stringTokenizer.nextToken());

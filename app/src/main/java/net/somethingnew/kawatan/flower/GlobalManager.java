@@ -1,8 +1,6 @@
 package net.somethingnew.kawatan.flower;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -13,7 +11,6 @@ import net.somethingnew.kawatan.flower.model.AvailableBookInfo;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.FolderModel;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,7 +28,14 @@ public class GlobalManager {
     // 同時にContextを渡してもらい、以後、アプリ内の各所でContext参照できるようにする
     private static GlobalManager mInstance = null;
 
+    /**
+     * 現在のVersion
+     */
     public int mCategory;
+
+    /**
+     *
+     */
     public int skinHeaderColor;
     public int skinBodyColor;
 
@@ -80,6 +84,9 @@ public class GlobalManager {
      */
     public HashMap<String, LinkedList> mCardListMap;
 
+    /**
+     * CardSettingsDialogにて変更有無や表示対象ViewのID、変更内容を一時的に保持する
+     */
     public boolean mChangedCardSettings;
     public CardSettings mCardSettings;
     public CardModel mTempCard;
@@ -96,13 +103,26 @@ public class GlobalManager {
      */
     public boolean mCardStatsChanged;
 
+    /**
+     * アイコンの５つのCategoryIconFragmentのうちどれを表示するかを示すインデックス
+     */
     public int currentCategoryPosition;
 
+    /**
+     * アプリ全体でのアイコン自動表示機能のON/OFF
+     * SharedPreferenceで保持し、スライドメニューの設定画面でON/OFFを設定できる
+     */
+    public boolean isIconAuto;
+
+    /**
+     * 各インポートデータAvailableBookInfoをリストで管理
+     */
     public List<AvailableBookInfo> availableBookInfoList;
 
+    /**
+     * SQLit　DB接続のためのヘルパークラス
+     */
     public DatabaseHelper mDbHelper;
-
-    public UserSettings mUserSettings;
 
     // FolderSettingsやCardSettingsでユーザーの色選択や入力文字操作変更を動的に表示に反映させるため、
     // 表示に関連するViewのリソースIDを保持しておく
@@ -122,11 +142,6 @@ public class GlobalManager {
         ImageView imageViewIconBack;
     }
 
-    class UserSettings {
-        boolean aaa;
-        int bbb;
-    }
-
     /**
      * コンストラクタ.
      */
@@ -135,7 +150,6 @@ public class GlobalManager {
         this.mCardListMap = new HashMap<>();
         this.mFolderSettings = new FolderSettings();
         this.mCardSettings = new CardSettings();
-        this.mUserSettings = new UserSettings();
         this.availableBookInfoList = new ArrayList<>();
         this.currentCategoryPosition = Constants.CATEGORY_INDEX_FLOWER;
     }

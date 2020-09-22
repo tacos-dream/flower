@@ -37,7 +37,6 @@ public class FolderModel implements Cloneable {
 	int						frontTextColor;			// おもての文字色
 	int						backTextColor;			// うらの文字色
 	int						iconCategory;			// ICONのカテゴリー
-	boolean					iconAutoDisplay;		// アイコンの自動ランダム表示
 
 	public FolderModel() {
 	}
@@ -58,7 +57,6 @@ public class FolderModel implements Cloneable {
 		this.frontTextColor			= Color.BLACK;
 		this.backTextColor			= Color.BLACK;
 		this.iconCategory			= 0;					// Defalut: flower
-		this.iconAutoDisplay		= true;
 	}
 
 
@@ -169,14 +167,6 @@ public class FolderModel implements Cloneable {
 
 	public void setBackTextColor(int backTextColor) {
 		this.backTextColor = backTextColor;
-	}
-
-	public boolean isIconAutoDisplay() {
-		return iconAutoDisplay;
-	}
-
-	public void setIconAutoDisplay(boolean iconAutoDisplay) {
-		this.iconAutoDisplay = iconAutoDisplay;
 	}
 
 	public int getIconCategory() {

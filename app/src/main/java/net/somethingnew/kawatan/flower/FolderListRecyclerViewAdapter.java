@@ -156,9 +156,7 @@ public class FolderListRecyclerViewAdapter extends RecyclerView.Adapter<FolderLi
         cardViewFolder.setCardBackgroundColor(mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
         int category = mFolderLinkedList.get(listPosition).getIconCategory();
         FolderModel folderModel = mFolderLinkedList.get(listPosition);
-        imageViewIcon.setImageResource(folderModel.isIconAutoDisplay() ?
-                IconManager.getResIdAtRandom(category) :
-                folderModel.getImageIconResId()
+        imageViewIcon.setImageResource(globalMgr.isIconAuto ? IconManager.getResIdAtRandom(category) : folderModel.getImageIconResId()
         );
 
         // mFolderLinkedListのpositionだとDrag&Dropにより入れ替わることがあるので、id番号をタグ付けしておく

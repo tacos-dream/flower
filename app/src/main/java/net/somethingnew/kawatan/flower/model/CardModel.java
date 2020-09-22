@@ -21,7 +21,6 @@ public class CardModel implements Cloneable {
     Date updatedDate;            // 最終更新日
     Date lastUsedDate;           // 最終更新日
     boolean learned;                // 習得済み
-    boolean iconAutoDisplay;
     int iconCategory;
     int imageIconResId;         // アイコンのResourceId
     int imageFusenResId;        // 付箋のResourceId
@@ -29,7 +28,7 @@ public class CardModel implements Cloneable {
     public CardModel() {
     }
 
-    public CardModel(String folderId) {
+    public CardModel(String folderId, int imageIconResId) {
         this.id = UUID.randomUUID().toString();
         this.folderId = folderId;
         this.frontText = "";
@@ -38,9 +37,8 @@ public class CardModel implements Cloneable {
         this.updatedDate = new Date();
         this.lastUsedDate = new Date();
         this.learned = false;
-        this.iconAutoDisplay = true;
         this.iconCategory = 0;            // Dealut: flower
-        this.imageIconResId = R.mipmap.ic_launcher;
+        this.imageIconResId = imageIconResId;
         this.imageFusenResId = R.drawable.fusen_00;
     }
 
@@ -136,14 +134,6 @@ public class CardModel implements Cloneable {
 
     public void setImageIconResId(int imageIconResId) {
         this.imageIconResId = imageIconResId;
-    }
-
-    public void setIconAutoDisplay(boolean iconAutoDisplay) {
-        this.iconAutoDisplay = iconAutoDisplay;
-    }
-
-    public boolean isIconAutoDisplay() {
-        return iconAutoDisplay;
     }
 
     public void setIconCategory(int iconCategory) {

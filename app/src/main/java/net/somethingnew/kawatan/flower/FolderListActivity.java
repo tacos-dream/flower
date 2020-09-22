@@ -551,6 +551,18 @@ public class FolderListActivity extends AppCompatActivity
                 });
                 versionSettingsDialogFragment.show(getSupportFragmentManager(), VersionSettingsDialogFragment.class.getSimpleName());
                 break;
+            case R.id.naviItemIconAuto:
+                IconAutoSettingsDialogFragment iconAutoSettingsDialogFragment = new IconAutoSettingsDialogFragment();
+//                iconAutoSettingsDialogFragment.setOnVersionChangeListener(() -> {
+//                    // We are going to reflect new version name for page title.
+//                    mTitle.setText(Constants.CATEGORY_NAME[globalMgr.mCategory] + " Version");
+//                    mDrawerHeaderImageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+//                    mDrawerHeaderImageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+//                    mDrawerHeaderImageView3.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+//                    mDrawerHeaderImageView4.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+//                });
+                iconAutoSettingsDialogFragment.show(getSupportFragmentManager(), IconAutoSettingsDialogFragment.class.getSimpleName());
+                break;
             case R.id.naviItemImportData:
                 ImportDataDialogFragment importDataDialogFragment = new ImportDataDialogFragment();
                 importDataDialogFragment.setOnDataImportedListener(() -> {

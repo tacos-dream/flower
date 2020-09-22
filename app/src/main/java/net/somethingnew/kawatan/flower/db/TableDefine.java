@@ -33,7 +33,6 @@ public final class TableDefine {
 				+ "FRONT_TXT_COLOR			INTEGER, "
 				+ "BACK_TXT_COLOR			INTEGER, "
 				+ "ICON_CATEGORY			INTEGER, "
-				+ "ICON_AUTO_DISPLAY		INTEGER, "
 				+ "PRIMARY KEY(FOLDER_ID))"
 		);
 
@@ -47,7 +46,6 @@ public final class TableDefine {
 				+ "UPDATED_DATE				TEXT, "
 				+ "LAST_USED_DATE			TEXT, "
 				+ "LEARNED					INTEGER, "
-				+ "ICON_AUTO_DISPLAY		INTEGER, "
 				+ "ICON_CATEGORY			INTEGER, "
 				+ "ICON_RES_ID				INTEGER, "
 				+ "FUSEN_RES_ID				INTEGER"

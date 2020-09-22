@@ -114,7 +114,6 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindLong(index++, data.getFrontTextColor());
 			stmt.bindLong(index++, data.getBackTextColor());
 			stmt.bindLong(index++, data.getIconCategory());
-			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
 
 			// SQL実行
 			stmt.executeInsert();
@@ -183,7 +182,6 @@ public class FolderDao extends DatabaseHelper {
 				stmt.bindLong(index++, folder.getFrontTextColor());
 				stmt.bindLong(index++, folder.getBackTextColor());
 				stmt.bindLong(index++, folder.getIconCategory());
-				stmt.bindLong(index++, (folder.isIconAutoDisplay()) ? 1 : 0);
 
 				// SQL実行
 				stmt.executeInsert();
@@ -249,7 +247,6 @@ public class FolderDao extends DatabaseHelper {
 			stmt.bindLong(index++, data.getFrontTextColor());
 			stmt.bindLong(index++, data.getBackTextColor());
 			stmt.bindLong(index++, data.getIconCategory());
-			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
 
 			// Where項目のバインド
 			stmt.bindString(index++, data.getId());
@@ -347,7 +344,6 @@ public class FolderDao extends DatabaseHelper {
                 folder.setFrontTextColor(cursor.getInt(index++)); 
                 folder.setBackTextColor(cursor.getInt(index++));
 				folder.setIconCategory(cursor.getInt(index++));
-				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
 
                 result.add(folder);
 			}
@@ -402,7 +398,6 @@ public class FolderDao extends DatabaseHelper {
 				folder.setFrontTextColor(cursor.getInt(index++));
 				folder.setBackTextColor(cursor.getInt(index++));
 				folder.setIconCategory(cursor.getInt(index++));
-				folder.setIconAutoDisplay((cursor.getInt(index++) == 1)? true : false);
 
 				result.add(folder);
 			}

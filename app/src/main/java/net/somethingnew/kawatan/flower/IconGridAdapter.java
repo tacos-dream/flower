@@ -35,7 +35,7 @@ public class IconGridAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (convertView == null) {
-            // fragment_folder_icon.xmlの <GridView .../> に gridview_item_icon.xml を inflate して convertView とする
+            // fragment_category_icon.xmlの <GridView .../> に gridview_item_icon.xml を inflate して convertView とする
             convertView = inflater.inflate(layoutId, parent, false);
             // ViewHolder を生成
             holder = new ViewHolder();

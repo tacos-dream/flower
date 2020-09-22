@@ -53,7 +53,7 @@ public final class Constants {
     public static final String SHARED_PREF_KEY_CATEGORY = "category";
     public static final String SHARED_PREF_KEY_SKIN_HEADER_COLOR = "skinHeaderColor";
     public static final String SHARED_PREF_KEY_SKIN_BODY_COLOR = "skinBodyColor";
-    public static final String SHARED_PREF_KEY_EXERCISE_FILTER = "exerciseFilter";
+    public static final String SHARED_PREF_KEY_AUTO_ICON = "autoIcon";
 
 
     /**
@@ -67,12 +67,10 @@ public final class Constants {
     // カラム名配列
     public static final String[] COLUMN_NAMES_FOLDER = {"FOLDER_ID", "TITLE_NAME", "CREATED_DATE", "UPDATED_DATE", "LAST_USED_DATE",
             "NUM_OF_ALL_CARDS", "NUM_OF_LEARNED_CARDS", "ICON_RES_ID", "COVER_BG_COLOR",
-            "FRONT_BG_COLOR", "BACK_BG_COLOR", "COVER_TXT_COLOR", "FRONT_TXT_COLOR", "BACK_TXT_COLOR",
-            "ICON_CATEGORY", "ICON_AUTO_DISPLAY"
+            "FRONT_BG_COLOR", "BACK_BG_COLOR", "COVER_TXT_COLOR", "FRONT_TXT_COLOR", "BACK_TXT_COLOR", "ICON_CATEGORY"
     };
     public static final String[] COLUMN_NAMES_CARD = {"CARD_ID", "FOLDER_ID", "FRONT_TEXT", "BACK_TEXT", "CREATED_DATE",
-            "UPDATED_DATE", "LAST_USED_DATE", "LEARNED", "ICON_AUTO_DISPLAY",
-            "ICON_CATEGORY", "ICON_RES_ID", "FUSEN_RES_ID"
+            "UPDATED_DATE", "LAST_USED_DATE", "LEARNED", "ICON_CATEGORY", "ICON_RES_ID", "FUSEN_RES_ID"
     };
 
     /**
@@ -168,7 +166,7 @@ public final class Constants {
     public static final int NUM_OF_ICON_TAB = 5;
     public static final int[] NUM_OF_ICONS_IN_CATEGORY = {40, 63, 89, 50, 86};
     public static final String[] ICON_TAB_ARRAY = {"flower", "jewelry", "fashion", "food", "others"};
-    public static final String[] ICON_TAB_IMAGE_ID = {"flower_001", "jewelry_001", "fashion_001", "food_001", "others_001"};
+    public static final String[] ICON_DEFAULT_IMAGE_ID = {"flower_001", "jewelry_001", "fashion_001", "food_001", "others_001"};
     public static final String[] AUTO_ICON_IMAGE_ID = {"flower_000", "jewelry_000", "fashion_000", "food_000", "others_000"};
     public static final int[] FUSEN_RESOURCE_ID_ARRAY = {R.drawable.fusen_00, R.drawable.fusen_01, R.drawable.fusen_02,
             R.drawable.fusen_03, R.drawable.fusen_04, R.drawable.fusen_05, R.drawable.fusen_06};

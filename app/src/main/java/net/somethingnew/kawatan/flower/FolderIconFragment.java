@@ -65,7 +65,8 @@ public class FolderIconFragment extends Fragment {
 
         // CardViewの初期表示
         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
-        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
+        globalMgr.mFolderSettings.imageViewIcon.setImageResource(
+                globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : globalMgr.mTempFolder.getImageIconResId());
 
         return mView;
     }

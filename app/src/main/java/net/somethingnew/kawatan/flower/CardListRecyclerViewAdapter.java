@@ -174,9 +174,7 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
          * このPositionのView(Card)に表示する
          */
         CardModel card = mCardLinkedList.get(listPosition);
-        imageViewIcon.setImageResource(card.isIconAutoDisplay() ?
-                IconManager.getResIdAtRandom(card.getIconCategory()) :
-                card.getImageIconResId());
+        imageViewIcon.setImageResource(globalMgr.isIconAuto ? IconManager.getResIdAtRandom(card.getIconCategory()) : card.getImageIconResId());
         imageViewLearned.setImageResource(card.isLearned() ? R.drawable.heart_on : R.drawable.heart_off_grey);
         imageViewFusen.setImageResource(card.getImageFusenResId());
         textViewFront.setText(card.getFrontText());

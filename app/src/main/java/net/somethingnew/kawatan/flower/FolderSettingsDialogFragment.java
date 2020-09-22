@@ -55,16 +55,16 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // 呼び出し側からの引数の受け取り
         mode = getArguments().getInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE);
 
-        // 各タブでの選択内容をCardViewに反映させるためにCardViewおよびその中の各種View情報をglobalMgrに保持しておく
-        globalMgr.mFolderSettings.cardView = view.findViewById(R.id.card_view);
-
-        globalMgr.mFolderSettings.editTextTitle = view.findViewById(R.id.editTextTitleName);
-        globalMgr.mFolderSettings.imageViewIcon = view.findViewById(R.id.imageViewIcon);
-
+        // メニュー内アイコン
         ImageView imageView1 = view.findViewById(R.id.imageViewReserved1);
         ImageView imageView2 = view.findViewById(R.id.imageViewReserved2);
         imageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
         imageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+
+        // 各タブでの選択内容をCardViewに反映させるためにCardViewおよびその中の各種View情報をglobalMgrに保持しておく
+        globalMgr.mFolderSettings.cardView = view.findViewById(R.id.card_view);
+        globalMgr.mFolderSettings.editTextTitle = view.findViewById(R.id.editTextTitleName);
+        globalMgr.mFolderSettings.imageViewIcon = view.findViewById(R.id.imageViewIcon);
 
         globalMgr.mChangedFolderSettings = false;
 
@@ -99,7 +99,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         FolderIconFragment folderIconFragment = (FolderIconFragment) folderSettingsDialogPagerAdapter.getRegisteredFragment(currentTabPosition);
                         folderIconFragment.refreshCategoryIconFragment();
                         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
-                        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
+                        globalMgr.mFolderSettings.imageViewIcon.setImageResource(
+                                globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : globalMgr.mTempFolder.getImageIconResId());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.VISIBLE);
                         globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getCoverTextColor());
                         globalMgr.mFolderSettings.editTextTitle.setEnabled(true);
@@ -111,7 +112,9 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                         folderCoverFragment.changeTextColorButtonsBackground(globalMgr.mTempFolder.getCoverBackgroundColor());
                         globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
                         globalMgr.mFolderSettings.imageViewIcon.setVisibility(View.VISIBLE);
-                        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
+                        globalMgr.mFolderSettings.imageViewIcon.setImageResource(
+                                globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : globalMgr.mTempFolder.getImageIconResId());
+//                        globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
                         globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getCoverTextColor());
                         globalMgr.mFolderSettings.editTextTitle.setEnabled(true);
                         globalMgr.mFolderSettings.editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
@@ -185,8 +188,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）し、
         // 初期表示設定を行う
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-            int iconImageResId = getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
-            globalMgr.mTempFolder = new FolderModel(iconImageResId);
+            globalMgr.mTempFolder = new FolderModel(IconManager.getAutoIconResId(globalMgr.mCategory));
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
         } else {
             // 選択されたFolderの内容の表示
@@ -196,9 +198,11 @@ public class FolderSettingsDialogFragment extends DialogFragment {
             // アイコン表示の場合もタイトル名（単語帳名）の入力は許可する
             globalMgr.mFolderSettings.editTextTitle.setText(globalMgr.mTempFolder.getTitleName());
             globalMgr.mFolderSettings.editTextTitle.setTextColor(globalMgr.mTempFolder.getCoverTextColor());
-            globalMgr.mFolderSettings.imageViewIcon.setImageResource(globalMgr.mTempFolder.getImageIconResId());
+            globalMgr.mFolderSettings.imageViewIcon.setImageResource(
+                    globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : globalMgr.mTempFolder.getImageIconResId());
             globalMgr.mFolderSettings.cardView.setCardBackgroundColor(globalMgr.mTempFolder.getCoverBackgroundColor());
         }
+        globalMgr.currentCategoryPosition = Constants.CATEGORY_INDEX_FLOWER;
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(true);

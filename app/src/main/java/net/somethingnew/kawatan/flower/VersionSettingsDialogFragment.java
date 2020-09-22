@@ -247,12 +247,9 @@ public class VersionSettingsDialogFragment extends DialogFragment {
                         .setMessage(R.string.dlg_msg_no_change)
                         .setPositiveButton(
                                 android.R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // AlertDialogを閉じるのみ
-                                        return;
-                                    }
+                                (dialog, which) -> {
+                                    // AlertDialogを閉じるのみ
+                                    return;
                                 })
                         .show();
                 return;

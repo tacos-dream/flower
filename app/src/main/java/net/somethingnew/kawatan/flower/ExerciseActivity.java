@@ -657,7 +657,7 @@ public class ExerciseActivity extends AppCompatActivity
         mTextViewFront.setText(mCard.getFrontText());
         mTextViewBack.setTextColor(mFolder.getBackTextColor());
         mTextViewBack.setText(R.string.back_mask);
-        int resourceId = mCard.isIconAutoDisplay() ? IconManager.getResIdAtRandom(mCard.getIconCategory()) : mCard.getImageIconResId();
+        int resourceId = globalMgr.isIconAuto ? IconManager.getResIdAtRandom(mCard.getIconCategory()) : mCard.getImageIconResId();
         mImageViewIconFront.setImageResource(resourceId);
         mImageViewIconBack.setImageResource(resourceId);
         if (mCard.isLearned()) mImageViewLearned.setImageResource(R.drawable.heart_on);

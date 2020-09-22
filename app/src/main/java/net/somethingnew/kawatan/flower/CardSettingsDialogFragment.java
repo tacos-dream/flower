@@ -85,12 +85,13 @@ public class CardSettingsDialogFragment extends DialogFragment {
         buildEventListener();
         buildBottomNavigationMenu();
 
+        // メニュー内アイコン
         ImageView imageView1 = mView.findViewById(R.id.imageViewReserved1);
         imageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
 
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
-            globalMgr.mTempCard = new CardModel(mFolder.getId());
+            globalMgr.mTempCard = new CardModel(mFolder.getId(), IconManager.getAutoIconResId(globalMgr.mCategory));
         } else {
             // 選択されたCardのクローン
             globalMgr.mTempCard = mCardModel.clone();
@@ -103,8 +104,10 @@ public class CardSettingsDialogFragment extends DialogFragment {
         globalMgr.mCardSettings.editTextFront.setTextColor(mFolder.getFrontTextColor());
         globalMgr.mCardSettings.editTextBack.setText(globalMgr.mTempCard.getBackText());
         globalMgr.mCardSettings.editTextBack.setTextColor(mFolder.getBackTextColor());
-        globalMgr.mCardSettings.imageViewIconFront.setImageResource(globalMgr.mTempCard.getImageIconResId());
-        globalMgr.mCardSettings.imageViewIconBack.setImageResource(globalMgr.mTempCard.getImageIconResId());
+        globalMgr.mCardSettings.imageViewIconFront.setImageResource(
+                globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : globalMgr.mTempCard.getImageIconResId());
+        globalMgr.mCardSettings.imageViewIconBack.setImageResource(
+                globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : globalMgr.mTempCard.getImageIconResId());
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(true);

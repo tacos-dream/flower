@@ -107,7 +107,6 @@ public class CardDao extends DatabaseHelper {
 			stmt.bindString(index++, data.getUpdatedDate().toString());
 			stmt.bindString(index++, data.getLastUsedDate().toString());
 			stmt.bindLong(index++, (data.isLearned()) ? 1 : 0);
-			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
 			stmt.bindLong(index++, data.getIconCategory());
 			stmt.bindLong(index++, data.getImageIconResId());
 			stmt.bindLong(index++, data.getImageFusenResId());
@@ -172,7 +171,6 @@ public class CardDao extends DatabaseHelper {
 				stmt.bindString(index++, card.getUpdatedDate().toString());
 				stmt.bindString(index++, card.getLastUsedDate().toString());
 				stmt.bindLong(index++, (card.isLearned()) ? 1 : 0);
-				stmt.bindLong(index++, (card.isIconAutoDisplay()) ? 1 : 0);
 				stmt.bindLong(index++, card.getIconCategory());
 				stmt.bindLong(index++, card.getImageIconResId());
 				stmt.bindLong(index++, card.getImageFusenResId());
@@ -234,7 +232,6 @@ public class CardDao extends DatabaseHelper {
 			stmt.bindString(index++, data.getUpdatedDate().toString());
 			stmt.bindString(index++, data.getLastUsedDate().toString());
 			stmt.bindLong(index++, (data.isLearned()) ? 1 : 0);
-			stmt.bindLong(index++, (data.isIconAutoDisplay()) ? 1 : 0);
 			stmt.bindLong(index++, data.getIconCategory());
 			stmt.bindLong(index++, data.getImageIconResId());
 			stmt.bindLong(index++, data.getImageFusenResId());
@@ -364,7 +361,6 @@ public class CardDao extends DatabaseHelper {
 				card.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
 				card.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
 				card.setLearned(cursor.getInt(index++) == 1);
-				card.setIconAutoDisplay(cursor.getInt(index++) == 1);
 				card.setIconCategory(cursor.getInt(index++));
 				card.setImageIconResId(cursor.getInt(index++));
 				card.setImageFusenResId(cursor.getInt(index++));
@@ -440,7 +436,6 @@ public class CardDao extends DatabaseHelper {
 				card.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
 				card.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
 				card.setLearned(cursor.getInt(index++) == 1);
-				card.setIconAutoDisplay(cursor.getInt(index++) == 1);
 				card.setIconCategory(cursor.getInt(index++));
 				card.setImageIconResId(cursor.getInt(index++));
 				card.setImageFusenResId(cursor.getInt(index++));

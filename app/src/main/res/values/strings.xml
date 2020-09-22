@@ -17,7 +17,7 @@
     <string name="export_data">データのバックアップ</string>
     <string name="skin_design">スキン設定</string>
     <string name="version">Version設定</string>
-    <string name="icon_design">アイコン設定</string>
+    <string name="icon_auto">アイコン自動設定</string>
     <string name="splash_design">起動画面デザイン</string>
     <string name="info">新機能／更新情報</string>
     <string name="question_us">お問い合わせ</string>
