@@ -185,20 +185,17 @@ public class ImportDataDialogFragment extends DialogFragment {
                 final BufferedReader bufferedReader = new BufferedReader(inReader);
                 String line = null;
 
-                int iconImageResId = getResources().getIdentifier(Constants.ICON_DEFAULT_IMAGE_ID[globalMgr.mCategory], "drawable", getActivity().getPackageName());
-                FolderModel folderModel = new FolderModel(iconImageResId);
+                FolderModel folderModel = new FolderModel(IconManager.getResIdAtRandom(globalMgr.mCategory));   // AutoアイコンOFF時用に割り当てておく
                 folderModel.setTitleName(availableBookInfo.getTitle());
                 globalMgr.mCardListMap.put(folderModel.getId(), new LinkedList<>());
                 LinkedList<CardModel> cardLinkedList = globalMgr.mCardListMap.get(folderModel.getId());
 
                 while ((line = bufferedReader.readLine()) != null) {
                     StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
-                    CardModel cardModel = new CardModel(folderModel.getId(),
-                            globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : IconManager.getDefaultIconResId(globalMgr.mCategory));
+                    CardModel cardModel = new CardModel(folderModel.getId(), IconManager.getResIdAtRandom(globalMgr.mCategory));     // AutoアイコンOFF時用に割り当てておく
                     CardDao cardDao = new CardDao(getActivity().getApplicationContext());
                     cardModel.setFrontText(stringTokenizer.nextToken());
                     cardModel.setBackText(stringTokenizer.nextToken());
-                    cardModel.setImageIconResId(iconImageResId);
                     cardModel.setImageFusenResId(R.drawable.fusen_00);
                     cardLinkedList.add(cardModel);
                     cardDao.insert(cardModel);        // DB上は特に順番は意識しない

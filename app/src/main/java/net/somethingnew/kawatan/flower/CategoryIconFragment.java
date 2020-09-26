@@ -1,5 +1,6 @@
 package net.somethingnew.kawatan.flower;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import net.somethingnew.kawatan.flower.util.LogUtility;
@@ -51,23 +53,27 @@ public class CategoryIconFragment extends Fragment {
                 (mHost == Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS) ?
                         globalMgr.mTempFolder.getCoverBackgroundColor() : globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getFrontBackgroundColor()
         );
-        mGridViewIcon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mHost == Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS) {
-                    // FolderSettingsの場合　→　表紙のアイコン表示に反映
-                    globalMgr.mFolderSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
-                    globalMgr.mTempFolder.setImageIconResId(mIconResourceIdList.get(position));
-                    globalMgr.mTempFolder.setIconCategory(mCategory);
-                    globalMgr.mChangedFolderSettings = true;
-                } else {
-                    // CardSettingsの場合　→　アイコン表示に反映
-                    globalMgr.mCardSettings.imageViewIconFront.setImageResource(mIconResourceIdList.get(position));
-                    globalMgr.mCardSettings.imageViewIconBack.setImageResource(mIconResourceIdList.get(position));
-                    globalMgr.mTempCard.setImageIconResId(mIconResourceIdList.get(position));
-                    globalMgr.mTempCard.setIconCategory(mCategory);
-                    globalMgr.mChangedCardSettings = true;
-                }
+        mGridViewIcon.setOnItemClickListener((parent, view, position, id) -> {
+            if (globalMgr.isIconAuto) {
+                new AlertDialog.Builder(getContext())
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_icon_auto_off)
+                        .setMessage(R.string.dlg_msg_icon_auto_off)
+                        .setPositiveButton(
+                                R.string.icon_auto_off,
+                                (dialog, which) -> {
+                                    globalMgr.isIconAuto = false;
+                                    showSelectedIcon(position);
+                                })
+                        .setNegativeButton(
+                                R.string.icon_auto_still_on,
+                                (dialog, which) -> LogUtility.d("[キャンセル]が選択されました"))
+                        .show();
             }
+            else {
+                showSelectedIcon(position);
+            }
+
         });
 
         return mView;
@@ -79,4 +85,20 @@ public class CategoryIconFragment extends Fragment {
         LogUtility.d("onDestroy");
     }
 
+    public void showSelectedIcon(int position) {
+        if (mHost == Constants.CATEGORY_ICON_IN_FOLDER_SETTINGS) {
+            // FolderSettingsの場合　→　表紙のアイコン表示に反映
+            globalMgr.mFolderSettings.imageViewIcon.setImageResource(mIconResourceIdList.get(position));
+            globalMgr.mTempFolder.setImageIconResId(mIconResourceIdList.get(position));
+            globalMgr.mTempFolder.setIconCategory(mCategory);
+            globalMgr.mChangedFolderSettings = true;
+        } else {
+            // CardSettingsの場合　→　アイコン表示に反映
+            globalMgr.mCardSettings.imageViewIconFront.setImageResource(mIconResourceIdList.get(position));
+            globalMgr.mCardSettings.imageViewIconBack.setImageResource(mIconResourceIdList.get(position));
+            globalMgr.mTempCard.setImageIconResId(mIconResourceIdList.get(position));
+            globalMgr.mTempCard.setIconCategory(mCategory);
+            globalMgr.mChangedCardSettings = true;
+        }
+    }
 }

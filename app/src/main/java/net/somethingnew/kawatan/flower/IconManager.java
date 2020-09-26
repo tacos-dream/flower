@@ -37,7 +37,7 @@ public class IconManager {
 
             // 各カテゴリのAutoアイコンとDefaultアイコンのResourceIdを事前に配列に用意しておく
             for (int i = 0; i < Constants.NUM_OF_CATEGORY; i++) {
-                mAutoIconResourceIds[i] = mContext.getResources().getIdentifier(Constants.AUTO_ICON_IMAGE_ID[i], "drawable", mContext.getPackageName());
+                mAutoIconResourceIds[i] = mContext.getResources().getIdentifier(Constants.ICON_AUTO_IMAGE_ID[i], "drawable", mContext.getPackageName());
                 mDefaultIconResourceIds[i] = mContext.getResources().getIdentifier(Constants.ICON_DEFAULT_IMAGE_ID[i], "drawable", mContext.getPackageName());
             }
         }

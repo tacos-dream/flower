@@ -72,7 +72,7 @@ public class IconAutoSettingsDialogFragment extends DialogFragment {
                     globalMgr.isIconAuto = isChecked;
                     SharedPreferences mSharedPref = getActivity().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = mSharedPref.edit();
-                    editor.putBoolean(Constants.SHARED_PREF_KEY_AUTO_ICON, isChecked);
+                    editor.putBoolean(Constants.SHARED_PREF_KEY_ICON_AUTO, isChecked);
                     editor.apply();
                 });
         mView.findViewById(R.id.buttonGoBack).setOnClickListener(view -> {

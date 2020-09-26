@@ -134,6 +134,25 @@
                 android:textSize="12sp" />
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btn_billing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Billing"
+                android:textSize="10sp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="70dp" />
+            <TextView
+                android:id="@+id/textViewBilling"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="アプリ内課金"
+                android:textSize="12sp" />
+        </TableRow>
     </TableLayout>
 
 </LinearLayout>

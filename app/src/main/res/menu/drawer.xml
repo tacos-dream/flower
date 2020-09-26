@@ -32,21 +32,8 @@
     </group>
 
     <group
-        android:id="@+id/menu_manual"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/naviItemHowToWeb"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/howto_web" />
-    </group>
-
-    <group
         android:id="@+id/menu_other"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/naviItemInfo"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/info" />
         <item
             android:id="@+id/naviItemQuestionUs"
             android:icon="@android:drawable/ic_menu_gallery"

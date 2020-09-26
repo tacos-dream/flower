@@ -68,7 +68,7 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
             imageViewFusen = itemView.findViewById(R.id.imageViewFusen);
             imageViewTrash = itemView.findViewById(R.id.imageViewTrash);
 
-            textViewFront.setOnClickListener(new View.OnClickListener() {
+            cardViewFront.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {

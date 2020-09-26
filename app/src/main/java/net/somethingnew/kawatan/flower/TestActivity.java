@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +71,9 @@ public class TestActivity extends AppCompatActivity {
          */
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         TextView textView = findViewById(R.id.textViewWindowSize);
-        textView.setText("px: H" + metrics.heightPixels + " x  W" + metrics.widthPixels + "  dp: H" + (int)(metrics.heightPixels/metrics.density) + " x W" + (int)(metrics.widthPixels/metrics.density));
+        textView.setText("px: H" + metrics.heightPixels + " x  W" + metrics.widthPixels + "  dp: H" + (int) (metrics.heightPixels / metrics.density) + " x W" + (int) (metrics.widthPixels / metrics.density));
+
+
     }
 
 }

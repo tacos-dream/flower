@@ -188,7 +188,8 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）し、
         // 初期表示設定を行う
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-            globalMgr.mTempFolder = new FolderModel(IconManager.getAutoIconResId(globalMgr.mCategory));
+            int iconResourceId = globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : IconManager.getResIdAtRandom(globalMgr.mCategory);
+            globalMgr.mTempFolder = new FolderModel(iconResourceId);
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
         } else {
             // 選択されたFolderの内容の表示

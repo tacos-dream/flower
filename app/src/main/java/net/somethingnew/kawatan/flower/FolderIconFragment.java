@@ -31,7 +31,7 @@ public class FolderIconFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_folder_icon, container, false);
 
         // BottomNavigationで切り替える５つのアイコンカテゴリーのFragmentを作成
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) mView.findViewById(R.id.icon_bottom_navigation);
+        BottomNavigationView bottomNavigationView = mView.findViewById(R.id.icon_bottom_navigation);
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setBackgroundColor(globalMgr.skinHeaderColor);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

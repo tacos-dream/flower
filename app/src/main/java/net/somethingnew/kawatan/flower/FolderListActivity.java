@@ -574,14 +574,6 @@ public class FolderListActivity extends AppCompatActivity
             case R.id.naviItemExportData:
                 showBackupPolicyDialog();
                 break;
-            case R.id.naviItemHowToWeb:
-                break;
-            case R.id.naviItemInfo:
-                intent = new Intent();
-                intent.setClass(mContext, GeneralWebViewActivity.class);
-                intent.putExtra("target_uri", Constants.EXTERNAL_LINK_URL_KAWATN_INFO);
-                startActivity(intent);
-                break;
             case R.id.naviItemQuestionUs:
                 String[] toAddress = {Constants.MAIL_TO_ADDRESS};  // 複数のアドレスを入れらる
                 intent = new Intent(Intent.ACTION_SENDTO);
