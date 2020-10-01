@@ -5,55 +5,42 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
-
-import net.somethingnew.kawatan.flower.db.dao.CardDao;
-import net.somethingnew.kawatan.flower.db.dao.FolderDao;
-import net.somethingnew.kawatan.flower.model.CardModel;
-import net.somethingnew.kawatan.flower.model.FolderModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
 
-import java.util.LinkedList;
-import java.util.Random;
-
-public class AboutIconImageDialogFragment extends DialogFragment {
+public class AboutLicenseDialogFragment extends DialogFragment {
 
     GlobalManager globalMgr = GlobalManager.getInstance();
 
-    AboutIconImageDialogFragment() {
+    AboutLicenseDialogFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.dialog_about_icon_image, container, false);
+        View view = inflater.inflate(R.layout.dialog_about_license, container, false);
 
-        view.findViewById(R.id.imageViewLogo).setOnClickListener(v -> {
+        view.findViewById(R.id.imageViewIconLogo).setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setClass(getActivity().getApplicationContext(), GeneralWebViewActivity.class);
             intent.putExtra("target_uri", Constants.EXTERNAL_LINK_URL_JSPUCHIKIRA);
             startActivity(intent);
             getDialog().dismiss();
         });
+
+        if (!globalMgr.isJapanese) {
+            LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.linearLayoutFont);
+            linearLayout.removeAllViews();
+        }
 
         view.findViewById(R.id.buttonGoBack).setOnClickListener(v -> {
             getDialog().dismiss();

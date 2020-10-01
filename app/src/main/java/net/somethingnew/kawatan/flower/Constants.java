@@ -10,12 +10,14 @@ public final class Constants {
     Constants() {
     }
 
-    public static final String VERSION = "202002B";
+    public static final String VERSION = "V1.0 - 2020-11-13";
 
     /**
      * 時間関連
      */
-    public static final int SPLASH_TIME_MILLI_SEC = 3000;
+    public static final int SPLASH_PERIOD_MILLI_SEC = 2000;
+    public static final int SPLASH_PERIOD_MILLI_SEC_DEBUG = 4000;
+    public static final int SPLASH_TIMER_CHECK_PERIOD_MILLI_SEC = 500;
 
     /**
      * 戻り値

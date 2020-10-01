@@ -37,6 +37,7 @@ public class FolderModel implements Cloneable {
 	int						frontTextColor;			// おもての文字色
 	int						backTextColor;			// うらの文字色
 	int						iconCategory;			// ICONのカテゴリー
+	boolean					isCardLoaded;			// Cardデータの読み込み有無
 
 	public FolderModel() {
 	}
@@ -57,6 +58,7 @@ public class FolderModel implements Cloneable {
 		this.frontTextColor			= Color.BLACK;
 		this.backTextColor			= Color.BLACK;
 		this.iconCategory			= 0;					// Defalut: flower
+		this.isCardLoaded			= false;
 	}
 
 
@@ -175,6 +177,14 @@ public class FolderModel implements Cloneable {
 
 	public void setIconCategory(int iconCategory) {
 		this.iconCategory = iconCategory;
+	}
+
+	public boolean isCardLoaded() {
+		return isCardLoaded;
+	}
+
+	public void setCardLoaded(boolean cardLoaded) {
+		isCardLoaded = cardLoaded;
 	}
 }
 

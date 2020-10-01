@@ -71,24 +71,26 @@ public class SplashActivity extends AppCompatActivity {
         IconManager.init(this);
         ImageView imageView = findViewById(R.id.imageViewLogo);
         imageView.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
-        imageView.setOnClickListener(view -> {
-            stopTimer = true;
-            Intent intent = new Intent();
-            intent.setClass(SplashActivity.this, TestActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        });
+        if (BuildConfig.DEBUG) {
+            imageView.setOnClickListener(view -> {
+                stopTimer = true;
+                Intent intent = new Intent();
+                intent.setClass(SplashActivity.this, DevToolActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            });
+        }
 
         LogUtility.d("Loading...");
         new Thread(() -> {
             mStartTime = System.currentTimeMillis();
 
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
             if (stopTimer) {
                 return;
@@ -110,16 +112,20 @@ public class SplashActivity extends AppCompatActivity {
             // タイトル回転アニメーションは重いの一旦でやめる
 //            startRotation();
 
+            double splashPeriod;
+            if (BuildConfig.DEBUG) { splashPeriod = Constants.SPLASH_PERIOD_MILLI_SEC_DEBUG; }
+            else { splashPeriod = Constants.SPLASH_PERIOD_MILLI_SEC; }
+
             while (true) {
                 if (stopTimer) {
                     return;
                 }
-                if (System.currentTimeMillis() - mStartTime > Constants.SPLASH_TIME_MILLI_SEC) {
+                if (System.currentTimeMillis() - mStartTime > splashPeriod) {
                     break;
                 }
                 try {
                     LogUtility.d("Thread.sleep...");
-                    Thread.sleep(100);
+                    Thread.sleep(Constants.SPLASH_TIMER_CHECK_PERIOD_MILLI_SEC);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -142,7 +148,6 @@ public class SplashActivity extends AppCompatActivity {
     public void doPostSplash() {
         Intent intent = new Intent();
         intent.setClass(SplashActivity.this, FolderListActivity.class);
-        //intent.setClass(SplashActivity.this, TestActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
@@ -161,13 +166,14 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         // 全てのCardを読み込み、それぞれのfolderIdにより、該当のCardのLinkedListに追加していく
-        CardDao cardDao = new CardDao(getApplicationContext());
-        ArrayList<CardModel> cardModelArrayList = cardDao.selectAll();
-        LogUtility.d("Loading CARD_TBL counts: " + cardModelArrayList.size());
-        for (CardModel card : cardModelArrayList) {
-            LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(card));
-            globalMgr.mCardListMap.get(card.getFolderId()).add(card);
-        }
+        // Cardデータの読み込みは必要になったときに実行する
+//        CardDao cardDao = new CardDao(getApplicationContext());
+//        ArrayList<CardModel> cardModelArrayList = cardDao.selectAll();
+//        LogUtility.d("Loading CARD_TBL counts: " + cardModelArrayList.size());
+//        for (CardModel card : cardModelArrayList) {
+//            LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(card));
+//            globalMgr.mCardListMap.get(card.getFolderId()).add(card);
+//        }
     }
 
     public void loadSharedPreference() {

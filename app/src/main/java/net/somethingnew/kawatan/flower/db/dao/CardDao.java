@@ -406,6 +406,52 @@ public class CardDao extends DatabaseHelper {
 	}
 
 	/**
+	 * 個別FolderのCardロード用select
+	 * @return
+	 */
+	public ArrayList<CardModel> selectByFolderId(String folderId) {
+		LogUtility.d("selectByFolderId");
+		ArrayList<CardModel> result = new ArrayList<>();
+
+		try {
+			// SQLを実行しカーソルを取得
+			Cursor cursor = getDBInstance().query(Constants.TABLE_NAME_CARD, Constants.COLUMN_NAMES_CARD,
+					"FOLDER_ID = ?", new String[]{folderId}, null, null,
+					"FRONT_TEXT");
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+
+			// カーソルが終わるまで繰り返し
+			while (cursor.moveToNext()) {
+				int index = 0;
+
+				CardModel card = new CardModel();
+
+				card.setId(cursor.getString(index++));
+				card.setFolderId(cursor.getString(index++));
+				card.setFrontText(cursor.getString(index++));
+				card.setBackText(cursor.getString(index++));
+				card.setCreatedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setUpdatedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setLastUsedDate(dateFormat.parse(cursor.getString(index++)));
+				card.setLearned(cursor.getInt(index++) == 1);
+				card.setIconCategory(cursor.getInt(index++));
+				card.setImageIconResId(cursor.getInt(index++));
+				card.setImageFusenResId(cursor.getInt(index++));
+
+				result.add(card);
+			}
+
+			// カーソルをクローズ
+			cursor.close();
+		} catch (Exception e) {
+
+		}
+
+		return result;
+	}
+
+	/**
 	 * Search用select
 	 * @return
 	 */

@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -349,6 +350,10 @@ public class CardSettingsDialogFragment extends DialogFragment {
     public void buildBottomNavigationMenu() {
         // BottomNavigationで切り替える５つのアイコンカテゴリーのFragmentを作成
         BottomNavigationView bottomNavigationView = (BottomNavigationView) mView.findViewById(R.id.icon_bottom_navigation);
+        Menu menu = bottomNavigationView.getMenu();
+        for (int category = Constants.CATEGORY_INDEX_FLOWER; category < Constants.NUM_OF_CATEGORY; category++) {
+            menu.getItem(category).setIcon(IconManager.getResIdAtRandom(category));
+        }
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setBackgroundColor(globalMgr.skinHeaderColor);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

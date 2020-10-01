@@ -15,7 +15,7 @@ import net.somethingnew.kawatan.flower.db.DatabaseHelper;
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 
-public class TestActivity extends AppCompatActivity {
+public class DevToolActivity extends AppCompatActivity {
 
     GlobalManager globalMgr = GlobalManager.getInstance();
 
@@ -23,7 +23,7 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_dev_tool);
 
         findViewById(R.id.btn_pref_reset).setOnClickListener(view -> {
             SharedPreferences sharedPref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -60,7 +60,7 @@ public class TestActivity extends AppCompatActivity {
          */
         findViewById(R.id.btn_restart).setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClass(TestActivity.this, RestartActivity.class);
+            intent.setClass(DevToolActivity.this, RestartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();

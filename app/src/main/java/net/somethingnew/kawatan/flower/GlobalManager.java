@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 全体管理クラス
@@ -115,6 +116,11 @@ public class GlobalManager {
     public boolean isIconAuto;
 
     /**
+     * 端末の言語環境
+     */
+    public boolean isJapanese = false;
+
+    /**
      * 各インポートデータAvailableBookInfoをリストで管理
      */
     public List<AvailableBookInfo> availableBookInfoList;
@@ -152,6 +158,7 @@ public class GlobalManager {
         this.mCardSettings = new CardSettings();
         this.availableBookInfoList = new ArrayList<>();
         this.currentCategoryPosition = Constants.CATEGORY_INDEX_FLOWER;
+        this.isJapanese = Locale.getDefault().getLanguage().equals("ja");
     }
 
     static void onCreateApplication(Context applicationContext) {

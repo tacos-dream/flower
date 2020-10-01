@@ -55,9 +55,9 @@
             android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/share_us" />
         <item
-            android:id="@+id/naviItemAboutIcon"
+            android:id="@+id/naviItemAboutLicense"
             android:icon="@android:drawable/ic_menu_gallery"
-            android:title="@string/about_icon" />
+            android:title="@string/about_license" />
         <item
             android:id="@+id/naviItemAboutUs"
             android:icon="@android:drawable/ic_menu_gallery"

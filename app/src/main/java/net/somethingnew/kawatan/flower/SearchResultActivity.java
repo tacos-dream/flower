@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.model.SearchResultModel;
@@ -139,7 +142,24 @@ public class SearchResultActivity extends AppCompatActivity {
         mSearchResultRecyclerViewAdapter.setOnItemClickListener(position -> {
             // クリックされたItem(SearchResultModel)にglobalMgr.mFolderLinkedList上のpositionを保持しているので
             // globalMgr.mCurrentFolderIndexにセットしたあとにCardList画面に遷移させる
+            // データがまだ未ロードの場合はロードする
             globalMgr.mCurrentFolderIndex = mSearchResultModelLinkedList.get(position).getFolderIndex();
+            if (!globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).isCardLoaded()) {
+                ObjectMapper mObjectMapper = new ObjectMapper();
+                CardDao cardDao = new CardDao(getApplicationContext());
+                ArrayList<CardModel> cardModelArrayList = cardDao.selectByFolderId(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
+                LogUtility.d("Loading CARD_TBL counts: " + cardModelArrayList.size());
+                for (CardModel card : cardModelArrayList) {
+                    try {
+                        LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(card));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    globalMgr.mCardListMap.get(card.getFolderId()).add(card);
+                }
+                globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).setCardLoaded(true);
+            }
+
             Intent intent = new Intent();
             intent.setClass(mContext, CardListActivity.class);
             startActivity(intent);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">かわたん Flower Version</string>
+    <string name="app_name">Cute Flashcards</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -11,114 +11,112 @@
     <!-- Drawer Menu 関連 -->
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
-    <string name="howto_video">操作説明動画(YouTube)</string>
-    <string name="howto_web">操作説明ページ</string>
-    <string name="import_data">データのインポート</string>
-    <string name="export_data">データのバックアップ</string>
-    <string name="skin_design">スキン設定</string>
-    <string name="version">Version設定</string>
-    <string name="icon_auto">アイコン自動表示設定</string>
-    <string name="splash_design">起動画面デザイン</string>
-    <string name="info">新機能／更新情報</string>
-    <string name="question_us">お問い合わせ</string>
-    <string name="terms">利用規約</string>
-    <string name="privacy_policy">プライバシーポリシー</string>
-    <string name="review_us">レビューする</string>
-    <string name="share_us">アプリをシェアする</string>
-    <string name="about_icon">アイコン画像について</string>
-    <string name="about_us">このアプリについて</string>
+    <string name="howto_video">Manual Movie(YouTube)</string>
+    <string name="howto_web">Manual Web</string>
+    <string name="import_data">Data Import</string>
+    <string name="export_data">Data Backup</string>
+    <string name="skin_design">Skin Settings</string>
+    <string name="version">Version Settings</string>
+    <string name="icon_auto">Auto Icon Settings</string>
+    <string name="splash_design">Splash Design</string>
+    <string name="info">What\'s New</string>
+    <string name="question_us">Question</string>
+    <string name="terms">Terms</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="review_us">Review</string>
+    <string name="share_us">Share</string>
+    <string name="about_license">About License</string>
+    <string name="about_us">About Us</string>
 
-    <string name="icon_description">アプリ内で使用しているアイコン画像は「ぷち☆キラJS素材集♪」に掲載、付属DVDに収録の素材データを利用しており、その著作権は、Impress社 および Power Design社 にあります。</string>
+    <string name="icon_description">The icon image used in the app uses the material data recorded in "Petit ☆ Kira JS Material Collection ♪". Its copyright belongs to Impress and Power Design.</string>
 
     <!-- 汎用マーク 関連 -->
     <string name="double_circle">◎</string>
     <string name="close_mark">Ⅹ</string>
 
-    <string name="menu_search">検索</string>
-    <string name="please_keywords">検索のキーワード入力</string>
+    <string name="menu_search">Search</string>
+    <string name="please_keywords">Search words</string>
 
     <!-- ボタンラベル -->
-    <string name="close">閉じる</string>
-    <string name="go_next">進む</string>
-    <string name="cancel">キャンセル</string>
-    <string name="apply">適用</string>
+    <string name="close">Close</string>
+    <string name="go_next">Next</string>
+    <string name="cancel">Cancel</string>
+    <string name="apply">Apply</string>
 
     <!-- FolderSettingsDialog タブメニュー -->
-    <string name="icon">アイコン</string>
-    <string name="front">おもて</string>
-    <string name="back">うら</string>
-    <string name="fusen">付箋</string>
-    <string name="others">その他</string>
+    <string name="icon">Icon</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="fusen">Sticker</string>
+    <string name="others">Others</string>
 
     <!-- バックアップ画面内表記 -->
-    <string name="backup">バックアップ(保存)</string>
-    <string name="backup_to">保存先</string>
-    <string name="internal_disk">内蔵ストレージに保存する</string>
-    <string name="sd_card">SDカードに保存する</string>
-    <string name="google_drive">GoogleDriveにもアップロードして保存する</string>
+    <string name="backup">Backup</string>
+    <string name="backup_to">Backup destination</string>
+    <string name="internal_disk">Save to internal storage</string>
+    <string name="sd_card">Save to SD card</string>
+    <string name="google_drive">Upload and save to Google Drive</string>
 
     <!-- アイコン自動表示設定内表記 -->
-    <string name="case_on">[自動ONの場合]</string>
-    <string name="case_off">[自動OFFの場合]</string>
-    <string name="case_on_detail">全てのアイコン画像が現在のVersionに関連するアイコンでランダムに表示されます。</string>
-    <string name="case_off_detail">あなたが設定していたアイコンやアプリが割り当てていたアイコンを固定で表示します。自由に変更できます。メニューなどに表示されているアイコンは自動表示のままです。</string>
+    <string name="case_on">[Automatic Display ON]</string>
+    <string name="case_off">[Automatic Display OFF]</string>
+    <string name="case_on_detail">Icons related to the current version are displayed randomly</string>
+    <string name="case_off_detail">The icon selected in the past or the icon arbitrarily assigned by the application is fixedly displayed. You can change it freely on the icon selection screen. Icons such as menus remain automatically displayed.</string>
 
 
     <!-- ダイアログタイトル -->
-    <string name="dlg_title_new">新規登録</string>
-    <string name="dlg_title_edit">編集</string>
-    <string name="dlg_title_confirm">確認</string>
-    <string name="dlg_title_save">保存</string>
-    <string name="dlg_title_goback_list">一覧に戻る</string>
-    <string name="dlg_title_save_confirm">保存確認</string>
-    <string name="dlg_title_delete_confirm">削除確認</string>
+    <string name="dlg_title_new">New</string>
+    <string name="dlg_title_edit">Edit</string>
+    <string name="dlg_title_confirm">Confirm</string>
+    <string name="dlg_title_save">Save</string>
+    <string name="dlg_title_goback_list">Back to List</string>
+    <string name="dlg_title_save_confirm">Confirm to save</string>
+    <string name="dlg_title_delete_confirm">Confirm to delete</string>
     <string name="dlg_title_information">Information</string>
-    <string name="dlg_title_change_skin_confirm">スキン変更確認</string>
-    <string name="dlg_title_change_version_confirm">Version変更確認</string>
-    <string name="dlg_title_backup">バックアップについて</string>
-    <string name="dlg_title_icon_auto_off">アイコン自動表示解除</string>
+    <string name="dlg_title_change_skin_confirm">Change skin</string>
+    <string name="dlg_title_change_version_confirm">Change version</string>
+    <string name="dlg_title_backup">Backup</string>
+    <string name="dlg_title_icon_auto_off">Icon Auto display OFF</string>
 
     <!-- ダイアログメッセージ -->
-    <string name="dlg_msg_go_back_to_list">設定を保存せずに一覧に戻ります。\nいいですか？</string>
-    <string name="dlg_msg_go_back_to_list_simple">一覧に戻ります。\nいいですか？</string>
-    <string name="dlg_msg_exercise_end">最後のカードまで到達しました。</string>
-    <string name="dlg_msg_delete_folder">この単語帳を削除します。\n復元できなくなります。\n削除してもいいですか？</string>
-    <string name="dlg_msg_delete_card">この単語カードを削除します。\n復元できなくなります。\n削除してもいいですか？</string>
-    <string name="dlg_msg_save">設定を保存して一覧に戻ります。\nいいですか？</string>
-    <string name="dlg_msg_first_card_now">先頭のカードを表示中です</string>
-    <string name="dlg_msg_no_card_in_folder">カードが登録されていません</string>
-    <string name="dlg_msg_change_skin">スキンを変更しました</string>
-    <string name="dlg_msg_change_version">Versionを変更しました</string>
-    <string name="dlg_msg_no_change">現在の設定と同じです</string>
-    <string name="dlg_msg_backup_policy">登録済みの単語帳データや設定情報は、Androidのシステムにより自動的にGoogleDriveにバックアップされます。\n
-        Androidの「設定」にて、バックアップ機能がONになっていることをご確認ください。\n\n
-        また、「機種変更時」や「アプリを一旦アンインストール後に再度インストールした時」は、GoogleDriveにバックアップされていたデータが自動で復元されます。</string>
-    <string name="dlg_msg_force_all_card_exercise">選択したカードは存在しないため全てのカードを対象にします。</string>
-    <string name="dlg_msg_icon_auto_off">現在、アイコンを自動表示していますがその機能をOFFにします。後でONに戻す場合は、スライドメニューで設定してください。\nOFFにしますか？</string>
+    <string name="dlg_msg_go_back_to_list">You will be returned to the list without saving your settings. Is that okay?</string>
+    <string name="dlg_msg_go_back_to_list_simple">You will be returned to the list. Is that okay?</string>
+    <string name="dlg_msg_exercise_end">You have reached the last card.</string>
+    <string name="dlg_msg_delete_folder">Delete this deck. You will not be able to restore. Are you sure to delete it?</string>
+    <string name="dlg_msg_delete_card">Delete this word card. You will not be able to restore. Are you sure to delete it?</string>
+    <string name="dlg_msg_save">Save your settings and return to the list. Is that okay?</string>
+    <string name="dlg_msg_first_card_now">Displaying the first card.</string>
+    <string name="dlg_msg_no_card_in_folder">There is no card.</string>
+    <string name="dlg_msg_change_skin">Skin was changed.</string>
+    <string name="dlg_msg_change_version">The Version was changed.</string>
+    <string name="dlg_msg_no_change">Same as the current setting</string>
+    <string name="dlg_msg_backup_policy">The registered wordbook data and setting information are automatically backed up to Google Drive by the Android system. Please confirm that the backup function is turned on in "Settings" of Android. In addition, the data backed up in Google Drive will be automatically restored when you change models or when you uninstall the app and then install it again.</string>
+    <string name="dlg_msg_force_all_card_exercise">Since the selected card does not exist, all cards are targeted.</string>
+    <string name="dlg_msg_icon_auto_off">Currently, the icon is automatically displayed, but the function is turned off. If you want to turn it back on later, set it in the slide menu. Do you want to turn it off?</string>
 
     <!-- ダイアログボタン -->
-    <string name="go_back_list">一覧に戻る</string>
-    <string name="try_again">もう一度する</string>
-    <string name="delete">削除する</string>
-    <string name="no_delete">削除しない</string>
-    <string name="save">保存</string>
-    <string name="change">変更</string>
-    <string name="change_restart">変更して再起動</string>
-    <string name="icon_auto_off">OFFにする</string>
-    <string name="icon_auto_still_on">ONのまま</string>
+    <string name="go_back_list">Back to List</string>
+    <string name="try_again">Try again</string>
+    <string name="delete">Delete</string>
+    <string name="no_delete">No delete</string>
+    <string name="save">Save</string>
+    <string name="change">Change</string>
+    <string name="change_restart">Change and Restart</string>
+    <string name="icon_auto_off">Turn off</string>
+    <string name="icon_auto_still_on">Keep ON</string>
 
     <!-- その他 -->
-    <string name="folder_title_new">新しい単語帳</string>
-    <string name="card_front">カードのおもて</string>
-    <string name="card_back">カードのうら</string>
+    <string name="folder_title_new">New Title</string>
+    <string name="card_front">Front</string>
+    <string name="card_back">Back</string>
 
     <string name="back_mask">♦️♣️❤️♠️️</string>
 
     <!-- 警告系汎用メッセージ -->
-    <string name="warn_001">警告メッセージ</string>
+    <string name="warn_001">Warning message</string>
 
     <!-- エラー系汎用メッセージ -->
-    <string name="error_001">エラーメッセージ</string>
+    <string name="error_001">Error message</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

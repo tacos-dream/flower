@@ -3,6 +3,7 @@ package net.somethingnew.kawatan.flower;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
@@ -32,6 +33,10 @@ public class FolderIconFragment extends Fragment {
 
         // BottomNavigationで切り替える５つのアイコンカテゴリーのFragmentを作成
         BottomNavigationView bottomNavigationView = mView.findViewById(R.id.icon_bottom_navigation);
+        Menu menu = bottomNavigationView.getMenu();
+        for (int category = Constants.CATEGORY_INDEX_FLOWER; category < Constants.NUM_OF_CATEGORY; category++) {
+            menu.getItem(category).setIcon(IconManager.getResIdAtRandom(category));
+        }
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setBackgroundColor(globalMgr.skinHeaderColor);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

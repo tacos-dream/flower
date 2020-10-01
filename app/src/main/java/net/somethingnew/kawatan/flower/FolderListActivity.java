@@ -33,6 +33,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.clockbyte.admobadapter.AdmobAdapterCalculator;
 import com.clockbyte.admobadapter.bannerads.AdmobBannerRecyclerAdapterWrapper;
 import com.clockbyte.admobadapter.bannerads.BannerAdViewWrappingStrategyBase;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -42,7 +44,10 @@ import com.google.android.material.navigation.NavigationView;
 
 import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
+import net.somethingnew.kawatan.flower.model.CardModel;
 import net.somethingnew.kawatan.flower.util.LogUtility;
+
+import java.util.ArrayList;
 
 /**
  * Main画面：主なコンテンツはFolder一覧
@@ -400,8 +405,11 @@ public class FolderListActivity extends AppCompatActivity
                 int fetchedAdsCnt = mBannerRecyclerAdapterWrapper.getFetchedAdsCount();
                 int sourceCnt = mBannerRecyclerAdapterWrapper.getAdapter().getItemCount();
                 globalMgr.mCurrentFolderIndex = mAdapterCalc.getOriginalContentPosition(position, fetchedAdsCnt, sourceCnt);
+                if (!globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).isCardLoaded()) {
+                    loadCardData(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
+                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).setCardLoaded(true);
+                }
                 LogUtility.d("onItemClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
-
                 Intent intent = new Intent();
                 intent.setClass(mContext, CardListActivity.class);
                 startActivity(intent);
@@ -413,7 +421,6 @@ public class FolderListActivity extends AppCompatActivity
                 int sourceCnt = mBannerRecyclerAdapterWrapper.getAdapter().getItemCount();
                 globalMgr.mCurrentFolderIndex = mAdapterCalc.getOriginalContentPosition(position, fetchedAdsCnt, sourceCnt);
                 LogUtility.d("onIconClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
-
                 // ダイアログ表示（ダイアログ内の操作でItemの変更が発生するのでAdapterを渡しておき、notifyDataSetChanged()を呼べるようにする
                 FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
                 Bundle args = new Bundle();
@@ -427,6 +434,10 @@ public class FolderListActivity extends AppCompatActivity
                 int fetchedAdsCnt = mBannerRecyclerAdapterWrapper.getFetchedAdsCount();
                 int sourceCnt = mBannerRecyclerAdapterWrapper.getAdapter().getItemCount();
                 globalMgr.mCurrentFolderIndex = mAdapterCalc.getOriginalContentPosition(position, fetchedAdsCnt, sourceCnt);
+                if (!globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).isCardLoaded()) {
+                    loadCardData(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
+                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).setCardLoaded(true);
+                }
 //                LogUtility.d("onExerciseClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
                 if (globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getNumOfAllCards() == 0) {
                     new AlertDialog.Builder(mActivity)
@@ -453,6 +464,10 @@ public class FolderListActivity extends AppCompatActivity
                 int fetchedAdsCnt = mBannerRecyclerAdapterWrapper.getFetchedAdsCount();
                 int sourceCnt = mBannerRecyclerAdapterWrapper.getAdapter().getItemCount();
                 globalMgr.mCurrentFolderIndex = mAdapterCalc.getOriginalContentPosition(position, fetchedAdsCnt, sourceCnt);
+                if (!globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).isCardLoaded()) {
+                    loadCardData(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId());
+                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).setCardLoaded(true);
+                }
 //                LogUtility.d("onShuffleExerciseClick position: " + position + " originalPosition:" + globalMgr.mCurrentFolderIndex);
                 if (globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getNumOfAllCards() == 0) {
                     new AlertDialog.Builder(mActivity)
@@ -475,6 +490,21 @@ public class FolderListActivity extends AppCompatActivity
             }
 
         });
+    }
+
+    private void loadCardData(String folderId) {
+        ObjectMapper mObjectMapper = new ObjectMapper();
+        CardDao cardDao = new CardDao(getApplicationContext());
+        ArrayList<CardModel> cardModelArrayList = cardDao.selectByFolderId(folderId);
+        LogUtility.d("Loading CARD_TBL counts: " + cardModelArrayList.size());
+        for (CardModel card : cardModelArrayList) {
+            try {
+                LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(card));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            globalMgr.mCardListMap.get(card.getFolderId()).add(card);
+        }
     }
 
     /**
@@ -553,14 +583,6 @@ public class FolderListActivity extends AppCompatActivity
                 break;
             case R.id.naviItemIconAuto:
                 IconAutoSettingsDialogFragment iconAutoSettingsDialogFragment = new IconAutoSettingsDialogFragment();
-//                iconAutoSettingsDialogFragment.setOnVersionChangeListener(() -> {
-//                    // We are going to reflect new version name for page title.
-//                    mTitle.setText(Constants.CATEGORY_NAME[globalMgr.mCategory] + " Version");
-//                    mDrawerHeaderImageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
-//                    mDrawerHeaderImageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
-//                    mDrawerHeaderImageView3.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
-//                    mDrawerHeaderImageView4.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
-//                });
                 iconAutoSettingsDialogFragment.show(getSupportFragmentManager(), IconAutoSettingsDialogFragment.class.getSimpleName());
                 break;
             case R.id.naviItemImportData:
@@ -612,11 +634,14 @@ public class FolderListActivity extends AppCompatActivity
                         .setType("text/plain")
                         .startChooser();
                 break;
-            case R.id.naviItemAboutIcon:
-                AboutIconImageDialogFragment aboutIconImageDialogFragment = new AboutIconImageDialogFragment();
-                aboutIconImageDialogFragment.show(getSupportFragmentManager(), AboutIconImageDialogFragment.class.getSimpleName());
+            case R.id.naviItemAboutLicense:
+                AboutLicenseDialogFragment aboutLicenseDialogFragment = new AboutLicenseDialogFragment();
+                aboutLicenseDialogFragment.show(getSupportFragmentManager(), AboutLicenseDialogFragment.class.getSimpleName());
                 break;
             case R.id.naviItemAboutUs:
+                intent = new Intent();
+                intent.setClass(mContext, AboutUsActivity.class);
+                startActivity(intent);
                 break;
         }
 

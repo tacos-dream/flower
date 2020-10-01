@@ -39,25 +39,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutSwitch"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/textViewDescription1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/case_on"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/textViewDescription2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/case_on_detail"
             android:textSize="18sp" />
+
         <TextView
             android:id="@+id/textViewDescription3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/case_off"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/textViewDescription4"
             android:layout_width="match_parent"
