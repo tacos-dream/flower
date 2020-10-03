@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">かわたん Flower Version</string>
+    <string name="app_name">かわたん</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -28,7 +28,7 @@
     <string name="about_license">ライセンスについて</string>
     <string name="about_us">このアプリについて</string>
 
-    <string name="icon_description">アプリ内で使用しているアイコン画像は「ぷち☆キラJS素材集♪」付属DVDに収録の素材データを利用しており、その著作権は、Impress社 および Power Design社 にあります。</string>
+    <string name="icon_description">アプリ内で使用しているアイコン画像は「ぷち☆キラJS素材集♪」付属DVDに収録の素材データを利用しており、その著作権は、Impress社 および Power Design社 に帰属します。</string>
 
     <!-- 汎用マーク 関連 -->
     <string name="double_circle">◎</string>
@@ -45,6 +45,7 @@
 
     <!-- FolderSettingsDialog タブメニュー -->
     <string name="icon">アイコン</string>
+    <string name="cover">表紙</string>
     <string name="front">おもて</string>
     <string name="back">うら</string>
     <string name="fusen">付箋</string>
@@ -85,6 +86,7 @@
     <string name="dlg_msg_delete_folder">この単語帳を削除します。\n復元できなくなります。\n削除してもいいですか？</string>
     <string name="dlg_msg_delete_card">この単語カードを削除します。\n復元できなくなります。\n削除してもいいですか？</string>
     <string name="dlg_msg_save">設定を保存して一覧に戻ります。\nいいですか？</string>
+    <string name="dlg_msg_save_default">標準の設定で保存して一覧に戻ります。\nいいですか？</string>
     <string name="dlg_msg_first_card_now">先頭のカードを表示中です</string>
     <string name="dlg_msg_no_card_in_folder">カードが登録されていません</string>
     <string name="dlg_msg_change_skin">スキンを変更しました</string>
@@ -122,6 +124,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="background_color_setting">♣️❤️️ 背景色の設定 ♦️️♠️️️️️</string>
+    <string name="select_from_default">規定の色から選ぶ</string>
+    <string name="select_freely">自由に選ぶ</string>
+    <string name="vivid_color">"濃いめ色 "</string>
+    <string name="pastel_color">"パステル "</string>
+    <string name="text_color_setting">♣️❤️️ 文字色の設定 ♦️️♠️️️️️</string>
+    <string name="sample_text">あa</string>
+    <string name="about_icon">【アイコンについて】</string>
+    <string name="about_fusen_icon">【付箋の動物イラストについて】</string>
+    <string name="about_fusen_icon_description">付箋上の動物のイラストの著作権は下記著作権者に帰属します。</string>
+    <string name="fusen_icon_copyright_holder">[著作権者]</string>
+    <string name="fusen_icon_copyrighter">いらすとや</string>
 
 
 </resources>

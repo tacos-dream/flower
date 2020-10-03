@@ -100,27 +100,20 @@ public class FolderListActivity extends AppCompatActivity
         setDrawer(mToolbar);
 
         // FloatingActionButton
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 新規登録モードでダイアログを開く
-                FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
-                Bundle args = new Bundle();
-                args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_NEW);
-                folderSettingsDialogFragment.setArguments(args);
-                folderSettingsDialogFragment.show(getSupportFragmentManager(),
-                        FolderSettingsDialogFragment.class.getSimpleName());
-            }
+        findViewById(R.id.fab).setOnClickListener(v -> {
+            // 新規登録モードでダイアログを開く
+            FolderSettingsDialogFragment folderSettingsDialogFragment = new FolderSettingsDialogFragment(mRecyclerViewAdapter);
+            Bundle args = new Bundle();
+            args.putInt(Constants.FOLDER_SETTINGS_DIALOG_ARG_KEY_MODE, Constants.FOLDER_SETTINGS_FOR_NEW);
+            folderSettingsDialogFragment.setArguments(args);
+            folderSettingsDialogFragment.show(getSupportFragmentManager(),
+                    FolderSettingsDialogFragment.class.getSimpleName());
         });
 
-//        MobileAds.initialize(mContext, BuildConfig.ADMOB_APPLICATION_ID);
         MobileAds.initialize(mContext);
 
-        //buildRecyclerView();
-        //buildRecyclerViewWithAdWrapper();
+        // AdMobBannerをListの中に混ぜて表示する場合のRecyclerView
         buildRecyclerViewWithBannerRecyclerWrapper();
-
-        //setBottomBannerAdView();
 
         // Drag & Drop Handling
         // DB反映処理があまりにもコスト高なので、Drag&Dropはやめて、Swipのみ対応する
@@ -180,18 +173,12 @@ public class FolderListActivity extends AppCompatActivity
                                             globalMgr.mCardListMap.get(folderId).clear();
                                             globalMgr.mCardListMap.remove(folderId);
                                             CardDao cardDao = new CardDao(getApplicationContext());
-                                            long countBefore = cardDao.selectCountAll();
                                             cardDao.deleteByFolderId(folderId);
-                                            long countAfter = cardDao.selectCountAll();
-                                            LogUtility.d("Cards were deleted. CARD_TBL's count: " + countBefore + " ---> " + countAfter);
 
                                             // Folder関連
                                             globalMgr.mFolderLinkedList.remove(swipedPosition);
                                             FolderDao folderDao = new FolderDao(getApplicationContext());
-                                            countBefore = folderDao.selectCountAll();
                                             folderDao.deleteByFolderId(folderId);
-                                            countAfter = folderDao.selectCountAll();
-                                            LogUtility.d("Folder was deleted. FOLDER_TBL's count: " + countBefore + " ---> " + countAfter);
 
                                             // 再表示の通知
                                             mRecyclerViewAdapter.notifyDataSetChanged();
@@ -214,13 +201,11 @@ public class FolderListActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        LogUtility.d("onStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtility.d("onResume");
         // Card数の増減などが発生していた場合は、リストを再表示する
         if (globalMgr.mCardStatsChanged) mRecyclerViewAdapter.notifyDataSetChanged();
         globalMgr.mCardStatsChanged = false;
@@ -231,14 +216,12 @@ public class FolderListActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtility.d("onPause");
         mBannerRecyclerAdapterWrapper.pauseAll();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtility.d("onDestroy");
         mBannerRecyclerAdapterWrapper.release();
     }
 
@@ -265,7 +248,6 @@ public class FolderListActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String s) {
-                //LogUtility.d("onQueryTextChange : " + s);
                 return true;
             }
         });

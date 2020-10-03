@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="♣️❤️️ 背景色の設定 ♦️️♠️️️️️"
+        android:text="@string/background_color_setting"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/textViewSpecifiedColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="規定の色から選ぶ"
+        android:text="@string/select_from_default"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/textViewBgColorTitle"
         android:layout_marginTop="5dp"
@@ -58,7 +58,7 @@
         android:id="@+id/textViewFreeColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="自由に選ぶ"
+        android:text="@string/select_freely"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutPastel"
         android:layout_marginTop="10dp"
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="濃いめ色　"
+                android:text="@string/vivid_color"
                 android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderDeep"
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="パステル　"
+                android:text="@string/pastel_color"
                 android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderLight"
@@ -132,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="♣️❤️️ 文字色の設定 ♦️️♠️️️️️"
+        android:text="@string/text_color_setting"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +159,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/border_simple"
-            android:text="あa"
+            android:text="@string/sample_text"
             android:textColor="#000000"
             android:textSize="20sp" />
         <Button
@@ -168,7 +168,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/border_simple"
-            android:text="あa"
+            android:text="@string/sample_text"
             android:textColor="#808080"
             android:textSize="20sp" />
         <Button
@@ -177,7 +177,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/border_simple"
-            android:text="あa"
+            android:text="@string/sample_text"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
         <Button
@@ -186,7 +186,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/border_simple"
-            android:text="あa"
+            android:text="@string/sample_text"
             android:textColor="#FF00FF"
             android:textSize="20sp" />
         <Button
@@ -195,7 +195,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/border_simple"
-            android:text="あa"
+            android:text="@string/sample_text"
             android:textColor="#008000"
             android:textSize="20sp" />
         <Button
@@ -204,7 +204,7 @@
             android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/border_simple"
-            android:text="あa"
+            android:text="@string/sample_text"
             android:textColor="#0000FF"
             android:textSize="20sp" />
 

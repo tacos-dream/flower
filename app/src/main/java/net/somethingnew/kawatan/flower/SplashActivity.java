@@ -18,7 +18,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.somethingnew.kawatan.flower.db.DatabaseHelper;
-import net.somethingnew.kawatan.flower.db.dao.CardDao;
 import net.somethingnew.kawatan.flower.db.dao.FolderDao;
 import net.somethingnew.kawatan.flower.model.AvailableBookInfo;
 import net.somethingnew.kawatan.flower.model.CardModel;
@@ -46,8 +45,6 @@ public class SplashActivity extends AppCompatActivity {
     SharedPreferences mSharedPref;
     TextView mTextViewVersion;
     TextView mTextViewTitle;
-    private Handler mTimeoutHandler = new Handler();
-    private Runnable mRunnable;
     private long mStartTime;
     boolean stopTimer = false;
     ObjectMapper mObjectMapper = new ObjectMapper();
@@ -86,12 +83,6 @@ public class SplashActivity extends AppCompatActivity {
         new Thread(() -> {
             mStartTime = System.currentTimeMillis();
 
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
             if (stopTimer) {
                 return;
             }
@@ -113,8 +104,11 @@ public class SplashActivity extends AppCompatActivity {
 //            startRotation();
 
             double splashPeriod;
-            if (BuildConfig.DEBUG) { splashPeriod = Constants.SPLASH_PERIOD_MILLI_SEC_DEBUG; }
-            else { splashPeriod = Constants.SPLASH_PERIOD_MILLI_SEC; }
+            if (BuildConfig.DEBUG) {
+                splashPeriod = Constants.SPLASH_PERIOD_MILLI_SEC_DEBUG;
+            } else {
+                splashPeriod = Constants.SPLASH_PERIOD_MILLI_SEC;
+            }
 
             while (true) {
                 if (stopTimer) {
@@ -164,16 +158,6 @@ public class SplashActivity extends AppCompatActivity {
             LogUtility.d("FolderModel: " + mObjectMapper.writeValueAsString(folder));
             globalMgr.mCardListMap.put(folder.getId(), new LinkedList<CardModel>());
         }
-
-        // 全てのCardを読み込み、それぞれのfolderIdにより、該当のCardのLinkedListに追加していく
-        // Cardデータの読み込みは必要になったときに実行する
-//        CardDao cardDao = new CardDao(getApplicationContext());
-//        ArrayList<CardModel> cardModelArrayList = cardDao.selectAll();
-//        LogUtility.d("Loading CARD_TBL counts: " + cardModelArrayList.size());
-//        for (CardModel card : cardModelArrayList) {
-//            LogUtility.d("CardModel: " + mObjectMapper.writeValueAsString(card));
-//            globalMgr.mCardListMap.get(card.getFolderId()).add(card);
-//        }
     }
 
     public void loadSharedPreference() {
@@ -239,10 +223,6 @@ public class SplashActivity extends AppCompatActivity {
         } finally {
             conn.disconnect();
         }
-
-//        for(int i = 0; i < globalMgr.availableBookInfoList.size(); i++) {
-//            LogUtility.d("title:" + globalMgr.availableBookInfoList.get(i).getTitle() + ", url:" + globalMgr.availableBookInfoList.get(i).getUrl());
-//        }
 
         return;
     }

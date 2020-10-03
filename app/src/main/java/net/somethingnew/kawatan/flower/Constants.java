@@ -120,6 +120,9 @@ public final class Constants {
     public static final int CARD_SETTINGS_FOR_EDIT = 2;
     public static final int CARD_SETTINGS_NUM_OF_TABS = 6;
 
+//    public static final CharSequence[] TAB_TITLES = {"アイコン", "表紙", "おもて", "うら"};
+    public static final int[] TAB_TITLES = {R.string.icon, R.string.cover, R.string.front, R.string.back};
+
     /**
      * フィルターステート
      */
@@ -141,8 +144,6 @@ public final class Constants {
     public static final String SEARCH_LIMIT_COUNTS_PER_QUERY = "25";
     public static final String HIGHLIGHT_START_ATTRIBUTE = "<font color=\"Red\">";
     public static final String HIGHLIGHT_END_ATTRIBUTE = "</font>";
-//    public static final String HIGHLIGHT_START_ATTRIBUTE = "&amp;lt;font color=\\\"red\\\"&amp;gt;";
-//    public static final String HIGHLIGHT_END_ATTRIBUTE = "&amp;lt;/font&amp;gt;";
 
     /*
      * OnClickListenerの種類
@@ -170,8 +171,21 @@ public final class Constants {
     public static final String[] ICON_TAB_ARRAY = {"flower", "jewelry", "fashion", "food", "others"};
     public static final String[] ICON_DEFAULT_IMAGE_ID = {"flower_001", "jewelry_001", "fashion_001", "food_001", "others_001"};
     public static final String[] ICON_AUTO_IMAGE_ID = {"flower_000", "jewelry_000", "fashion_000", "food_000", "others_000"};
-    public static final int[] FUSEN_RESOURCE_ID_ARRAY = {R.drawable.fusen_00, R.drawable.fusen_01, R.drawable.fusen_02,
-            R.drawable.fusen_03, R.drawable.fusen_04, R.drawable.fusen_05, R.drawable.fusen_06};
+    public static final int FUSEN_NUM_OF_COLOR_TYPE = 6;
+    public static final int FUSEN_NUM_OF_DESIGN_TYPE = 4;
+    public static final int[][] FUSEN_RESOURCE_ID_ARRAY = {
+            {R.drawable.fusen_01, R.drawable.fusen_02, R.drawable.fusen_03, R.drawable.fusen_04, R.drawable.fusen_05, R.drawable.fusen_06},
+            {R.drawable.fusen_01a, R.drawable.fusen_02a, R.drawable.fusen_03a, R.drawable.fusen_04a, R.drawable.fusen_05a, R.drawable.fusen_06a},
+            {R.drawable.fusen_01b, R.drawable.fusen_02b, R.drawable.fusen_03b, R.drawable.fusen_04b, R.drawable.fusen_05b, R.drawable.fusen_06b},
+            {R.drawable.fusen_01c, R.drawable.fusen_02c, R.drawable.fusen_03c, R.drawable.fusen_04c, R.drawable.fusen_05c, R.drawable.fusen_06c}
+    };
+    public static final int[][] FUSEN_IMAGEVIEW_ID_ARRAY = {
+            {R.id.imageViewFusen01, R.id.imageViewFusen02, R.id.imageViewFusen03, R.id.imageViewFusen04, R.id.imageViewFusen05, R.id.imageViewFusen06},
+            {R.id.imageViewFusen01a, R.id.imageViewFusen02a, R.id.imageViewFusen03a, R.id.imageViewFusen04a, R.id.imageViewFusen05a, R.id.imageViewFusen06a},
+            {R.id.imageViewFusen01b, R.id.imageViewFusen02b, R.id.imageViewFusen03b, R.id.imageViewFusen04b, R.id.imageViewFusen05b, R.id.imageViewFusen06b},
+            {R.id.imageViewFusen01c, R.id.imageViewFusen02c, R.id.imageViewFusen03c, R.id.imageViewFusen04c, R.id.imageViewFusen05c, R.id.imageViewFusen06c}
+    };
+    
 
     /**
      * カテゴリー

@@ -77,7 +77,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
 
         // Pagerで実際に切り替える複数のFragmentをPagerに供給するため、PagerAdapterのインスタンスを作成しPagerに登録しておく
         // PagerAdapterのgetItem()でFragmentを返すことで、PagerはPagerの対象とするFragmentを把握する
-        folderSettingsDialogPagerAdapter = new FolderSettingsDialogPagerAdapter(getChildFragmentManager());
+        folderSettingsDialogPagerAdapter = new FolderSettingsDialogPagerAdapter(getChildFragmentManager(), this);
         viewPager.setAdapter(folderSettingsDialogPagerAdapter);
         viewPager.setOffscreenPageLimit(Constants.FOLDER_SETTINGS_NUM_OF_TABS);
 
@@ -190,6 +190,7 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
             int iconResourceId = globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : IconManager.getResIdAtRandom(globalMgr.mCategory);
             globalMgr.mTempFolder = new FolderModel(iconResourceId);
+            globalMgr.mTempFolder.setTitleName(getString(R.string.folder_title_new));
             globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), new LinkedList<>());
         } else {
             // 選択されたFolderの内容の表示
@@ -318,81 +319,35 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         view.findViewById(R.id.imageViewSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (globalMgr.mChangedFolderSettings) {
-                    // ユーザーによる設定情報の変更をmFolderLinkedListに反映する
-                    new AlertDialog.Builder(getContext())
-                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
-                            .setTitle(R.string.dlg_title_save_confirm)
-                            .setMessage(R.string.dlg_msg_save)
-                            .setPositiveButton(
-                                    R.string.save,
-                                    (dialog, which) -> {
-                                        FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                        if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                                            // 先頭に追加
-                                            globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
-                                            folderDao.insert(globalMgr.mTempFolder);
+                String dlg_message;
+                if (globalMgr.mChangedFolderSettings) { dlg_message = getResources().getString(R.string.dlg_msg_save); }
+                else { dlg_message = getResources().getString(R.string.dlg_msg_save_default); }
 
-                                            // CardListMapに入れ物だけ作っておく
-                                            LinkedList<CardModel> cardLinkedList = new LinkedList<>();
-                                            globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), cardLinkedList);
-
-                                        } else {
-                                            // 上書き
-                                            globalMgr.mFolderLinkedList.set(globalMgr.mCurrentFolderIndex, globalMgr.mTempFolder);
-                                            folderDao.update(globalMgr.mTempFolder);
-                                        }
-                                        recyclerViewAdapter.notifyDataSetChanged();
-                                        getDialog().dismiss();      // 親も消す
-                                    })
-                            .setNegativeButton(
-                                    R.string.cancel,
-                                    (dialog, which) -> {
-                                        LogUtility.d("[キャンセル]が選択されました");
-                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
-                                    })
-                            .show();
-                } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "設定変更無し", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        // ゴミ箱（破棄）
-        view.findViewById(R.id.imageViewTrash).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getActivity().getApplicationContext(), "ゴミ箱", Toast.LENGTH_LONG).show();
+                // ユーザーによる設定情報の変更をmFolderLinkedListに反映する
                 new AlertDialog.Builder(getContext())
                         .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
-                        .setTitle(R.string.dlg_title_delete_confirm)
-                        .setMessage(R.string.dlg_msg_delete_folder)
+                        .setTitle(R.string.dlg_title_save_confirm)
+                        .setMessage(dlg_message)
                         .setPositiveButton(
-                                R.string.delete,
+                                R.string.save,
                                 (dialog, which) -> {
-                                    if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
-                                        getDialog().dismiss();
-                                        return;
-                                    }
-
-                                    // Card関連
-                                    //   LinkedList自体の削除
-                                    //   管理しているmapから削除
-                                    //   CARD_TBLからの削除
-                                    String folderId = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId();
-                                    globalMgr.mCardListMap.get(folderId).clear();
-                                    globalMgr.mCardListMap.remove(folderId);
-                                    CardDao cardDao = new CardDao(getActivity().getApplicationContext());
-                                    cardDao.deleteByFolderId(folderId);
-
-                                    // FolderのLinkedListから削除
-                                    globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
                                     FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                    folderDao.deleteByFolderId(folderId);
+                                    if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
+                                        // 先頭に追加
+                                        globalMgr.mFolderLinkedList.add(0, globalMgr.mTempFolder);
+                                        folderDao.insert(globalMgr.mTempFolder);
 
-                                    getDialog().dismiss();
+                                        // CardListMapに入れ物だけ作っておく
+                                        LinkedList<CardModel> cardLinkedList = new LinkedList<>();
+                                        globalMgr.mCardListMap.put(globalMgr.mTempFolder.getId(), cardLinkedList);
 
-                                    recyclerViewAdapter.notifyItemRemoved(globalMgr.mCurrentFolderIndex);
+                                    } else {
+                                        // 上書き
+                                        globalMgr.mFolderLinkedList.set(globalMgr.mCurrentFolderIndex, globalMgr.mTempFolder);
+                                        folderDao.update(globalMgr.mTempFolder);
+                                    }
+                                    recyclerViewAdapter.notifyDataSetChanged();
+                                    getDialog().dismiss();      // 親も消す
                                 })
                         .setNegativeButton(
                                 R.string.cancel,
@@ -401,6 +356,70 @@ public class FolderSettingsDialogFragment extends DialogFragment {
                                     // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
                                 })
                         .show();
+            }
+        });
+
+        // ゴミ箱（破棄）
+        view.findViewById(R.id.imageViewTrash).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
+                    new AlertDialog.Builder(getContext())
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_goback_list)
+                            .setMessage(R.string.dlg_msg_go_back_to_list)
+                            .setPositiveButton(
+                                    R.string.go_back_list,
+                                    (dialog, which) -> {
+                                        getDialog().dismiss();      // 親も消す
+                                    })
+                            .setNegativeButton(
+                                    R.string.cancel,
+                                    (dialog, which) -> {
+                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
+                                    })
+                            .show();
+                }
+                else {
+                    new AlertDialog.Builder(getContext())
+                            .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                            .setTitle(R.string.dlg_title_delete_confirm)
+                            .setMessage(R.string.dlg_msg_delete_folder)
+                            .setPositiveButton(
+                                    R.string.delete,
+                                    (dialog, which) -> {
+                                        if (mode == Constants.FOLDER_SETTINGS_FOR_NEW) {
+                                            getDialog().dismiss();
+                                            return;
+                                        }
+
+                                        // Card関連
+                                        //   LinkedList自体の削除
+                                        //   管理しているmapから削除
+                                        //   CARD_TBLからの削除
+                                        String folderId = globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).getId();
+                                        globalMgr.mCardListMap.get(folderId).clear();
+                                        globalMgr.mCardListMap.remove(folderId);
+                                        CardDao cardDao = new CardDao(getActivity().getApplicationContext());
+                                        cardDao.deleteByFolderId(folderId);
+
+                                        // FolderのLinkedListから削除
+                                        globalMgr.mFolderLinkedList.remove(globalMgr.mCurrentFolderIndex);
+                                        FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                        folderDao.deleteByFolderId(folderId);
+
+                                        getDialog().dismiss();
+
+                                        recyclerViewAdapter.notifyItemRemoved(globalMgr.mCurrentFolderIndex);
+                                    })
+                            .setNegativeButton(
+                                    R.string.cancel,
+                                    (dialog, which) -> {
+                                        LogUtility.d("[キャンセル]が選択されました");
+                                        // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
+                                    })
+                            .show();
+                }
             }
         });
 

@@ -45,6 +45,7 @@
 
     <!-- FolderSettingsDialog タブメニュー -->
     <string name="icon">Icon</string>
+    <string name="cover">Cover</string>
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="fusen">Sticker</string>
@@ -85,6 +86,7 @@
     <string name="dlg_msg_delete_folder">Delete this deck. You will not be able to restore. Are you sure to delete it?</string>
     <string name="dlg_msg_delete_card">Delete this word card. You will not be able to restore. Are you sure to delete it?</string>
     <string name="dlg_msg_save">Save your settings and return to the list. Is that okay?</string>
+    <string name="dlg_msg_save_default">Save settings by default and return to the list. Is that okay?</string>
     <string name="dlg_msg_first_card_now">Displaying the first card.</string>
     <string name="dlg_msg_no_card_in_folder">There is no card.</string>
     <string name="dlg_msg_change_skin">Skin was changed.</string>
@@ -92,7 +94,7 @@
     <string name="dlg_msg_no_change">Same as the current setting</string>
     <string name="dlg_msg_backup_policy">The registered wordbook data and setting information are automatically backed up to Google Drive by the Android system. Please confirm that the backup function is turned on in "Settings" of Android. In addition, the data backed up in Google Drive will be automatically restored when you change models or when you uninstall the app and then install it again.</string>
     <string name="dlg_msg_force_all_card_exercise">Since the selected card does not exist, all cards are targeted.</string>
-    <string name="dlg_msg_icon_auto_off">Currently, the icon is automatically displayed, but the function is turned off. If you want to turn it back on later, set it in the slide menu. Do you want to turn it off?</string>
+    <string name="dlg_msg_icon_auto_off">Currently, the icon is automatically displayed. Do you want to turn it off? If you want to turn it back on later, set it in the slide menu.</string>
 
     <!-- ダイアログボタン -->
     <string name="go_back_list">Back to List</string>
@@ -120,6 +122,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="background_color_setting">♣️❤️️ Background Color ♦️️♠️️️️️</string>
+    <string name="select_from_default">Default Colors</string>
+    <string name="select_freely">Choose freely</string>
+    <string name="vivid_color">"Vivid   "</string>
+    <string name="pastel_color">"Pastel "</string>
+    <string name="text_color_setting">♣️❤️️ Text Color ♦️️♠️️️️️</string>
+    <string name="sample_text">Aa</string>
+    <string name="about_icon">【About Icon】</string>
+    <string name="about_fusen_icon">【About illustraion on the stickers】</string>
+    <string name="about_fusen_icon_description">The copyright of the animal illustrations on the stickers belongs to the following copyright holder.</string>
+    <string name="fusen_icon_copyright_holder">[Copyright holder]</string>
+    <string name="fusen_icon_copyrighter">irasutoya</string>
 
 
 </resources>

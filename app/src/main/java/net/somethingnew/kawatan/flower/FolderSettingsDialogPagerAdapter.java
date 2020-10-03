@@ -9,12 +9,12 @@ import net.somethingnew.kawatan.flower.util.LogUtility;
 
 public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
 
-    // なぜかタイトルが４文字だとフォントが入らなくなるので、「アイコン」としたいが「画像」と表示する
-    private CharSequence[] tabTitles = {"画像", "カバー", "おもて", "うら"};
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
+    FolderSettingsDialogFragment mParent;
 
-    public FolderSettingsDialogPagerAdapter(FragmentManager fm) {
+    public FolderSettingsDialogPagerAdapter(FragmentManager fm, FolderSettingsDialogFragment parent) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        this.mParent = parent;
     }
 
     @Override
@@ -59,11 +59,11 @@ public class FolderSettingsDialogPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         LogUtility.d("getPageTitle position:" + position);
-        return tabTitles[position];
+        return  mParent.getResources().getString(Constants.TAB_TITLES[position]);
     }
 
     @Override
     public int getCount() {
-        return tabTitles.length;
+        return Constants.TAB_TITLES.length;
     }
 }

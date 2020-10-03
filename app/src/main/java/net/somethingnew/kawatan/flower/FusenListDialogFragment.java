@@ -48,48 +48,20 @@ public class FusenListDialogFragment extends DialogFragment {
             getDialog().dismiss();
             return;
         });
-        mView.findViewById(R.id.imageViewFusen01).setOnClickListener(view -> {
-            if (currentFusenResId != R.drawable.fusen_01) {
-                mListener.onFusenChange(R.drawable.fusen_01);
+
+        for (int col = 0; col < Constants.FUSEN_NUM_OF_DESIGN_TYPE; col++) {
+            for (int row = 0; row < Constants.FUSEN_NUM_OF_COLOR_TYPE; row++) {
+                int finalRow = row;
+                int finalCol = col;
+                mView.findViewById(Constants.FUSEN_IMAGEVIEW_ID_ARRAY[col][row]).setOnClickListener(view -> {
+                    if (currentFusenResId != Constants.FUSEN_RESOURCE_ID_ARRAY[finalCol][finalRow]) {
+                        mListener.onFusenChange(Constants.FUSEN_RESOURCE_ID_ARRAY[finalCol][finalRow]);
+                    }
+                    getDialog().dismiss();
+                    return;
+                });
             }
-            getDialog().dismiss();
-            return;
-        });
-        mView.findViewById(R.id.imageViewFusen02).setOnClickListener(view -> {
-            if (currentFusenResId != R.drawable.fusen_02) {
-                mListener.onFusenChange(R.drawable.fusen_02);
-            }
-            getDialog().dismiss();
-            return;
-        });
-        mView.findViewById(R.id.imageViewFusen03).setOnClickListener(view -> {
-            if (currentFusenResId != R.drawable.fusen_03) {
-                mListener.onFusenChange(R.drawable.fusen_03);
-            }
-            getDialog().dismiss();
-            return;
-        });
-        mView.findViewById(R.id.imageViewFusen04).setOnClickListener(view -> {
-            if (currentFusenResId != R.drawable.fusen_04) {
-                mListener.onFusenChange(R.drawable.fusen_04);
-            }
-            getDialog().dismiss();
-            return;
-        });
-        mView.findViewById(R.id.imageViewFusen05).setOnClickListener(view -> {
-            if (currentFusenResId != R.drawable.fusen_05) {
-                mListener.onFusenChange(R.drawable.fusen_05);
-            }
-            getDialog().dismiss();
-            return;
-        });
-        mView.findViewById(R.id.imageViewFusen06).setOnClickListener(view -> {
-            if (currentFusenResId != R.drawable.fusen_06) {
-                mListener.onFusenChange(R.drawable.fusen_06);
-            }
-            getDialog().dismiss();
-            return;
-        });
+        }
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 

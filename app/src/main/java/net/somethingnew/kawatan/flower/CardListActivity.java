@@ -1,7 +1,6 @@
 package net.somethingnew.kawatan.flower;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,13 +38,10 @@ import java.util.LinkedList;
  */
 public class CardListActivity extends AppCompatActivity {
 
-    private Context mContext;
     private Activity mActivity;
     private GlobalManager globalMgr = GlobalManager.getInstance();
     private SearchView mSearchView;
-    private RecyclerView mRecyclerView;
     private CardListRecyclerViewAdapter mRecyclerViewAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private AdmobBannerRecyclerAdapterWrapper mBannerRecyclerAdapterWrapper;
     private AdmobAdapterCalculator mAdapterCalc;
 
@@ -57,7 +53,6 @@ public class CardListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card_list);
 
         // Get the application context
-        mContext = getApplicationContext();
         mActivity = CardListActivity.this;
 
         // Card総数増減、Learned数増減時に更新
@@ -141,7 +136,7 @@ public class CardListActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         // ActionBar（ToolBar）内のボタンのイベン処理
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
@@ -159,8 +154,8 @@ public class CardListActivity extends AppCompatActivity {
      * AdmobBannerRecyclerAdapterWrapper()を使ってのNativeAdの表示
      */
     public void buildRecyclerViewWithBannerRecyclerWrapper() {
-        mRecyclerView = findViewById(R.id.my_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);        //RecyclerView内の表示形式にLinearLayoutを指定
+        RecyclerView mRecyclerView = findViewById(R.id.my_recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);        //RecyclerView内の表示形式にLinearLayoutを指定
         mRecyclerViewAdapter = new CardListRecyclerViewAdapter(mCardLinkedList);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);

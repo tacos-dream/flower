@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,13 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="【アイコンについて】"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="30dp"/>
+            android:text="@string/about_icon"
+            android:layout_marginTop="30dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
             <TextView
@@ -33,23 +32,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:text="@string/icon_description"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="14sp" />
             <ImageView
                 android:id="@+id/imageViewIconLogo"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/js_puchikira" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayoutFont"
+        android:id="@+id/linearLayoutFusenIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -62,13 +60,93 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:text="@string/about_fusen_icon"
+            android:layout_marginTop="30dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="@string/about_fusen_icon_description" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textViewFusenIconDescription1A"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fusen_icon_copyright_holder"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/textViewFusenIconDescription1B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/fusen_icon_copyrighter"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textViewFusenIconDescription2A"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="[Web]"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/textViewFusenIconDescription2B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="https://www.irasutoya.com/"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textViewFusenIconDescription3A"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="[Twitter]"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/textViewFusenIconDescription3B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="https://twitter.com/irasutoya"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutFont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutFusenIcon">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:text="【フォントについて】"
             android:layout_marginTop="30dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="日本語環境のヘルプ画面で以下のフォントを利用しています。" />
+            android:text="日本語環境のヘルプ画面で利用するフォントの著作権は下記の著作権者に帰属します。" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,11 +154,10 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textViewFontDescription1A"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="[フォント]"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/textViewFontDescription1B"
@@ -88,7 +165,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="にゃしぃフォント改二"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="14sp" />
         </LinearLayout>
         <LinearLayout
@@ -97,11 +173,10 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textViewFontDescription2A"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="[作者]"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="[著作権者]"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/textViewFontDescription2B"
@@ -109,7 +184,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="マルセ / プロジェクトU-Fo"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="14sp" />
         </LinearLayout>
         <LinearLayout
@@ -118,11 +192,10 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textViewFontDescription3A"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="[Webサイト]"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="[Web]"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/textViewFontDescription3B"
@@ -130,7 +203,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="よく飛ばない鳥"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="14sp" />
         </LinearLayout>
         <LinearLayout
@@ -139,11 +211,10 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textViewFontDescription4A"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text=""
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/textViewFontDescription4B"
@@ -151,7 +222,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="http://marusexijaxs.web.fc2.com/"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="12sp" />
         </LinearLayout>
         <LinearLayout
@@ -160,11 +230,10 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textViewFontDescription5A"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="[作者Twitter]"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="[Twitter]"
                 android:textSize="14sp" />
             <TextView
                 android:id="@+id/textViewFontDescription5B"
@@ -172,7 +241,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="https://twitter.com/maruse_xijaxs"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
