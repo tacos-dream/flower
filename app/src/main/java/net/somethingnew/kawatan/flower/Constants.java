@@ -37,7 +37,7 @@ public final class Constants {
     public static final String EXTERNAL_LINK_URL_KAWATN_TERMS = "https://kawatan-2020.an.r.appspot.com/files/terms.html";
     public static final String EXTERNAL_LINK_URL_KAWATN_PRIVACY_POLICY = "https://kawatan-2020.an.r.appspot.com/files/privacy_policy.html";
     //public static final String EXTERNAL_LINK_URL_PLAY_STORE           = "https://play.google.com/apps/testing/jp.tacos_mcs.earth1";
-    public static final String EXTERNAL_LINK_URL_PLAY_STORE = "https://play.google.com/store/apps/details?id=jp.tacos_mcs.earth1";
+    public static final String EXTERNAL_LINK_URL_PLAY_STORE = "https://play.google.com/store/apps/details?id=com.langholic.wordholic";
     public static final String EXTERNAL_LINK_URL_HOWTO_YOUTUBE_WEB = "https://www.youtube.com/watch?v=P4ipJ2rXIJs";
     public static final String EXTERNAL_LINK_URL_HOWTO_YOUTUBE_APL = "vnd.youtube:P4ipJ2rXIJs";
 

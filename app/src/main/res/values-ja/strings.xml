@@ -109,6 +109,23 @@
     <string name="icon_auto_off">OFFにする</string>
     <string name="icon_auto_still_on">ONのまま</string>
 
+    <!-- FolderSettings色指定 -->
+    <string name="background_color_setting">♣️❤️️ 背景色の設定 ♦️️♠️️️️️</string>
+    <string name="select_from_default">規定の色から選ぶ</string>
+    <string name="select_freely">自由に選ぶ</string>
+    <string name="vivid_color">"濃いめ色 "</string>
+    <string name="pastel_color">"パステル "</string>
+    <string name="text_color_setting">♣️❤️️ 文字色の設定 ♦️️♠️️️️️</string>
+    <string name="sample_text">あa</string>
+
+    <!-- 問合せメール -->
+    <string name="question_mail_subject">【かわたん】ご意見・ご感想・ご質問</string>
+    <string name="question_mail_body">"いつもアプリのご利用ありがとうございます。\n\nご自由にご意見、ご感想、ご質問をお書きください。\nよろしくお願い致します。\n-----------------------------------------------¥n"</string>
+
+    <!-- アプリシェア -->
+    <string name="app_share_subject">お気に入りアプリのシェア</string>
+    <string name="app_share_body">かわたん - かわいい単語帳</string>
+
     <!-- その他 -->
     <string name="folder_title_new">新しい単語帳</string>
     <string name="card_front">カードのおもて</string>
@@ -124,13 +141,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="background_color_setting">♣️❤️️ 背景色の設定 ♦️️♠️️️️️</string>
-    <string name="select_from_default">規定の色から選ぶ</string>
-    <string name="select_freely">自由に選ぶ</string>
-    <string name="vivid_color">"濃いめ色 "</string>
-    <string name="pastel_color">"パステル "</string>
-    <string name="text_color_setting">♣️❤️️ 文字色の設定 ♦️️♠️️️️️</string>
-    <string name="sample_text">あa</string>
     <string name="about_icon">【アイコンについて】</string>
     <string name="about_fusen_icon">【付箋の動物イラストについて】</string>
     <string name="about_fusen_icon_description">付箋上の動物のイラストの著作権は下記著作権者に帰属します。</string>

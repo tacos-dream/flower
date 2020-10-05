@@ -583,8 +583,8 @@ public class FolderListActivity extends AppCompatActivity
                 intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL, toAddress);
-                intent.putExtra(Intent.EXTRA_SUBJECT, Constants.MAIL_SUBJECT);
-                intent.putExtra(Intent.EXTRA_TEXT, Constants.MAIL_BODY);
+                intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.question_mail_subject));
+                intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.question_mail_body));
 
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
@@ -610,10 +610,10 @@ public class FolderListActivity extends AppCompatActivity
                 break;
             case R.id.naviItemShareUs:
                 ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(mActivity);
-                builder.setChooserTitle("シェアするアプリ")
-                        .setSubject("かわいい単語帳【かわたん】")
-                        .setText("紹介メッセージ")
+                builder.setSubject(getResources().getString(R.string.app_share_subject))
+                        .setText(getResources().getString(R.string.app_share_body) + "\n\n" + "[PlayStore]\n" + Constants.EXTERNAL_LINK_URL_PLAY_STORE)
                         .setType("text/plain")
+//                        .setChooserTitle("シェアするアプリ")
                         .startChooser();
                 break;
             case R.id.naviItemAboutLicense:

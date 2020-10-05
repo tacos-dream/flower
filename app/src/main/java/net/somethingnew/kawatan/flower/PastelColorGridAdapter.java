@@ -52,10 +52,10 @@ public class PastelColorGridAdapter extends BaseAdapter {
         // ForeとBackを同色にしてColorHex文字列がUserには見えないようにする
         holder.textView.setText(pastelColorArray.get(position));
         int pastelColor = Color.parseColor(pastelColorArray.get(position));
-        int textColor = Color.parseColor("#000000");
         holder.textView.setBackground(new ColorDrawable(pastelColor));
-//        holder.textView.setTextColor(pastelColor);
-        holder.textView.setTextColor(textColor);
+        holder.textView.setTextColor(pastelColor);
+//        int textColor = Color.parseColor("#000000");
+//        holder.textView.setTextColor(textColor);
 
         return convertView;
     }
