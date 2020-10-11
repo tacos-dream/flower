@@ -136,6 +136,8 @@ public final class Constants {
     public static final String EXERCISE_MODE_KEY_NAME = "EXERCISE_MODE";
     public static final int EXERCISE_MODE_NORMAL = 1;
     public static final int EXERCISE_MODE_SHUFFLE = 2;
+    public static final int EXERCISE_FRONT_TO_BACK = 1;
+    public static final int EXERCISE_BACK_TO_FRONT = 2;
 
     /**
      * 検索関連

@@ -114,7 +114,7 @@
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_weight="4"
                         android:autoSizeTextType="uniform"
-                        android:hint="@string/folder_title_new"
+                        android:hint="@string/folder_title_here"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="24sp"
                         app:autoSizeMaxTextSize="24sp"

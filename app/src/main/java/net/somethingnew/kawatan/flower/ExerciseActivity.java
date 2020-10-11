@@ -52,7 +52,7 @@ public class ExerciseActivity extends AppCompatActivity
     private LinkedList<CardModel> mCardModelLinkedList;
     private LinkedList<CardModel> mCardModelLinkedListShuffle;
     private Boolean mExerciseHasStarted = false;
-    private Boolean mBackTextWasDisplayed = false;
+    private Boolean mSecondCardTextWasDisplayed = false;
     private int mTotalCardNum;
     private int mCurrentCardIndex;
     private int mExerciseMode;
@@ -61,6 +61,7 @@ public class ExerciseActivity extends AppCompatActivity
     private int mNotLearnedCardNum = 0;
     private int mFusenCardNum = 0;
     private int mFilter = Constants.EXERCISE_FILTER_ALL_CARDS;
+    private int mFrontBackOrder = Constants.EXERCISE_FRONT_TO_BACK;
 
     private CardView mCardViewFront;
     private CardView mCardViewBack;
@@ -71,6 +72,7 @@ public class ExerciseActivity extends AppCompatActivity
     private ImageView mImageViewIconBack;
     private ImageView mImageViewLearned;
     private ImageView mImageViewFusen;
+    private ImageView mImageViewExerciseDirection;
     private Button mButtonFilterAll;
     private Button mButtonFilterNotLearnedOnly;
     private Button mButtonFilterFusenOnly;
@@ -111,6 +113,24 @@ public class ExerciseActivity extends AppCompatActivity
         MobileAds.initialize(mContext);
         setBottomBannerAdView();
         prepareInterstitialAd();
+
+        // Exercise Direction
+        mImageViewExerciseDirection = findViewById(R.id.imageViewExerciseDirection);
+        mImageViewExerciseDirection.setColorFilter(globalMgr.skinHeaderColor);
+        mImageViewExerciseDirection.setOnClickListener(view -> {
+            if (mFrontBackOrder == Constants.EXERCISE_FRONT_TO_BACK) {
+                mFrontBackOrder = Constants.EXERCISE_BACK_TO_FRONT;
+                mImageViewExerciseDirection.setImageResource(R.drawable.ic_arrow_back_40px);
+                mTextViewFront.setText(R.string.back_mask);
+                mTextViewBack.setText(mCard.getBackText());
+            }
+            else {
+                mFrontBackOrder = Constants.EXERCISE_FRONT_TO_BACK;
+                mImageViewExerciseDirection.setImageResource(R.drawable.ic_arrow_forward_40px);
+                mTextViewFront.setText(mCard.getFrontText());
+                mTextViewBack.setText(R.string.back_mask);
+            }
+        });
 
         // Filter handling
         mButtonFilterAll = findViewById(R.id.buttonFilterAll);
@@ -333,12 +353,17 @@ public class ExerciseActivity extends AppCompatActivity
         @Override
         public boolean onSingleTapConfirmed(MotionEvent event) {
             //LogUtility.d("onSingleTapConfirmed");
-            if (mBackTextWasDisplayed) {
+            if (mSecondCardTextWasDisplayed) {
                 showCardContents(true);
-                mBackTextWasDisplayed = false;
+                mSecondCardTextWasDisplayed = false;
             } else {
-                mTextViewBack.setText(mCard.getBackText());
-                mBackTextWasDisplayed = true;
+                if (mFrontBackOrder == Constants.EXERCISE_FRONT_TO_BACK) {
+                    mTextViewBack.setText(mCard.getBackText());
+                }
+                else {
+                    mTextViewFront.setText(mCard.getFrontText());
+                }
+                mSecondCardTextWasDisplayed = true;
             }
             mExerciseHasStarted = true;
 
@@ -654,9 +679,15 @@ public class ExerciseActivity extends AppCompatActivity
         mCardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
         mCardViewBack.setCardBackgroundColor(mFolder.getBackBackgroundColor());
         mTextViewFront.setTextColor(mFolder.getFrontTextColor());
-        mTextViewFront.setText(mCard.getFrontText());
         mTextViewBack.setTextColor(mFolder.getBackTextColor());
-        mTextViewBack.setText(R.string.back_mask);
+        if (mFrontBackOrder == Constants.EXERCISE_FRONT_TO_BACK) {
+            mTextViewFront.setText(mCard.getFrontText());
+            mTextViewBack.setText(R.string.back_mask);
+        }
+        else {
+            mTextViewFront.setText(R.string.back_mask);
+            mTextViewBack.setText(mCard.getBackText());
+        }
         int resourceId = globalMgr.isIconAuto ? IconManager.getResIdAtRandom(mCard.getIconCategory()) : mCard.getImageIconResId();
         mImageViewIconFront.setImageResource(resourceId);
         mImageViewIconBack.setImageResource(resourceId);
@@ -670,7 +701,7 @@ public class ExerciseActivity extends AppCompatActivity
         }
         mTextViewProgress.setText(String.format("%d問中 %d問目", mCardNumToExercise, mExercisedCardNum + 1));
 
-        mBackTextWasDisplayed = false;            // 新しいカードに移ったので裏面表示のステータスを「未表示」にする
+        mSecondCardTextWasDisplayed = false;            // 新しいカードに移ったので裏面表示のステータスを「未表示」にする
         return;
     }
 

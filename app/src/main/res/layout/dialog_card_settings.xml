@@ -25,6 +25,14 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@android:drawable/ic_menu_revert" />
             <ImageView
+                android:id="@+id/imageViewReserved1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/flower_001" />
+            <ImageView
                 android:id="@+id/imageViewSave"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -33,13 +41,13 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@android:drawable/ic_menu_save" />
             <ImageView
-                android:id="@+id/imageViewSaveAndNext"
+                android:id="@+id/imageViewReserved2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                app:srcCompat="@android:drawable/ic_menu_save" />
+                app:srcCompat="@drawable/flower_001" />
             <ImageView
                 android:id="@+id/imageViewTrash"
                 android:layout_width="0dp"
@@ -48,14 +56,6 @@
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
-            <ImageView
-                android:id="@+id/imageViewReserved1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/flower_001" />
             <ImageView
                 android:id="@+id/imageViewHelp"
                 android:layout_width="0dp"

@@ -109,7 +109,7 @@
     <string name="icon_auto_off">OFFにする</string>
     <string name="icon_auto_still_on">ONのまま</string>
 
-    <!-- FolderSettings色指定 -->
+    <!-- FolderSettings -->
     <string name="background_color_setting">♣️❤️️ 背景色の設定 ♦️️♠️️️️️</string>
     <string name="select_from_default">規定の色から選ぶ</string>
     <string name="select_freely">自由に選ぶ</string>
@@ -117,6 +117,7 @@
     <string name="pastel_color">"パステル "</string>
     <string name="text_color_setting">♣️❤️️ 文字色の設定 ♦️️♠️️️️️</string>
     <string name="sample_text">あa</string>
+    <string name="folder_title_here">ここに単語帳名を入れる</string>
 
     <!-- 問合せメール -->
     <string name="question_mail_subject">【かわたん】ご意見・ご感想・ご質問</string>

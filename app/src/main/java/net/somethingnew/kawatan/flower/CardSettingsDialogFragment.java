@@ -89,6 +89,8 @@ public class CardSettingsDialogFragment extends DialogFragment {
         // メニュー内アイコン
         ImageView imageView1 = mView.findViewById(R.id.imageViewReserved1);
         imageView1.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
+        ImageView imageView2 = mView.findViewById(R.id.imageViewReserved2);
+        imageView2.setImageResource(IconManager.getResIdAtRandom(globalMgr.mCategory));
 
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
@@ -175,56 +177,81 @@ public class CardSettingsDialogFragment extends DialogFragment {
         });
         // 保存
         mView.findViewById(R.id.imageViewSave).setOnClickListener(v -> {
-            if (globalMgr.mChangedCardSettings) {
-                // ユーザーによる設定情報の変更をmCardLinkedListに反映する
+            if (!globalMgr.mChangedCardSettings) {
                 new AlertDialog.Builder(getContext())
                         .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
                         .setTitle(R.string.dlg_title_save_confirm)
-                        .setMessage(R.string.dlg_msg_save)
+                        .setMessage("変更がありません")
                         .setPositiveButton(
-                                R.string.save,
+                                R.string.close,
                                 (dialog, which) -> {
-                                    LogUtility.d("[保存]が選択されました");
-                                    CardDao cardDao = new CardDao(getActivity().getApplicationContext());
-                                    if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
-                                        // 先頭に追加
-                                        mCardLinkedList.add(0, globalMgr.mTempCard);
-                                        cardDao.insert(globalMgr.mTempCard);        // DB上は特に順番は意識しない
-
-                                        // カード数更新
-                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
-                                        FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                        folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
-
-                                        globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
-
-                                    } else {
-                                        // 上書き
-                                        mCardLinkedList.set(mPosition, globalMgr.mTempCard);
-                                        cardDao.update(globalMgr.mTempCard);
-
-                                        // TODO カード数や習得済み数に変更があった場合に、FOLDER_TBLへの反映
-                                        // ここの保存が呼ばれるまではtempFolderに反映しておいて、最後に更新した方がいいが・・・
-                                        // その「最後」というのがどのタイミングにすべきかが明確にできない・・・
-                                        // とりあえず、ここで反映
-                                        globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
-                                        FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
-                                        folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
-                                    }
-
-                                    mRecyclerViewAdapter.notifyDataSetChanged();
-                                    getDialog().dismiss();      // 親も消す
-                                })
-                        .setNegativeButton(
-                                R.string.cancel,
-                                (dialog, which) -> {
-                                    LogUtility.d("[キャンセル]が選択されました");
-                                    // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
+                                    // 単にダイアログが消えて何もしない
                                 })
                         .show();
-            } else {
-                Toast.makeText(getActivity().getApplicationContext(), "設定変更無し", Toast.LENGTH_LONG).show();
+                return;
             }
+
+            if (globalMgr.mTempCard.getFrontText().isEmpty() || globalMgr.mTempCard.getBackText().isEmpty()) {
+                new AlertDialog.Builder(getContext())
+                        .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                        .setTitle(R.string.dlg_title_save_confirm)
+                        .setMessage("[おもて]と[うら]の両方を入力してください")
+                        .setPositiveButton(
+                                R.string.close,
+                                (dialog, which) -> {
+                                    // 単にダイアログが消えて何もしない
+                                })
+                        .show();
+                return;
+            }
+
+            // ユーザーによる設定情報の変更をmCardLinkedListに反映する
+            new AlertDialog.Builder(getContext())
+                    .setIcon(IconManager.getResIdAtRandom(globalMgr.mCategory))
+                    .setTitle(R.string.dlg_title_save_confirm)
+                    .setMessage(R.string.dlg_msg_save)
+                    .setPositiveButton(
+                            R.string.save,
+                            (dialog, which) -> {
+                                LogUtility.d("[保存]が選択されました");
+                                CardDao cardDao = new CardDao(getActivity().getApplicationContext());
+                                if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
+                                    // 先頭に追加
+                                    mCardLinkedList.add(0, globalMgr.mTempCard);
+                                    cardDao.insert(globalMgr.mTempCard);        // DB上は特に順番は意識しない
+
+                                    // カード数更新
+                                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
+                                    FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                    folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+
+                                    globalMgr.mCardStatsChanged = true;         // Folder一覧表示時のリフレッシュ動作で参照
+
+                                } else {
+                                    // 上書き
+                                    mCardLinkedList.set(mPosition, globalMgr.mTempCard);
+                                    cardDao.update(globalMgr.mTempCard);
+
+                                    // TODO カード数や習得済み数に変更があった場合に、FOLDER_TBLへの反映
+                                    // ここの保存が呼ばれるまではtempFolderに反映しておいて、最後に更新した方がいいが・・・
+                                    // その「最後」というのがどのタイミングにすべきかが明確にできない・・・
+                                    // とりあえず、ここで反映
+                                    globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex).incrementNumOfAllCards();
+                                    FolderDao folderDao = new FolderDao(getActivity().getApplicationContext());
+                                    folderDao.update(globalMgr.mFolderLinkedList.get(globalMgr.mCurrentFolderIndex));
+                                }
+
+                                mRecyclerViewAdapter.notifyDataSetChanged();
+                                getDialog().dismiss();      // 親も消す
+                            })
+                    .setNegativeButton(
+                            R.string.cancel,
+                            (dialog, which) -> {
+                                LogUtility.d("[キャンセル]が選択されました");
+                                // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
+                            })
+                    .show();
+
         });
         // ゴミ箱（破棄）
         mView.findViewById(R.id.imageViewTrash).setOnClickListener(v -> {
