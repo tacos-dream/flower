@@ -178,9 +178,9 @@ public class CardListRecyclerViewAdapter extends RecyclerView.Adapter<CardListRe
         imageViewLearned.setImageResource(card.isLearned() ? R.drawable.heart_on : R.drawable.heart_off_grey);
         imageViewFusen.setImageResource(card.getImageFusenResId());
         textViewFront.setText(card.getFrontText());
+        textViewFront.setTextColor(mFolder.getFrontTextColor());
+//        textViewFront.setBackgroundColor(mFolder.getFrontBackgroundColor());
         cardViewFront.setCardBackgroundColor(mFolder.getFrontBackgroundColor());
-        textViewFront.setBackgroundColor(mFolder.getFrontBackgroundColor());
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

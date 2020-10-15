@@ -424,10 +424,11 @@ public class FolderSettingsDialogFragment extends DialogFragment {
         });
 
         // ヘルプ
-        view.findViewById(R.id.imageViewHelp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getActivity().getApplicationContext(), "ヘルプ", Toast.LENGTH_LONG).show();
+        view.findViewById(R.id.imageViewHelp).setOnClickListener(v -> {
+            if (globalMgr.isJapanese) {
+                FolderSettingsHelpDialogFragment folderSettingsHelpDialogFragment = new FolderSettingsHelpDialogFragment();
+                folderSettingsHelpDialogFragment.show(getChildFragmentManager(),
+                        FolderSettingsDialogFragment.class.getSimpleName());
             }
         });
     }

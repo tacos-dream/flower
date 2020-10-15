@@ -25,7 +25,7 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/help_folder_list1" />
+                app:srcCompat="@drawable/help_spec1" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -34,7 +34,16 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/help_folder_list2" />
+                app:srcCompat="@drawable/help_spec2" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/help_spec3" />
 
             <!-- dummy space for avoiding overlap with close button -->
             <Space

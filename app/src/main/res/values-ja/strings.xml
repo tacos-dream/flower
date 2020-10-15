@@ -119,6 +119,12 @@
     <string name="sample_text">あa</string>
     <string name="folder_title_here">ここに単語帳名を入れる</string>
 
+    <!-- Exercise -->
+    <string name="exercise_filter_settings">単語練習の対象カードの選択</string>
+    <string name="all_cards">全てのカード</string>
+    <string name="not_learned_only">未習得のカードのみ</string>
+    <string name="fusen_only">ふせん付のカードのみ</string>
+
     <!-- 問合せメール -->
     <string name="question_mail_subject">【かわたん】ご意見・ご感想・ご質問</string>
     <string name="question_mail_body">"いつもアプリのご利用ありがとうございます。\n\nご自由にご意見、ご感想、ご質問をお書きください。\nよろしくお願い致します。\n-----------------------------------------------¥n"</string>

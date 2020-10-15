@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/background_color_setting"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_from_default"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/textViewBgColorTitle"
         android:layout_marginTop="5dp"
@@ -59,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_freely"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutPastel"
         android:layout_marginTop="10dp"
@@ -86,6 +89,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/vivid_color"
+                android:textColor="@android:color/black"
                 android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderDeep"
@@ -112,6 +116,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/pastel_color"
+                android:textColor="@android:color/black"
                 android:textSize="14sp" />
             <net.somethingnew.kawatan.flower.ColorSliderView
                 android:id="@+id/colorSliderLight"
@@ -133,6 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/text_color_setting"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

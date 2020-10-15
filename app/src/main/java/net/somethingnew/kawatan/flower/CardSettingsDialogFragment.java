@@ -94,7 +94,9 @@ public class CardSettingsDialogFragment extends DialogFragment {
 
         // ダイアログ表示中のユーザーの設定変更情報を一時インスタンスに保持するためにインスタンス作成（新規かClone）
         if (mMode == Constants.CARD_SETTINGS_FOR_NEW) {
-            globalMgr.mTempCard = new CardModel(mFolder.getId(), IconManager.getAutoIconResId(globalMgr.mCategory));
+            // アイコン自動表示ONの場合は「Auto」画像を表示するが、OFFの場合はランダムに選んだものを初期表示として一旦、表示する
+            int iconResId = globalMgr.isIconAuto ? IconManager.getAutoIconResId(globalMgr.mCategory) : IconManager.getResIdAtRandom(globalMgr.mCategory);
+            globalMgr.mTempCard = new CardModel(mFolder.getId(), iconResId);
         } else {
             // 選択されたCardのクローン
             globalMgr.mTempCard = mCardModel.clone();
@@ -295,6 +297,15 @@ public class CardSettingsDialogFragment extends DialogFragment {
                                 // このAlertDialogだけが消え、親のダイアログ表示状態に戻る
                             })
                     .show();
+        });
+
+        // ヘルプ
+        mView.findViewById(R.id.imageViewHelp).setOnClickListener(v -> {
+            if (globalMgr.isJapanese) {
+                CardSettingsHelpDialogFragment cardSettingsHelpDialogFragment = new CardSettingsHelpDialogFragment();
+                cardSettingsHelpDialogFragment.show(getChildFragmentManager(),
+                        FolderSettingsDialogFragment.class.getSimpleName());
+            }
         });
 
         // Card FrontのEditTextのイベントリスナ

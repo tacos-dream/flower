@@ -41,9 +41,9 @@ public class FolderCoverFragment extends Fragment {
         for (int resourceId: Constants.TEXT_COLOR_BUTTON_RESOURCE_ID) {
             Button btn = mView.findViewById(resourceId);
             textColorButtonArray.add(btn);
-            final int color = btn.getCurrentTextColor();
             btn.setOnClickListener(view -> {
                 // 単語帳の表紙の文字色を変える
+                int color = ((Button)view).getCurrentTextColor();
                 globalMgr.mFolderSettings.editTextTitle.setTextColor(color);
                 globalMgr.mTempFolder.setCoverTextColor(color);
                 globalMgr.mChangedFolderSettings = true;

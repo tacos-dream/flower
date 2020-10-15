@@ -25,21 +25,7 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/help_folder_list1" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/help_folder_list2" />
-
-            <!-- dummy space for avoiding overlap with close button -->
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                app:srcCompat="@drawable/help_import" />
         </LinearLayout>
     </ScrollView>
 

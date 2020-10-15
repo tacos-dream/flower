@@ -151,8 +151,11 @@ public class FolderListRecyclerViewAdapter extends RecyclerView.Adapter<FolderLi
         CardView cardViewFolder = holder.cardViewFolder;
 
         textViewTitleName.setText(mFolderLinkedList.get(listPosition).getTitleName());
+        textViewTitleName.setTextColor(mFolderLinkedList.get(listPosition).getCoverTextColor());
         textViewLastUsedDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(mFolderLinkedList.get(listPosition).getLastUsedDate()));
+        textViewLastUsedDate.setTextColor(mFolderLinkedList.get(listPosition).getCoverTextColor());
         textViewNumOfCards.setText(mFolderLinkedList.get(listPosition).getNumOfLearnedCards() + " / " + mFolderLinkedList.get(listPosition).getNumOfAllCards());
+        textViewNumOfCards.setTextColor(mFolderLinkedList.get(listPosition).getCoverTextColor());
         cardViewFolder.setCardBackgroundColor(mFolderLinkedList.get(listPosition).getCoverBackgroundColor());
         int category = mFolderLinkedList.get(listPosition).getIconCategory();
         FolderModel folderModel = mFolderLinkedList.get(listPosition);

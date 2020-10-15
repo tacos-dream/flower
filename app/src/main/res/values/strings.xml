@@ -117,6 +117,12 @@
     <string name="sample_text">Aa</string>
     <string name="folder_title_here">New book title here</string>
 
+    <!-- Exercise -->
+    <string name="exercise_filter_settings">Exercise Filter</string>
+    <string name="all_cards">All cards</string>
+    <string name="not_learned_only">Unlearned cards</string>
+    <string name="fusen_only">Cards with sticker</string>
+
     <!-- 問合せメール -->
     <string name="question_mail_subject">Opinions / Questions</string>
     <string name="question_mail_body">"Thank you for using the app. ¥n¥nFeel free to write your opinions and questions. ¥nThank you in advance.\n-----------------------------------------------¥n"</string>

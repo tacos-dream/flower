@@ -45,18 +45,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/textViewFilterTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="単語練習の対象カードの選択"
+                    android:text="@string/exercise_filter_settings"
+                    android:textColor="@android:color/black"
                     android:textSize="16sp" />
                 <Button
                     android:id="@+id/buttonFilterAll"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:text="全てのカード"
+                    android:text="@string/all_cards"
                     android:textColor="#FFFFFF"
                     android:minHeight="0dp"
                     android:textSize="14sp" />
@@ -65,7 +67,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="未習得のカードのみ"
+                    android:text="@string/not_learned_only"
                     android:textColor="#FFFFFF"
                     android:minHeight="0dp"
                     android:textSize="14sp" />
@@ -74,7 +76,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="ふせん付のカードのみ"
+                    android:text="@string/fusen_only"
                     android:textColor="#FFFFFF"
                     android:minHeight="0dp"
                     android:textSize="14sp" />
@@ -94,12 +96,14 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="20dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/textViewLabelFront"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:text="@string/front"
+                        android:textColor="@android:color/black"
                         android:textSize="24sp" />
                     <ImageView
                         android:id="@+id/imageViewExerciseDirection"
@@ -107,12 +111,14 @@
                         android:layout_height="40dp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_arrow_forward_40px" />
+
                     <TextView
                         android:id="@+id/textViewLabelBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:text="@string/back"
+                        android:textColor="@android:color/black"
                         android:textSize="24sp" />
                 </LinearLayout>
 

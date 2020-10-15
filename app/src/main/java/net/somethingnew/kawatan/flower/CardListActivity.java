@@ -127,7 +127,9 @@ public class CardListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_bar_help, menu);
+        if (globalMgr.isJapanese) {
+            getMenuInflater().inflate(R.menu.action_bar_help, menu);
+        }
         return true;
     }
 

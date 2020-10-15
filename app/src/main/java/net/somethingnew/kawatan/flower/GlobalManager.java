@@ -121,6 +121,11 @@ public class GlobalManager {
     public boolean isJapanese = false;
 
     /**
+     * アプリの初めての起動か否かのフラグ
+     */
+    public boolean isFirstTime = true;
+
+    /**
      * 各インポートデータAvailableBookInfoをリストで管理
      */
     public List<AvailableBookInfo> availableBookInfoList;

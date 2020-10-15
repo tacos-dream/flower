@@ -3,6 +3,7 @@ package net.somethingnew.kawatan.flower;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -196,6 +197,17 @@ public class FolderListActivity extends AppCompatActivity
                 });
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        // If first time, we are going to show a manual regarding kawatan overview.
+        if (globalMgr.isJapanese && globalMgr.isFirstTime) {
+            FirstTimeManualDialogFragment firstTimeManualDialogFragment = new FirstTimeManualDialogFragment();
+            firstTimeManualDialogFragment.show(getSupportFragmentManager(),
+                    FolderSettingsDialogFragment.class.getSimpleName());
+            globalMgr.isFirstTime = false;
+            SharedPreferences mSharedPref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = mSharedPref.edit();
+            editor.putBoolean(Constants.SHARED_PREF_KEY_FIRST_TIME, false);
+            editor.apply();
+        }
     }
 
     @Override
@@ -227,7 +239,12 @@ public class FolderListActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_bar_search_help, menu);
+        if (globalMgr.isJapanese) {
+            getMenuInflater().inflate(R.menu.action_bar_search_help, menu);
+        }
+        else {
+            getMenuInflater().inflate(R.menu.action_bar_search, menu);
+        }
         MenuItem myActionMenuItem = menu.findItem(R.id.action_menu_search);
         mSearchView = (SearchView) myActionMenuItem.getActionView();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

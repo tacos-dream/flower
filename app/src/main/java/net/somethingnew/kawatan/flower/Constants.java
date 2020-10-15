@@ -56,6 +56,7 @@ public final class Constants {
     public static final String SHARED_PREF_KEY_SKIN_HEADER_COLOR = "skinHeaderColor";
     public static final String SHARED_PREF_KEY_SKIN_BODY_COLOR = "skinBodyColor";
     public static final String SHARED_PREF_KEY_ICON_AUTO = "iconAuto";
+    public static final String SHARED_PREF_KEY_FIRST_TIME = "firstTime";
 
 
     /**
